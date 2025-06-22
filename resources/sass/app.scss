@@ -1,0 +1,63 @@
+// Fonts
+@import url('https://fonts.bunny.net/css?family=Nunito');
+
+// Variables
+@import 'variables';
+
+// Bootstrap
+@import 'bootstrap/scss/bootstrap';
+
+// Base styles
+body {
+    background: linear-gradient(131.53deg, #2E160C 22.34%, #250E05 102.72%) no-repeat;
+    min-height: 100vh;
+    font-family: 'Nunito', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+// Loader wrapper
+#loader-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: transparent;
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+
+#loader {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+
+#logoLoader {
+    margin-bottom: 5%;
+}
+
+// SVG path stroke animation
+#loader svg path {
+    stroke-dasharray: 750;
+    stroke-dashoffset: 750;
+    fill-opacity: 0;
+    animation: draw 3s ease-in-out infinite;
+}
+
+// Keyframes to loop draw/erase
+@keyframes draw {
+    from {
+        stroke-dashoffset: 750;
+        fill-opacity: 0;
+    }
+    to {
+        stroke-dashoffset: 0;
+        fill-opacity: 1;
+    }
+}
