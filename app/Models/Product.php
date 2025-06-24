@@ -18,6 +18,8 @@ class Product extends Model
         'savings',
         'features',
         'description',
+        'care_instructions',
+        'category',
     ];
 
     protected $casts = [

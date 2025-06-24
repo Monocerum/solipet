@@ -33,6 +33,7 @@ class ProductSeeder extends Seeder
             'material' => 'Outer: 100% Polyester. Filling: 100% Polyester. Squeaker: 100% EVA. Rope: 85% cotton + 15% polyester.',
             'dimensions' => 'L: 20 cm x W: 3 cm x H: 3 cm',
             'care_instructions' => 'Pets should be supervised when playing with toys. This toy is strong but not indestructible and will eventually become susceptible to chew damage. Examine regularly for wear and replace if any damage could represent a health hazard.',
+            'category' => 'Dog Toy',
             'created_at' => now(),
             'updated_at' => now(),
         ]);
@@ -55,6 +56,7 @@ class ProductSeeder extends Seeder
             'material' => 'Plush, Catnip',
             'dimensions' => 'L: 10 cm x W: 4 cm x H: 3 cm',
             'care_instructions' => 'Spot clean with mild soap and water. Replace if torn or damaged.',
+            'category' => 'Cat Toy',
             'created_at' => now(),
             'updated_at' => now(),
         ]);

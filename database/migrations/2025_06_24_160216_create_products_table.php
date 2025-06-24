@@ -24,6 +24,7 @@ return new class extends Migration
             $table->string('material')->nullable(); // product material
             $table->string('dimensions')->nullable(); // product dimensions
             $table->text('care_instructions')->nullable(); // care instructions
+            $table->string('category')->nullable(); // product category
             $table->timestamps();
         });
     }
