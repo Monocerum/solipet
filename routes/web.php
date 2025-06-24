@@ -14,8 +14,13 @@ Route::get('/petpage', function () {
     return view('petpage'); // corresponds to resources/views/petpage.blade.php
 });
 
+Route::get('/itempage', function () {
+    return view('itempage'); // corresponds to resources/views/petpage.blade.php
+});
 Route::get('/search', [App\Http\Controllers\SearchController::class, 'index'])->name('search');
 
 Route::get('/cart', function () {
     return view('cart');
 })->name('cart');
+
+Route::get('/item/{id}', [App\Http\Controllers\HomeController::class, 'showProduct'])->name('item.show');
