@@ -67,89 +67,88 @@
 }
 
 .item-card {
-            width: 200px;
-            background: linear-gradient(135deg, #f4d4b8, #e8c4a0);
-            border: 4px solid #8b4513;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-            overflow: hidden;
-            position: relative;
+    width: 200px;
+    background: linear-gradient(135deg, #f4d4b8, #e8c4a0);
+    border: 4px solid #8b4513;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    overflow: hidden;
+    position: relative;
 }
 
 .item-image {
-            width: 100%;
-            height: 180px;
-            background-color: #4a2c2a;
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+    width: 100%;
+    height: 180px;
+    background-color: #4a2c2a;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .item-info {
-            padding: 12px;
-            background-color: #f4d4b8;
-        }
+    padding: 12px;
+    background-color: #f4d4b8;
+}
 
-        .item-name {
-            font-size: 18px;
-            font-weight: bold;
-            color: #2c1810;
-            margin-bottom: 8px;
-            text-transform: uppercase;
-        }
+.item-name {
+    font-size: 18px;
+    font-weight: bold;
+    color: #2c1810;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+}
 
-        .item-price {
-            background: linear-gradient(90deg, #4a2c2a 0%,rgb(236, 189, 156) 100%);
-            color: #f4d4b8;
-            padding: 4px 8px;
-            font-size: 12px;
-            font-weight: bold;
-            margin-bottom: 8px;
-            display: inline-block;
-            width: 100%;
-        }
+.item-price {
+    background: linear-gradient(90deg, #4a2c2a 0%,rgb(236, 189, 156) 100%);
+    color: #f4d4b8;
+    padding: 4px 8px;
+    font-size: 12px;
+    font-weight: bold;
+    margin-bottom: 8px;
+    display: inline-block;
+    width: 100%;
+}
 
-        .item-details {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 10px;
-            color: #4a2c2a;
-        }
+.item-details {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 10px;
+    color: #4a2c2a;
+}
 
-        .discount {
-            font-weight: bold;
-        }
+.discount {
+    font-weight: bold;
+}
 
-        .rating {
-            margin-left: 20px;
-            display: flex;
-            align-items: center;
-            gap: 2px;
-        }
+.rating {
+    margin-left: 20px;
+    display: flex;
+    align-items: center;
+    gap: 2px;
+}
 
-        .star {
-            color: #000000;
-        }
+.star {
+    color: #000000;
+}
 
-        .sold-count {
-            margin-left: 30px;
-            font-size: 9px;
-        }
+.sold-count {
+    margin-left: 30px;
+    font-size: 9px;
+}
 
-        .cat-img{
-            position: absolute; 
-            left: 0; 
-            bottom: 0; 
-            width: 100px; 
-            height: auto; 
-            z-index: 2; 
-            margin-left: -7px;
-            margin-bottom: -4px;
-            pointer-events: none;
-        }
-
+.cat-img {
+    position: absolute; 
+    left: 0; 
+    bottom: 0; 
+    width: 100px; 
+    height: auto; 
+    z-index: 2; 
+    margin-left: -7px;
+    margin-bottom: -4px;
+    pointer-events: none;
+}
 </style>
 <div class="dropdown-bar">
     <div>
