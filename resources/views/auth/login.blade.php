@@ -1,6 +1,29 @@
 @extends('layouts.app')
 
 @section('content')
+<style>
+    .auth-card {
+        background: #77401E;
+        color: white;
+    }
+
+    .auth-card-header {
+        font-family: "Irish Grover", sans-serif;
+        font-size: 50px;
+        padding: 5% 0 0 5%;
+        color: #E8C7AA;
+    }
+
+    .auth-card-body {
+        padding: 2% 5%;
+
+        input {
+            background: #E8C7AA;
+            margin-bottom: 2%;
+        }
+    }
+</style>
+
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
