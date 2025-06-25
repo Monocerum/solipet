@@ -201,7 +201,7 @@
                                         @for($i = 0; $i < 5; $i++)
                                             <span class="star">{{ $i < ($item['ratings'] ?? 0) ? '★' : '☆' }}</span>
                                         @endfor
-                                        <span class="sold-count">{{ number_format($item['sold_count'] ?? 0) }} SOLD</span>
+                                        <span class="sold-count">{{ $item['rating_text'] ?? '' }}</span>
                                     </div>
                                 </div>
                             </div>
