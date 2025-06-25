@@ -145,6 +145,49 @@
     letter-spacing: 1px;
 }
 
+.pet-card-container {
+    display: flex;
+    justify-content: center;
+    z-index: 3;
+    align-items: flex-end;
+}
+
+.pet-box {
+    position: relative;
+    width: 25%;
+    cursor: pointer;
+    margin-top: -38em;
+}
+
+.pet-frame {
+    width: 100%;
+    display: block;
+}
+
+.pet-content {
+    position: absolute;
+    bottom: 20px;
+    width: 100%;
+    text-align: center;
+    z-index: 5;
+}
+
+.pet-name {
+    font-weight: bold;
+    font-size: 1rem;
+    color: #6B3410;
+    margin-bottom: 8px;
+}
+
+.shop-button {
+    background-color: #6B3410;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 10px;
+    font-size: 0.9rem;
+}
+
 
 </style>
 
@@ -197,5 +240,28 @@
                 <img src="{{ asset('assets/dog-peek.png') }}" alt="Dog face background">
             </div>
         </div>
-</div>
+            <div class="pet-card-container">
+                <div class="pet-box">
+                    <img src="{{ asset('assets/dog-container.png') }}" class="pet-frame" alt="Dog Frame">
+                    <div class="pet-content">
+                        <div class="pet-name">DOGS</div>
+                        <button class="shop-button">SHOP NOW</button>
+                    </div>
+                </div>
+                <div class="pet-box">
+                    <img src="{{ asset('assets/cat-container.png') }}" class="pet-frame" alt="Cat Frame">
+                    <div class="pet-content">
+                        <div class="pet-name">DOGS</div>
+                        <button class="shop-button">SHOP NOW</button>
+                    </div>
+                </div>
+                <div class="pet-box">
+                    <img src="{{ asset('assets/small-pet-container.png') }}" class="pet-frame" alt="Rabbit Frame">
+                    <div class="pet-content">
+                        <div class="pet-name">DOGS</div>
+                        <button class="shop-button">SHOP NOW</button>
+                    </div>
+                </div>
+            </div>
+    </div>
 @endsection
