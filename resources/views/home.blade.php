@@ -154,40 +154,49 @@
 
 .pet-box {
     position: relative;
-    width: 25%;
     cursor: pointer;
     margin-top: -38em;
 }
 
 .pet-frame {
-    width: 100%;
     display: block;
 }
 
 .pet-content {
     position: absolute;
-    bottom: 20px;
+    bottom: 1.8em;
     width: 100%;
     text-align: center;
     z-index: 5;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .pet-name {
     font-weight: bold;
-    font-size: 1rem;
+    font-size: 1.5rem;
     color: #6B3410;
-    margin-bottom: 8px;
+    margin: 1rem 0;
 }
 
 .shop-button {
     background-color: #6B3410;
     color: white;
     border: none;
+    width: 50%;
     padding: 6px 12px;
     border-radius: 10px;
     font-size: 0.9rem;
+    background: linear-gradient(123.61deg, #92491C 24.06%, #F7DBB4 122.75%);
 }
 
+.dog-pet-type {
+    width: 70%;
+    border-radius: 2em;
+    box-shadow: 0 4px 15px rgba(77, 59, 0, 0.5);
+    background: linear-gradient(123.61deg, #92491C 24.06%, #F7DBB4 122.75%);
+}
 
 </style>
 
@@ -244,21 +253,30 @@
                 <div class="pet-box">
                     <img src="{{ asset('assets/dog-container.png') }}" class="pet-frame" alt="Dog Frame">
                     <div class="pet-content">
-                        <div class="pet-name">DOGS</div>
+                        <div class="pet-img">
+                            <img src="assets/dog-photo.png" alt="Photo of a Dog" class="dog-pet-type">
+                        </div>
+                        <h2 class="pet-name">DOGS</h2>
                         <button class="shop-button">SHOP NOW</button>
                     </div>
                 </div>
                 <div class="pet-box">
                     <img src="{{ asset('assets/cat-container.png') }}" class="pet-frame" alt="Cat Frame">
                     <div class="pet-content">
-                        <div class="pet-name">DOGS</div>
+                        <div class="pet-img">
+                            <img src="assets/cat-photo.png" alt="Photo of a Cat" class="dog-pet-type">
+                        </div>
+                        <h2 class="pet-name">CATS</h2>
                         <button class="shop-button">SHOP NOW</button>
                     </div>
                 </div>
                 <div class="pet-box">
                     <img src="{{ asset('assets/small-pet-container.png') }}" class="pet-frame" alt="Rabbit Frame">
                     <div class="pet-content">
-                        <div class="pet-name">DOGS</div>
+                        <div class="pet-img">
+                            <img src="assets/hamster-photo.png" alt="Photo of a Hamster" class="dog-pet-type">
+                        </div>
+                        <h2 class="pet-name">SMALL PETS</h2>
                         <button class="shop-button">SHOP NOW</button>
                     </div>
                 </div>
