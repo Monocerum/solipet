@@ -1,6 +1,5 @@
 @extends('layouts.header')
 <style>
-
 .dropdown-bar {
     margin-bottom: 20px;
     display: flex;
@@ -284,5 +283,6 @@
         <section class="promos">
 
         </section>
+        @include('components.footer')
     </div>
 @endsection
