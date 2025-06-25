@@ -264,19 +264,13 @@
                 Pet Type
             </a>
             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown5">
-                <a class="dropdown-item" href="{{ route('logout') }}"
-                    onclick="event.preventDefault();
-                        document.getElementById('logout-form').submit();">
+                <a class="dropdown-item" href="{{ route('petpage', ['pet_type' => 'cat']) }}">
                     {{ __('Cat') }}
                 </a>
-                <a class="dropdown-item" href="{{ route('logout') }}"
-                    onclick="event.preventDefault();
-                        document.getElementById('logout-form').submit();">
+                <a class="dropdown-item" href="{{ route('petpage', ['pet_type' => 'dog']) }}">
                     {{ __('Dog') }}
                 </a>
-                <a class="dropdown-item" href="{{ route('logout') }}"
-                    onclick="event.preventDefault();
-                        document.getElementById('logout-form').submit();">
+                <a class="dropdown-item" href="{{ route('petpage', ['pet_type' => 'small_pet']) }}">
                     {{ __('Small Pet') }}
                 </a>
             </div>
@@ -340,10 +334,6 @@
     </aside>
     <div style="flex: 1;">
 <div class="item-container">
-@php
-    // Force pet type to 'dog' for demo purposes
-    request()->merge(['pet_type' => 'dog']);
-@endphp
 @php
     // Sample data for demonstration. Replace with $items from your controller/database.
     $sampleCatItems = [

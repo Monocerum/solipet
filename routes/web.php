@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SearchController;
+use App\Http\Controllers\PetController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -38,3 +39,4 @@ Route::get('/itempage', function () {
 
 Route::put('/user/profile', [UserController::class, 'update'])->name('user.profile.update')->middleware('auth');
 
+Route::get('/pet/{pet_type}', [PetController::class, 'showByType'])->name('petpage');
