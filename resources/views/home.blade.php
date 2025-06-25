@@ -4,15 +4,14 @@
 .dropdown-bar {
     margin-bottom: 20px;
     display: flex;
-    gap: 15px;
-    padding: 10px;
+    padding-left: 5%;
     border-radius: 6px;
 }
 
 .dropdown-bar > div {
+    justify-content: flex-start;
+    padding: 10px;
     display: flex;
-    justify-content: center;
-    align-items: center;
     width: 100%;
     gap: 30px;
     height: 50px;
@@ -58,7 +57,19 @@
     background-position: left top;
     min-height: 100vh;
     align-items: center;
-    overflow: hidden;
+    overflow: visible;
+    position: relative;
+    z-index: 2;
+
+}
+
+.hero-img {
+    position: relative;
+    z-index: 3;
+
+    img {
+        margin-bottom: -150px;
+    }
 }
 
     .solipet-tagline-container {
@@ -95,6 +106,45 @@
     width: 30%;
 }
 
+.solipet-logo {
+    width: 28em;
+}
+
+.selection-area {
+    position: relative;
+    width: 100%;
+    background: #dcb99c;
+    -webkit-mask-image: url('/assets/curved.svg');
+    mask-image: url('/assets/curved.svg');
+    -webkit-mask-size: 100% 100%;
+    mask-size: 100% 100%;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-position: top;
+    mask-position: top;
+    padding-top: 150px;
+    z-index: 1;
+    dispaly: flex;
+    
+    justify-content: center;
+}
+
+.selection-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 40px;
+    text-align: center;
+}
+
+.selection-title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #6B3410;
+    margin-bottom: 50px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
 
 </style>
 
@@ -102,7 +152,6 @@
 
 <div class="home-container">
         <div class="dropdown-bar">
-            <div>
                 <div class="nav-item dropdown-pet">
                     <a id="petTypeDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Shop by Pet
@@ -125,7 +174,6 @@
                         </a>
                     </div>
                 </div>
-            </div>
     </div>
         <section class="hero-section">
             <div class="hero-text">
@@ -143,5 +191,11 @@
                 <img src="assets/hero-image.png" alt="Photo of a Dog in a Mailbox" id="heroImage">
             </div>
         </section>
+        <div class="selection-area">
+            <h2 class="selection-title">Which Pet Do You Want to Shop For?</h2>
+            <div class="background-pet">
+                <img src="{{ asset('assets/dog-peek.png') }}" alt="Dog face background">
+            </div>
+        </div>
 </div>
 @endsection
