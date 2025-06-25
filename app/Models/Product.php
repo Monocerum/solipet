@@ -13,13 +13,14 @@ class Product extends Model
         'image',
         'title',
         'price',
-        'stars',
+        'ratings',
         'rating_text',
         'savings',
         'features',
         'description',
         'care_instructions',
         'category',
+        'sold_count',
     ];
 
     protected $casts = [

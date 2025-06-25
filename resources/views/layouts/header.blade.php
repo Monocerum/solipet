@@ -41,9 +41,9 @@
 
                 <div style="width: 60px;"></div>
 
-                <form class="d-flex ms-3" role="search" method="GET" action="{{ route('search') }}">
+                <form class="d-flex ms-3" role="search" method="GET" action="{{ route('searchpage') }}" id="searchForm">
                     <input class="form-control me-2" type="search" name="query" placeholder="Search..." aria-label="Search" style="width: 650px; background-color: #f2d5bc;">
-                    <button class="btn btn-outline-light" type="submit">Search</button>
+                    <button class="btn btn-outline-light" type="submit" onclick="document.getElementById('searchForm').submit();">Search</button>
                 </form>
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">

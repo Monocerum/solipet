@@ -37,7 +37,10 @@
 }
 
 .hero-section {
-    width: 100%;
+    width: 100vw;
+    min-width: 100vw;
+    max-width: 100vw;
+    box-sizing: border-box;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -261,19 +264,13 @@
                 Pet Type
             </a>
             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown5">
-                <a class="dropdown-item" href="{{ route('logout') }}"
-                    onclick="event.preventDefault();
-                        document.getElementById('logout-form').submit();">
+                <a class="dropdown-item" href="{{ route('petpage', ['pet_type' => 'cat']) }}">
                     {{ __('Cat') }}
                 </a>
-                <a class="dropdown-item" href="{{ route('logout') }}"
-                    onclick="event.preventDefault();
-                        document.getElementById('logout-form').submit();">
+                <a class="dropdown-item" href="{{ route('petpage', ['pet_type' => 'dog']) }}">
                     {{ __('Dog') }}
                 </a>
-                <a class="dropdown-item" href="{{ route('logout') }}"
-                    onclick="event.preventDefault();
-                        document.getElementById('logout-form').submit();">
+                <a class="dropdown-item" href="{{ route('petpage', ['pet_type' => 'small_pet']) }}">
                     {{ __('Small Pet') }}
                 </a>
             </div>
@@ -294,7 +291,7 @@
 </div>
 @else
 <div class="hero-section">
-    <img src="{{ asset('assets/shop-by-dog.png') }}" alt="Shop for Cat" style="max-width:100%; height:auto; border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,0.1);">
+    <img src="{{ asset('assets/shop-by-cat.png') }}" alt="Shop for Cat" style="max-width:100%; height:auto; border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,0.1);">
 </div>
 @endif
 <div class="sidebar-catalog" style="display: flex; gap: 30px;">
@@ -338,139 +335,138 @@
     <div style="flex: 1;">
 <div class="item-container">
 @php
-    // Force pet type to 'dog' for demo purposes
-    request()->merge(['pet_type' => 'dog']);
-@endphp
+    // Sample data for demonstration. Replace with $items from your controller/database.
+    $sampleCatItems = [
+        [
+            'title' => 'Sample Cat Food',
+            'price' => 299.00,
+            'savings' => 'Save 10%!',
+            'ratings' => 4,
+            'sold_count' => 1234,
+        ],
+        [
+            'title' => 'Tasty Cat Treats',
+            'price' => 149.00,
+            'savings' => 'Save 5%!',
+            'ratings' => 3,
+            'sold_count' => 567,
+        ],
+        [
+            'title' => 'Premium Cat Kibble',
+            'price' => 399.00,
+            'savings' => 'Save 15%!',
+            'ratings' => 5,
+            'sold_count' => 2001,
+        ],
+    ];
 
-    @php
-        // Sample data for demonstration. Replace with $items from your controller/database.
-        $sampleCatItems = [
-            [
-                'name' => 'Sample Cat Food',
-                'price' => 299.00,
-                'discount' => 10,
-                'rating' => 4,
-                'sold_count' => 1234,
-            ],
-            [
-                'name' => 'Tasty Cat Treats',
-                'price' => 149.00,
-                'discount' => 5,
-                'rating' => 3,
-                'sold_count' => 567,
-            ],
-            [
-                'name' => 'Premium Cat Kibble',
-                'price' => 399.00,
-                'discount' => 15,
-                'rating' => 5,
-                'sold_count' => 2001,
-            ],
-        ];
+    $sampleDogItems = [
+        [
+            'title' => 'Sample Dog Food',
+            'price' => 350.00,
+            'savings' => 'Save 8%!',
+            'ratings' => 5,
+            'sold_count' => 980,
+        ],
+        [
+            'title' => 'Tasty Dog Treats',
+            'price' => 120.00,
+            'savings' => 'Save 3%!',
+            'ratings' => 4,
+            'sold_count' => 430,
+        ],
+        [
+            'title' => 'Premium Dog Kibble',
+            'price' => 499.00,
+            'savings' => 'Save 12%!',
+            'ratings' => 5,
+            'sold_count' => 1500,
+        ],
+    ];
 
-        $sampleDogItems = [
-            [
-                'name' => 'Sample Dog Food',
-                'price' => 350.00,
-                'discount' => 8,
-                'rating' => 5,
-                'sold_count' => 980,
-            ],
-            [
-                'name' => 'Tasty Dog Treats',
-                'price' => 120.00,
-                'discount' => 3,
-                'rating' => 4,
-                'sold_count' => 430,
-            ],
-            [
-                'name' => 'Premium Dog Kibble',
-                'price' => 499.00,
-                'discount' => 12,
-                'rating' => 5,
-                'sold_count' => 1500,
-            ],
-        ];
+    $sampleSmallPetItems = [
+        [
+            'title' => 'Sample Hamster Food',
+            'price' => 99.00,
+            'savings' => 'Save 5%!',
+            'ratings' => 4,
+            'sold_count' => 300,
+        ],
+        [
+            'title' => 'Small Pet Treats',
+            'price' => 59.00,
+            'savings' => 'Save 2%!',
+            'ratings' => 3,
+            'sold_count' => 120,
+        ],
+        [
+            'title' => 'Premium Rabbit Pellets',
+            'price' => 199.00,
+            'savings' => 'Save 10%!',
+            'ratings' => 5,
+            'sold_count' => 450,
+        ],
+    ];
 
-        $sampleSmallPetItems = [
-            [
-                'name' => 'Sample Hamster Food',
-                'price' => 99.00,
-                'discount' => 5,
-                'rating' => 4,
-                'sold_count' => 300,
-            ],
-            [
-                'name' => 'Small Pet Treats',
-                'price' => 59.00,
-                'discount' => 2,
-                'rating' => 3,
-                'sold_count' => 120,
-            ],
-            [
-                'name' => 'Premium Rabbit Pellets',
-                'price' => 199.00,
-                'discount' => 10,
-                'rating' => 5,
-                'sold_count' => 450,
-            ],
-        ];
-
-        // Repeat the items to fill the page (for demo, repeat 4 times)
-        $items = [];
-        $petType = request('pet_type');
-        if ($petType === 'dog') {
-            for ($i = 0; $i < 4; $i++) {
-                foreach ($sampleDogItems as $item) {
-                    $items[] = $item;
-                }
+    // Repeat the items to fill the page (for demo, repeat 4 times)
+    $items = [];
+    $petType = request('pet_type');
+    if ($petType === 'dog') {
+        for ($i = 0; $i < 4; $i++) {
+            foreach ($sampleDogItems as $item) {
+                $items[] = $item;
             }
-            $title = "Items for Dogs";
-            $fixedImg = 'assets/dog-img.png';
-        } elseif ($petType === 'small_pet') {
-            for ($i = 0; $i < 4; $i++) {
-                foreach ($sampleSmallPetItems as $item) {
-                    $items[] = $item;
-                }
-            }
-            $title = "Items for Small Pets";
-            $fixedImg = 'assets/smallpet-img.png';
-        } else {
-            for ($i = 0; $i < 4; $i++) {
-                foreach ($sampleCatItems as $item) {
-                    $items[] = $item;
-                }
-            }
-            $title = "Items for Cats";
-            $fixedImg = 'assets/cat-img.png';
         }
-    @endphp
+        $title = "Items for Dogs";
+        $fixedImg = 'assets/dog-img.png';
+    } elseif ($petType === 'small_pet') {
+        for ($i = 0; $i < 4; $i++) {
+            foreach ($sampleSmallPetItems as $item) {
+                $items[] = $item;
+            }
+        }
+        $title = "Items for Small Pets";
+        $fixedImg = 'assets/smallpet-img.png';
+    } else {
+        for ($i = 0; $i < 4; $i++) {
+            foreach ($sampleCatItems as $item) {
+                $items[] = $item;
+            }
+        }
+        $title = "Items for Cats";
+        $fixedImg = 'assets/cat-img.png';
+    }
+@endphp
 
     <h1 style="font-family: 'Irish Grover', cursive;">{{ $title }}</h1>
 
     <div style="display: flex; flex-wrap: wrap; gap: 24px;">
-        @foreach($items as $item)
-            <div class="item-card">
-                <div class="item-image">
-                    <div class="pixel-cat"></div>
-                    <img src="{{ asset($fixedImg) }}" class="cat-img" alt="Pet">
-                </div>
-                <div class="item-info">
-                    <div class="item-name">{{ $item['name'] }}</div>
-                    <div class="item-price">PHP {{ number_format($item['price'], 2) }}</div>
-                    <div class="item-details">
-                        <span class="discount">
-                            Save {{ $item['discount'] }}% Off
-                        </span>
-                        <div class="rating">
-                            @for($i = 0; $i < 5; $i++)
-                                <span class="star">{{ $i < $item['rating'] ? '★' : '☆' }}</span>
-                            @endfor
-                            <span class="sold-count">{{ number_format($item['sold_count']) }} SOLD</span>
+        @foreach($items as $index => $item)
+            <a class="item-card" href="{{ route('itempage') }}" style="text-decoration: none;">
+                <div>
+                    <div class="item-image">
+                        <div class="pixel-cat"></div>
+                        <img src="{{ asset($fixedImg) }}" class="cat-img" alt="Pet">
+                    </div>
+                    <div class="item-info">
+                        <div class="item-name">{{ $item['title'] }}</div>
+                        <div class="item-price">PHP {{ number_format($item['price'], 2) }}</div>
+                        <div class="item-details">
+                            <span class="discount">
+                                @if(isset($item['savings']))
+                                            {{ Str::before($item['savings'], 'P') }}
+                                @endif
+                            </span>
+                            <div class="rating">
+                                @for($i = 0; $i < 5; $i++)
+                                    <span class="star">{{ $i < $item['ratings'] ? '★' : '☆' }}</span>
+                                @endfor
+                                <span class="sold-count">{{ number_format($item['sold_count']) }} SOLD</span>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </a>
         @endforeach
     </div>
 
