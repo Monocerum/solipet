@@ -294,7 +294,7 @@
 </div>
 @else
 <div class="hero-section">
-    <img src="{{ asset('assets/shop-by-cat.png') }}" alt="Shop for Cat" style="max-width:100%; height:auto; border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,0.1);">
+    <img src="{{ asset('assets/shop-by-dog.png') }}" alt="Shop for Cat" style="max-width:100%; height:auto; border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,0.1);">
 </div>
 @endif
 <div class="sidebar-catalog" style="display: flex; gap: 30px;">
@@ -337,49 +337,20 @@
     </aside>
     <div style="flex: 1;">
 <div class="item-container">
-    <h1 style="font-family: 'Irish Grover', cursive;">Items for Cats</h1>
-    
-    {{-- 
-        @foreach($items as $item)
-            <div class="item-card">
-                <div class="item-image">
-                    <div class="pixel-cat"></div>
-                    <img src="{{ asset('assets/cat-img.png') }}" class="cat-img" alt="Cat">
-                </div>
-                <div class="item-info">
-                    <div class="item-name">{{ $item->name }}</div>
-                    <div class="item-price">PHP {{ number_format($item->price, 2) }}</div>
-                    <div class="item-details">
-                        <span class="discount">
-                            @if($item->discount)
-                                Save {{ $item->discount }}% Off
-                            @endif
-                        </span>
-                        <div class="rating">
-                            @for($i = 0; $i < 5; $i++)
-                                <span class="star">{{ $i < $item->rating ? '★' : '☆' }}</span>
-                            @endfor
-                            <span class="sold-count">{{ number_format($item->sold_count) }} SOLD</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        @endforeach
-        --}}
+@php
+    // Force pet type to 'dog' for demo purposes
+    request()->merge(['pet_type' => 'dog']);
+@endphp
 
-    {{-- The above code, yung naka-comment with @foreach items will later serve as placeholders for the items in the database --}}
-
-    {{-- The code below is the baseline code  --}}
     @php
         // Sample data for demonstration. Replace with $items from your controller/database.
-        $sampleItems = [
+        $sampleCatItems = [
             [
                 'name' => 'Sample Cat Food',
                 'price' => 299.00,
                 'discount' => 10,
                 'rating' => 4,
                 'sold_count' => 1234,
-                'img' => 'assets/cat-img.png',
             ],
             [
                 'name' => 'Tasty Cat Treats',
@@ -387,7 +358,6 @@
                 'discount' => 5,
                 'rating' => 3,
                 'sold_count' => 567,
-                'img' => 'assets/cat-img.png',
             ],
             [
                 'name' => 'Premium Cat Kibble',
@@ -395,25 +365,95 @@
                 'discount' => 15,
                 'rating' => 5,
                 'sold_count' => 2001,
-                'img' => 'assets/cat-img.png',
+            ],
+        ];
+
+        $sampleDogItems = [
+            [
+                'name' => 'Sample Dog Food',
+                'price' => 350.00,
+                'discount' => 8,
+                'rating' => 5,
+                'sold_count' => 980,
+            ],
+            [
+                'name' => 'Tasty Dog Treats',
+                'price' => 120.00,
+                'discount' => 3,
+                'rating' => 4,
+                'sold_count' => 430,
+            ],
+            [
+                'name' => 'Premium Dog Kibble',
+                'price' => 499.00,
+                'discount' => 12,
+                'rating' => 5,
+                'sold_count' => 1500,
+            ],
+        ];
+
+        $sampleSmallPetItems = [
+            [
+                'name' => 'Sample Hamster Food',
+                'price' => 99.00,
+                'discount' => 5,
+                'rating' => 4,
+                'sold_count' => 300,
+            ],
+            [
+                'name' => 'Small Pet Treats',
+                'price' => 59.00,
+                'discount' => 2,
+                'rating' => 3,
+                'sold_count' => 120,
+            ],
+            [
+                'name' => 'Premium Rabbit Pellets',
+                'price' => 199.00,
+                'discount' => 10,
+                'rating' => 5,
+                'sold_count' => 450,
             ],
         ];
 
         // Repeat the items to fill the page (for demo, repeat 4 times)
         $items = [];
-        for ($i = 0; $i < 4; $i++) {
-            foreach ($sampleItems as $item) {
-                $items[] = $item;
+        $petType = request('pet_type');
+        if ($petType === 'dog') {
+            for ($i = 0; $i < 4; $i++) {
+                foreach ($sampleDogItems as $item) {
+                    $items[] = $item;
+                }
             }
+            $title = "Items for Dogs";
+            $fixedImg = 'assets/dog-img.png';
+        } elseif ($petType === 'small_pet') {
+            for ($i = 0; $i < 4; $i++) {
+                foreach ($sampleSmallPetItems as $item) {
+                    $items[] = $item;
+                }
+            }
+            $title = "Items for Small Pets";
+            $fixedImg = 'assets/smallpet-img.png';
+        } else {
+            for ($i = 0; $i < 4; $i++) {
+                foreach ($sampleCatItems as $item) {
+                    $items[] = $item;
+                }
+            }
+            $title = "Items for Cats";
+            $fixedImg = 'assets/cat-img.png';
         }
     @endphp
+
+    <h1 style="font-family: 'Irish Grover', cursive;">{{ $title }}</h1>
 
     <div style="display: flex; flex-wrap: wrap; gap: 24px;">
         @foreach($items as $item)
             <div class="item-card">
                 <div class="item-image">
                     <div class="pixel-cat"></div>
-                    <img src="{{ asset($item['img']) }}" class="cat-img" alt="Cat">
+                    <img src="{{ asset($fixedImg) }}" class="cat-img" alt="Pet">
                 </div>
                 <div class="item-info">
                     <div class="item-name">{{ $item['name'] }}</div>
