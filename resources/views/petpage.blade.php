@@ -37,7 +37,10 @@
 }
 
 .hero-section {
-    width: 100%;
+    width: 100vw;
+    min-width: 100vw;
+    max-width: 100vw;
+    box-sizing: border-box;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -294,7 +297,7 @@
 </div>
 @else
 <div class="hero-section">
-    <img src="{{ asset('assets/shop-by-dog.png') }}" alt="Shop for Cat" style="max-width:100%; height:auto; border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,0.1);">
+    <img src="{{ asset('assets/shop-by-cat.png') }}" alt="Shop for Cat" style="max-width:100%; height:auto; border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,0.1);">
 </div>
 @endif
 <div class="sidebar-catalog" style="display: flex; gap: 30px;">
@@ -449,28 +452,30 @@
     <h1 style="font-family: 'Irish Grover', cursive;">{{ $title }}</h1>
 
     <div style="display: flex; flex-wrap: wrap; gap: 24px;">
-        @foreach($items as $item)
-            <div class="item-card">
-                <div class="item-image">
-                    <div class="pixel-cat"></div>
-                    <img src="{{ asset($fixedImg) }}" class="cat-img" alt="Pet">
-                </div>
-                <div class="item-info">
-                    <div class="item-name">{{ $item['name'] }}</div>
-                    <div class="item-price">PHP {{ number_format($item['price'], 2) }}</div>
-                    <div class="item-details">
-                        <span class="discount">
-                            Save {{ $item['discount'] }}% Off
-                        </span>
-                        <div class="rating">
-                            @for($i = 0; $i < 5; $i++)
-                                <span class="star">{{ $i < $item['rating'] ? '★' : '☆' }}</span>
-                            @endfor
-                            <span class="sold-count">{{ number_format($item['sold_count']) }} SOLD</span>
+        @foreach($items as $index => $item)
+            <a class="item-card" href="{{ route('itempage') }}" style="text-decoration: none;">
+                <div>
+                    <div class="item-image">
+                        <div class="pixel-cat"></div>
+                        <img src="{{ asset($fixedImg) }}" class="cat-img" alt="Pet">
+                    </div>
+                    <div class="item-info">
+                        <div class="item-name">{{ $item['name'] }}</div>
+                        <div class="item-price">PHP {{ number_format($item['price'], 2) }}</div>
+                        <div class="item-details">
+                            <span class="discount">
+                                Save {{ $item['discount'] }}% Off
+                            </span>
+                            <div class="rating">
+                                @for($i = 0; $i < 5; $i++)
+                                    <span class="star">{{ $i < $item['rating'] ? '★' : '☆' }}</span>
+                                @endfor
+                                <span class="sold-count">{{ number_format($item['sold_count']) }} SOLD</span>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </a>
         @endforeach
     </div>
 
