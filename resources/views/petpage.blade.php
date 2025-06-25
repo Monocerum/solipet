@@ -337,7 +337,7 @@
     </aside>
     <div style="flex: 1;">
 <div class="item-container">
-    <h1 style="font-family: 'Irish Grover', cursive;">Cat Food and Treats</h1>
+    <h1 style="font-family: 'Irish Grover', cursive;">Items for Cats</h1>
     
     {{-- 
         @foreach($items as $item)

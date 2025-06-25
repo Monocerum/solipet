@@ -24,7 +24,7 @@ Route::get('/cart', function () {
 Route::get('/item/{id}', [App\Http\Controllers\HomeController::class, 'showProduct'])->name('item.show');
 
 Route::get('/userpage', function () {
-    return view('userpage'); // corresponds to resources/views/petpage.blade.php
-});
+    return view('userpage'); // corresponds to resources/views/userpage.blade.php
+})->name('userpage');
 
 Route::put('/user/profile', [UserController::class, 'update'])->name('user.profile.update')->middleware('auth');
