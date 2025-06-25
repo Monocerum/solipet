@@ -661,9 +661,9 @@
                     <div class="rating">
                         <div class="stars">
                             @for ($i = 1; $i <= 5; $i++)
-                                @if ($i <= floor($product->stars))
+                                @if ($i <= floor($product->ratings))
                                     ★
-                                @elseif ($i - $product->stars < 1)
+                                @elseif ($i - $product->ratings < 1)
                                     ☆
                                 @else
                                     ☆

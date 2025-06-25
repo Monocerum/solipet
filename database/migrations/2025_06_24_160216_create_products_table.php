@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('image'); // product image path
             $table->string('title'); // product title
             $table->decimal('price', 10, 2); // product price
-            $table->float('stars', 2, 1)->default(0); // product rating (e.g., 4.5)
+            $table->float('ratings', 2, 1)->default(0); // product rating (e.g., 4.5)
             $table->string('rating_text')->nullable(); // e.g., '1,234 SOLD'
             $table->string('savings')->nullable(); // e.g., 'Save 20%!'
             $table->json('features')->nullable(); // product features as JSON array

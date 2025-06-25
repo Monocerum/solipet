@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\SearchController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -15,7 +17,6 @@ Route::get('/petpage', function () {
     return view('petpage'); // corresponds to resources/views/petpage.blade.php
 });
 
-use App\Http\Controllers\SearchController;
 
 Route::get('/search', [SearchController::class, 'search'])->name('searchpage');
 
@@ -36,3 +37,4 @@ Route::get('/itempage', function () {
 
 
 Route::put('/user/profile', [UserController::class, 'update'])->name('user.profile.update')->middleware('auth');
+

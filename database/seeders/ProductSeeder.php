@@ -19,7 +19,7 @@ class ProductSeeder extends Seeder
             'image' => 'assets/sample-product.jpg',
             'title' => 'PetFace Buddies Noodle Cow Plush Dog Toy',
             'price' => 499.99,
-            'stars' => 4.8,
+            'ratings' => 4.8,
             'rating_text' => '1,234 SOLD',
             'savings' => 'Save 20%! PHP 599.99',
             'features' => json_encode([
@@ -42,7 +42,7 @@ class ProductSeeder extends Seeder
             'image' => 'assets/sample-product2.jpg',
             'title' => 'Catnip Mouse Toy',
             'price' => 199.99,
-            'stars' => 4.5,
+            'ratings' => 4.5,
             'rating_text' => '800 SOLD',
             'savings' => 'Save 15%! PHP 235.29',
             'features' => json_encode([
@@ -57,6 +57,75 @@ class ProductSeeder extends Seeder
             'dimensions' => 'L: 10 cm x W: 4 cm x H: 3 cm',
             'care_instructions' => 'Spot clean with mild soap and water. Replace if torn or damaged.',
             'category' => 'Cat Toy',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        DB::table('products')->insert([
+            'image' => 'assets/sample-product3.jpg',
+            'title' => 'Adjustable Dog Harness',
+            'price' => 349.99,
+            'ratings' => 4.7,
+            'rating_text' => '950 SOLD',
+            'savings' => 'Save 10%! PHP 389.99',
+            'features' => json_encode([
+                'Breathable mesh material',
+                'Reflective strips for safety',
+                'Adjustable straps for perfect fit',
+                'Easy to put on and take off',
+                'Available in multiple sizes'
+            ]),
+            'description' => 'This Adjustable Dog Harness is designed for comfort and safety. Made with breathable mesh and reflective strips for nighttime walks.',
+            'material' => 'Nylon, Mesh',
+            'dimensions' => 'S, M, L, XL',
+            'care_instructions' => 'Hand wash with mild detergent. Air dry.',
+            'category' => 'Dog Accessory',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        DB::table('products')->insert([
+            'image' => 'assets/sample-product4.jpg',
+            'title' => 'Interactive Cat Feather Wand',
+            'price' => 129.99,
+            'ratings' => 4.6,
+            'rating_text' => '1,100 SOLD',
+            'savings' => 'Save 5%! PHP 136.84',
+            'features' => json_encode([
+                'Flexible wand for interactive play',
+                'Colorful feathers attract cats',
+                'Durable and safe materials',
+                'Encourages exercise',
+                'Lightweight design'
+            ]),
+            'description' => 'Keep your cat active and entertained with this Interactive Cat Feather Wand. Perfect for bonding and exercise.',
+            'material' => 'Plastic, Feathers',
+            'dimensions' => 'L: 45 cm',
+            'care_instructions' => 'Supervise play. Replace if damaged.',
+            'category' => 'Cat Toy',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        DB::table('products')->insert([
+            'image' => 'assets/sample-product5.jpg',
+            'title' => 'Pet Stainless Steel Food Bowl',
+            'price' => 159.99,
+            'ratings' => 4.9,
+            'rating_text' => '2,000 SOLD',
+            'savings' => 'Save 12%! PHP 181.81',
+            'features' => json_encode([
+                'Non-slip rubber base',
+                'Rust-resistant stainless steel',
+                'Easy to clean',
+                'Suitable for food and water',
+                'Dishwasher safe'
+            ]),
+            'description' => 'Durable and hygienic, this Pet Stainless Steel Food Bowl is perfect for both food and water. Non-slip base prevents spills.',
+            'material' => 'Stainless Steel, Rubber',
+            'dimensions' => 'Diameter: 16 cm, Height: 5 cm',
+            'care_instructions' => 'Dishwasher safe. Wash regularly.',
+            'category' => 'Pet Feeding',
             'created_at' => now(),
             'updated_at' => now(),
         ]);
