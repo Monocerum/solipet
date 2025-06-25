@@ -19,10 +19,17 @@
 
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+    
+    <style>
+        #searchNav {
+            display: flex;
+            justify-content: center;
+        }
+    </style>
 </head>
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-brown shadow-sm">
+        <nav class="navbar navbar-expand-md navbar-light bg-brown shadow-sm" id="searchNav">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
                     <img src="{{ asset('assets/logo.svg') }}" alt="{{ config('app.name', 'Laravel') }} Logo" style="height: 40px;">
