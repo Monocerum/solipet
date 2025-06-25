@@ -752,15 +752,15 @@
                             <label class="form-label">Gender</label>
                             <div class="gender-options">
                                 <div class="radio-group">
-                                    <input type="radio" class="radio-input" name="gender" value="male" id="male" {{ old('gender', $user->gender) === 'male' ? 'checked' : '' }}>
+                                    <input type="radio" class="radio-input" name="gender" value="male" id="male" {{ old('gender', $user->gender ?? null) === 'male' ? 'checked' : '' }}>
                                     <label class="radio-label" for="male">Male</label>
                                 </div>
                                 <div class="radio-group">
-                                    <input type="radio" class="radio-input" name="gender" value="female" id="female" {{ old('gender', $user->gender) === 'female' ? 'checked' : '' }}>
+                                    <input type="radio" class="radio-input" name="gender" value="female" id="female" {{ old('gender', $user->gender ?? null) === 'female' ? 'checked' : '' }}>
                                     <label class="radio-label" for="female">Female</label>
                                 </div>
                                 <div class="radio-group">
-                                    <input type="radio" class="radio-input" name="gender" value="other" id="other" {{ old('gender', $user->gender) === 'other' ? 'checked' : '' }}>
+                                    <input type="radio" class="radio-input" name="gender" value="other" id="other" {{ old('gender', $user->gender ?? null) === 'other' ? 'checked' : '' }}>
                                     <label class="radio-label" for="other">Other</label>
                                 </div>
                             </div>
@@ -802,18 +802,30 @@
             </div>
             <!-- Change Password Section -->
             <div class="content-section" id="password-section">
-                <div class="password-form">
+                @if (session('password_success'))
+                    <div class="alert alert-success" style="margin-bottom: 20px;">
+                        {{ session('password_success') }}
+                    </div>
+                @endif
+                @if (session('password_error'))
+                    <div class="alert alert-danger" style="margin-bottom: 20px;">
+                        {{ session('password_error') }}
+                    </div>
+                @endif
+                <form class="password-form" method="POST" action="{{ route('user.password.update') }}">
+                    @csrf
+                    @method('PUT')
                     <div class="form-group">
                         <label class="form-label">Current Password</label>
-                        <input type="password" class="form-input" placeholder="Enter current password">
+                        <input type="password" class="form-input" name="current_password" placeholder="Enter current password" required>
                     </div>
                     <div class="form-group">
                         <label class="form-label">New Password</label>
-                        <input type="password" class="form-input" placeholder="Enter new password">
+                        <input type="password" class="form-input" name="new_password" placeholder="Enter new password" required>
                     </div>
                     <div class="form-group">
                         <label class="form-label">Confirm Password</label>
-                        <input type="password" class="form-input" placeholder="Confirm new password">
+                        <input type="password" class="form-input" name="new_password_confirmation" placeholder="Confirm new password" required>
                     </div>
                     <div class="password-requirements">
                         <h4>Password Requirements:</h4>
@@ -824,8 +836,8 @@
                             <li>Include at least one special character</li>
                         </ul>
                     </div>
-                </div>
-                <button class="save-btn" onclick="savePassword()">Update Password</button>
+                    <button class="save-btn" type="submit">Update Password</button>
+                </form>
             </div>
             <!-- My Purchase Section -->
             <div class="content-section" id="purchase-section">
@@ -874,30 +886,25 @@
         }
     }
     // Handle navigation with content switching
-    document.querySelectorAll('.sidebaritem').forEach(item => {
+    document.querySelectorAll('.sidebar-item').forEach(item => {
         item.addEventListener('click', function() {
             document.querySelectorAll('.sidebar-item').forEach(nav => nav.classList.remove('active'));
             this.classList.add('active');
-            
             // Hide all content sections
             document.querySelectorAll('.content-section').forEach(section => {
                 section.classList.remove('active');
             });
-            
             // Show selected content section
             const section = this.getAttribute('data-section');
             const targetSection = document.getElementById(section + '-section');
             if (targetSection) {
-                // Add a small delay for smooth transition
                 setTimeout(() => {
                     targetSection.classList.add('active');
                 }, 100);
             }
-            
             // Update page title and subtitle based on selection
             const titleElement = document.querySelector('.profile-title');
             const subtitleElement = document.querySelector('.profile-subtitle');
-            
             switch(section) {
                 case 'profile':
                     titleElement.textContent = 'My Account - Profile';
@@ -912,8 +919,6 @@
                     subtitleElement.textContent = 'View your order history and track current purchases';
                     break;
             }
-            
-            // Add subtle animation effect
             this.style.transform = 'scale(0.95)';
             setTimeout(() => {
                 this.style.transform = '';
@@ -986,16 +991,33 @@
     // Initialize everything when page loads
     document.addEventListener('DOMContentLoaded', function() {
         initializeDateSelectors();
-        
         // Add subtle entrance animation
         document.querySelector('.profile-card').style.opacity = '0';
         document.querySelector('.profile-card').style.transform = 'translateY(20px)';
-        
         setTimeout(() => {
             document.querySelector('.profile-card').style.transition = 'all 0.6s ease';
             document.querySelector('.profile-card').style.opacity = '1';
             document.querySelector('.profile-card').style.transform = 'translateY(0)';
         }, 100);
+
+        // If there are password errors, show the password section
+        var hasPasswordError = false;
+        @if ($errors->has('current_password') || $errors->has('new_password') || session('password_error'))
+            hasPasswordError = true;
+        @endif
+        if (hasPasswordError) {
+            // Remove active from all sidebar items and sections
+            document.querySelectorAll('.sidebar-item').forEach(nav => nav.classList.remove('active'));
+            document.querySelectorAll('.content-section').forEach(section => section.classList.remove('active'));
+            // Activate password section
+            document.querySelector('.sidebar-item[data-section="password"]').classList.add('active');
+            document.getElementById('password-section').classList.add('active');
+            // Update title and subtitle
+            const titleElement = document.querySelector('.profile-title');
+            const subtitleElement = document.querySelector('.profile-subtitle');
+            titleElement.textContent = 'Change Password';
+            subtitleElement.textContent = 'Update your password to keep your account secure';
+        }
     });
     // Add keyboard shortcuts
     document.addEventListener('keydown', function(e) {

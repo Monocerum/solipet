@@ -37,4 +37,5 @@ Route::get('/itempage', function () {
 
 
 Route::put('/user/profile', [UserController::class, 'update'])->name('user.profile.update')->middleware('auth');
+Route::put('/user/password', [UserController::class, 'updatePassword'])->name('user.password.update')->middleware('auth');
 

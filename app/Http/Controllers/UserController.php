@@ -40,4 +40,30 @@ class UserController extends Controller
 
         return back()->with('success', 'Profile updated!');
     }
+
+    public function updatePassword(Request $request)
+    {
+        $user = Auth::user();
+        $request->validate([
+            'current_password' => 'required',
+            'new_password' => [
+                'required',
+                'string',
+                'min:8',
+                'regex:/[a-z]/', // at least one lowercase
+                'regex:/[A-Z]/', // at least one uppercase
+                'regex:/[0-9]/', // at least one digit
+                'regex:/[@$!%*#?&]/', // at least one special char
+                'confirmed',
+            ],
+        ]);
+        // Check current password
+        if (!\Hash::check($request->current_password, $user->password)) {
+            return back()->with('password_error', 'Current password is incorrect.')->withInput();
+        }
+        // Update password
+        $user->password = bcrypt($request->new_password);
+        $user->save();
+        return back()->with('password_success', 'Password updated successfully!');
+    }
 } 
