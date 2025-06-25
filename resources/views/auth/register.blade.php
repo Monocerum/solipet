@@ -71,11 +71,17 @@
             box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
             height: 3em;
         }
+        
+        .confirmation-container {
+            display: flex;
+            align-items: center;
+            padding: 0 0 5% 0;
+        }
 
         #agreement {
             box-shadow: none;
-            margin: 0 1% 5% 0;
-            height: auto;
+            margin: 0 2% 0 0;
+            height: 1em;
         }
 
         .auth-btn-container {
@@ -183,8 +189,8 @@
                                 <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
                             </div>
 
-                            <div class="confirmation-container">
-                                <input type="checkbox" id="agreement">
+                            <div class="form-check confirmation-container">
+                                <input type="checkbox" class="form-check-input" id="agreement">
                                 <label for="agreement">By signing up, you agree to Solipet’s <a href="/" id="tos">Terms of Service & Privacy Policy.</a></label>
                             </div>
 
