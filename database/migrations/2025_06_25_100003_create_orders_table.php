@@ -11,12 +11,23 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->string('status')->default('pending');
-            $table->decimal('total', 8, 2);
+            $table->foreignId('product_id')->constrained()->onDelete('cascade');
+            $table->string('order_number')->unique();
+
+            // Status from the second version (more detailed)
+            $table->enum('status', ['pending', 'placed', 'preparing', 'shipping', 'delivered', 'cancelled', 'returned'])->default('pending');
+
+            $table->integer('quantity')->default(1);
+
+            // Use the larger precision just in case
+            $table->decimal('total_amount', 10, 2);
+
+            // From first migration
             $table->string('payment_method');
             $table->string('gcash_number')->nullable();
             $table->text('shipping_address')->nullable();
             $table->string('tracking_number')->nullable();
+
             $table->timestamps();
         });
     }
@@ -25,4 +36,4 @@ return new class extends Migration
     {
         Schema::dropIfExists('orders');
     }
-}; 
+};

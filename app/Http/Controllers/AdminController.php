@@ -16,7 +16,6 @@ class AdminController extends Controller
 
     public function index()
     {
-        // Get dashboard statistics
         $totalOrders = Order::count();
         $totalProducts = Product::count();
         $totalCustomers = User::where('is_admin', false)->count();

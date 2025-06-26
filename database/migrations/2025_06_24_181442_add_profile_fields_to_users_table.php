@@ -19,8 +19,13 @@ class AddProfileFieldsToUsersTable extends Migration
      */
     public function down(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn(['username', 'phone', 'gender', 'dob', 'profile_image']);
-        });
+        $columns = ['username', 'phone', 'gender', 'dob', 'profile_image'];
+        foreach ($columns as $column) {
+            if (Schema::hasColumn('users', $column)) {
+                Schema::table('users', function (Blueprint $table) use ($column) {
+                    $table->dropColumn($column);
+                });
+            }
+        }
     }
 }
