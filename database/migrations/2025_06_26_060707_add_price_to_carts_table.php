@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        // profile_image column already exists, nothing to do here.
+        // No longer needed. Price column is handled in create_carts_table.
     }
 
     /**
@@ -19,8 +19,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('profile_image');
+        Schema::table('carts', function (Blueprint $table) {
+            $table->dropColumn('price');
         });
     }
-}; 
+};

@@ -127,7 +127,7 @@
 <div class="container register-container">
     <div class="solipet-tagline-container">
         <div class="solipet-tagline">
-            <h5>YOUR PET’S NECESSITIES</h5>
+            <h5>YOUR PET'S NECESSITIES</h5>
             <h3>RIGHT INTO YOUR MAILBOX!</h3>
         </div>
     </div>
@@ -145,9 +145,22 @@
                                 <label for="name">{{ __('Name') }}</label>
                             </div>
                             <div>
-                                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" placeholder="Username | Example: sui8970" required autocomplete="name" autofocus>
+                                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" placeholder="Full Name | Example: Juan Dela Cruz" required autocomplete="name" autofocus>
 
                                 @error('name')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+
+                            <div>
+                                <label for="username">{{ __('Username') }}</label>
+                            </div>
+                            <div>
+                                <input id="username" type="text" class="form-control @error('username') is-invalid @enderror" name="username" value="{{ old('username') }}" placeholder="Username | Example: juandc" required autocomplete="username">
+
+                                @error('username')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
@@ -191,7 +204,7 @@
 
                             <div class="form-check confirmation-container">
                                 <input type="checkbox" class="form-check-input" id="agreement">
-                                <label for="agreement">By signing up, you agree to Solipet’s <a href="/" id="tos">Terms of Service & Privacy Policy.</a></label>
+                                <label for="agreement">By signing up, you agree to Solipet's <a href="/" id="tos">Terms of Service & Privacy Policy.</a></label>
                             </div>
 
                             <div class="auth-btn-container">

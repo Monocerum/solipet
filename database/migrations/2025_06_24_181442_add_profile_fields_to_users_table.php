@@ -11,13 +11,7 @@ class AddProfileFieldsToUsersTable extends Migration
      */
     public function up(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->string('username')->unique()->nullable();
-            $table->string('phone')->nullable();
-            $table->enum('gender', ['male', 'female', 'other'])->nullable();
-            $table->date('dob')->nullable();
-            $table->string('profile_image')->nullable();
-        });
+        // All columns already exist, so nothing to do here.
     }
 
     /**
