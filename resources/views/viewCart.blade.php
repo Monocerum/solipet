@@ -247,6 +247,13 @@
             font-size: 20px;
         }
 
+        
+        .delivery-icon img, .shipping-icon img {
+            width: 28px;
+            height: 28px;
+            object-fit: contain;
+        }
+        
         .checkout-note {
             font-size: 12px;
             color: #666;
@@ -928,32 +935,31 @@
             updateShippingContent(option);
         }
 
-        function updateShippingContent(deliveryMethod) {
+          function updateShippingContent(deliveryMethod) {
             const shippingIcon = document.getElementById('shippingIcon');
             const shippingText = document.getElementById('shippingText');
             const addressText = document.getElementById('addressText');
             const editAddressBtn = document.getElementById('editAddressBtn');
             
             if (deliveryMethod === 'pickup') {
-                shippingIcon.textContent = '🏠';
+                shippingIcon.innerHTML = '<img src="{{ asset('assets/pickup-icon.png') }}" alt="Pickup Icon">';
                 shippingText.textContent = 'Store Pick Up Instructions';
                 addressText.innerHTML = `
-                    <strong>Store Pick Up Instructions:</strong><br>
-                    <strong>Store Location:</strong> SoliPet Main Branch<br>
-                    <strong>Address:</strong> 456 Pet Street, Barangay San Pedro<br>
-                    Lucena City, Calabarzon 4301<br>
-                    Philippines<br>
-                    <strong>Business Hours:</strong> Monday - Sunday, 9:00 AM - 8:00 PM<br>
-                    <strong>Contact:</strong> +63 917 987 6543<br><br>
-                    <strong>Pick Up Instructions:</strong><br>
-                    • Please bring a valid ID for verification<br>
-                    • Orders will be ready for pickup within 2-3 hours<br>
-                    • You will receive an SMS notification when your order is ready<br>
-                    • Orders not picked up within 24 hours will be cancelled
+                    <strong>STORE PICK UP INSTRUCTIONS</strong><br>
+                    Your order should arrive at the preferred branch within the number of days below:<br><br>
+                    <div style="text-align:center; font-weight:bold;">Silk Residences | Maui Oasis | PUP-Manila</div>
+                    <table style="margin: 10px auto; border-collapse: collapse; min-width: 350px;">
+                        <tr style="border:1px solid #333;"><th style="border:1px solid #333; padding:6px 16px;">ORDER PLACEMENT</th><th style="border:1px solid #333; padding:6px 16px;"></th></tr>
+                        <tr><td style="border:1px solid #333; padding:6px 16px;">Monday to Thursday</td><td style="border:1px solid #333; padding:6px 16px;">2 days</td></tr>
+                        <tr><td style="border:1px solid #333; padding:6px 16px;">Friday to Saturday</td><td style="border:1px solid #333; padding:6px 16px;">3 days</td></tr>
+                        <tr><td style="border:1px solid #333; padding:6px 16px;">Sunday</td><td style="border:1px solid #333; padding:6px 16px;">2 days</td></tr>
+                        <tr><td style="border:1px solid #333; padding:6px 16px;">Public Holidays</td><td style="border:1px solid #333; padding:6px 16px;">2 - 3 days (schedule may vary)</td></tr>
+                    </table>
                 `;
-                editAddressBtn.textContent = 'Change Pickup Location';
+                editAddressBtn.style.display = 'none';
             } else {
-                shippingIcon.textContent = '🚚';
+                editAddressBtn.style.display = '';
+               shippingIcon.innerHTML = '<img src="{{ asset('assets/delivery-icon.png') }}" alt="Delivery Icon">';
                 shippingText.textContent = 'Shipping Address';
                 addressText.innerHTML = `
                     <strong>Default Shipping Address:</strong><br>
@@ -965,11 +971,9 @@
                         {{ $user->shipping_address ?? 'Address not set' }}<br>
                         Phone: {{ $user->shipping_phone ?? 'Phone not set' }}
                     @else
-                        John Doe<br>
-                        123 Main Street, Barangay San Juan<br>
-                        Lucena City, Calabarzon 4301<br>
-                        Philippines<br>
-                        Phone: +63 917 123 4567
+                        Your Name<br>
+                        Your address<br>
+                        Your phone number
                     @endif
                 `;
                 editAddressBtn.textContent = 'Edit Address';
