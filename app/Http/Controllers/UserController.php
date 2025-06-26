@@ -40,4 +40,102 @@ class UserController extends Controller
 
         return back()->with('success', 'Profile updated!');
     }
+
+    public function updatePassword(Request $request)
+    {
+        $user = Auth::user();
+        $request->validate([
+            'current_password' => 'required',
+            'new_password' => [
+                'required',
+                'string',
+                'min:8',
+                'regex:/[a-z]/', // at least one lowercase
+                'regex:/[A-Z]/', // at least one uppercase
+                'regex:/[0-9]/', // at least one digit
+                'regex:/[@$!%*#?&]/', // at least one special char
+                'confirmed',
+            ],
+        ]);
+        // Check current password
+        if (!\Hash::check($request->current_password, $user->password)) {
+            return back()->with('password_error', 'Current password is incorrect.')->withInput();
+        }
+        // Update password
+        $user->password = bcrypt($request->new_password);
+        $user->save();
+        return back()->with('password_success', 'Password updated successfully!');
+    }
+
+    public function showUserPage()
+    {
+        $user = Auth::user();
+        $orders = $user->orders()->with('items.product')->latest()->get();
+        return view('userpage', compact('user', 'orders'));
+    }
+
+    public function pay(Request $request)
+    {
+        $user = auth()->user();
+        $cart = $user->cart;
+        if ($cart) {
+            // Here you would integrate with a payment gateway and process payment
+            // For now, just clear the cart to simulate a successful payment
+            $cart->items()->delete();
+        }
+        return redirect()->route('userpage')->with('success', 'Payment successful! Your order has been placed.');
+    }
+
+    public function checkout(Request $request)
+    {
+        $request->validate([
+            'payment_method' => 'required|string',
+            'delivery_option' => 'required|string|in:shipping,pickup',
+        ]);
+        $user = auth()->user();
+        $cart = $user->cart;
+        if (!$cart || $cart->items->isEmpty()) {
+            return redirect()->route('viewCart')->with('error', 'Your cart is empty.');
+        }
+
+        $status = 'pending';
+        $shipping_address = '';
+
+        if ($request->delivery_option === 'shipping') {
+            $shipping_address = "{$user->shipping_name}\n{$user->shipping_address}\nPhone: {$user->shipping_phone}";
+        } else {
+            $shipping_address = "Store Pick Up\nSoliPet Main Branch\n456 Pet Street, Barangay San Pedro\nLucena City, Calabarzon 4301\nPhone: +63 917 987 6543";
+        }
+
+        if ($request->payment_method === 'Cash on Delivery') {
+            $status = 'to pay';
+        } elseif ($request->payment_method === 'GCash') {
+            $request->validate(['gcash_number' => 'nullable|string|max:20']);
+            $status = 'to ship';
+        }
+
+        $total = $cart->items->sum(function($item) {
+            return ($item->product->price ?? 0) * $item->quantity;
+        });
+
+        $order = \App\Models\Order::create([
+            'user_id' => $user->id,
+            'payment_method' => $request->payment_method,
+            'status' => $status,
+            'total' => $total,
+            'gcash_number' => $request->payment_method === 'GCash' ? $request->gcash_number : null,
+            'shipping_address' => $shipping_address,
+            'delivery_option' => $request->delivery_option,
+        ]);
+
+        foreach ($cart->items as $item) {
+            $order->items()->create([
+                'product_id' => $item->product_id,
+                'quantity' => $item->quantity,
+                'price' => $item->product->price ?? 0,
+            ]);
+        }
+        $cart->items()->delete();
+        return redirect()->route('userpage')->with('success', 'Order placed successfully!');
+    }
 } 

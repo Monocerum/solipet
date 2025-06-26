@@ -529,6 +529,114 @@
 .dropdown-menu {
     z-index: 2000 !important;
 }
+
+/* My Purchases Order Cards */
+.order-card {
+    background: #fff;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+}
+.order-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+}
+.order-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    border-bottom: 1px solid #eee;
+}
+.order-id {
+    font-weight: bold;
+    color: #333;
+}
+.order-status {
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+    color: #fff;
+}
+.order-status.to-pay { background: #ffc107; }
+.order-status.to-ship { background: #17a2b8; }
+.order-status.to-receive { background: #007bff; }
+.order-status.completed { background: #28a745; }
+.order-status.cancelled { background: #dc3545; }
+
+.order-date {
+    font-size: 14px;
+    color: #777;
+}
+.order-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px 20px;
+    border-bottom: 1px solid #eee;
+}
+.order-item:last-child {
+    border-bottom: none;
+}
+.order-item img {
+    width: 60px;
+    height: 60px;
+    border-radius: 8px;
+    object-fit: cover;
+}
+.item-details {
+    flex-grow: 1;
+}
+.item-details div {
+    font-weight: 500;
+    color: #333;
+}
+.item-details small {
+    color: #888;
+}
+.item-price {
+    font-weight: bold;
+    color: #333;
+}
+.order-footer {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 20px;
+    padding: 15px 20px;
+    background: #f9f9f9;
+    border-top: 1px solid #eee;
+    border-radius: 0 0 12px 12px;
+}
+.total-price {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+}
+.total-price span {
+    color:rgb(108, 82, 58);
+
+}
+.btn-primary {
+    background: #C49F7E;
+    color: rgb(0, 0, 0);
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+.btn-primary:hover {
+    background:rgb(98, 70, 45);
+    color: white;
+}
+.empty-state {
+    text-align: center;
+    padding: 40px;
+    color: #888;
+}
 </style>
 <div class="dropdown-bar">
     <div>
@@ -752,15 +860,15 @@
                             <label class="form-label">Gender</label>
                             <div class="gender-options">
                                 <div class="radio-group">
-                                    <input type="radio" class="radio-input" name="gender" value="male" id="male" {{ old('gender', $user->gender) === 'male' ? 'checked' : '' }}>
+                                    <input type="radio" class="radio-input" name="gender" value="male" id="male" {{ old('gender', $user->gender ?? null) === 'male' ? 'checked' : '' }}>
                                     <label class="radio-label" for="male">Male</label>
                                 </div>
                                 <div class="radio-group">
-                                    <input type="radio" class="radio-input" name="gender" value="female" id="female" {{ old('gender', $user->gender) === 'female' ? 'checked' : '' }}>
+                                    <input type="radio" class="radio-input" name="gender" value="female" id="female" {{ old('gender', $user->gender ?? null) === 'female' ? 'checked' : '' }}>
                                     <label class="radio-label" for="female">Female</label>
                                 </div>
                                 <div class="radio-group">
-                                    <input type="radio" class="radio-input" name="gender" value="other" id="other" {{ old('gender', $user->gender) === 'other' ? 'checked' : '' }}>
+                                    <input type="radio" class="radio-input" name="gender" value="other" id="other" {{ old('gender', $user->gender ?? null) === 'other' ? 'checked' : '' }}>
                                     <label class="radio-label" for="other">Other</label>
                                 </div>
                             </div>
@@ -802,18 +910,30 @@
             </div>
             <!-- Change Password Section -->
             <div class="content-section" id="password-section">
-                <div class="password-form">
+                @if (session('password_success'))
+                    <div class="alert alert-success" style="margin-bottom: 20px;">
+                        {{ session('password_success') }}
+                    </div>
+                @endif
+                @if (session('password_error'))
+                    <div class="alert alert-danger" style="margin-bottom: 20px;">
+                        {{ session('password_error') }}
+                    </div>
+                @endif
+                <form class="password-form" method="POST" action="{{ route('user.password.update') }}">
+                    @csrf
+                    @method('PUT')
                     <div class="form-group">
                         <label class="form-label">Current Password</label>
-                        <input type="password" class="form-input" placeholder="Enter current password">
+                        <input type="password" class="form-input" name="current_password" placeholder="Enter current password" required>
                     </div>
                     <div class="form-group">
                         <label class="form-label">New Password</label>
-                        <input type="password" class="form-input" placeholder="Enter new password">
+                        <input type="password" class="form-input" name="new_password" placeholder="Enter new password" required>
                     </div>
                     <div class="form-group">
                         <label class="form-label">Confirm Password</label>
-                        <input type="password" class="form-input" placeholder="Confirm new password">
+                        <input type="password" class="form-input" name="new_password_confirmation" placeholder="Confirm new password" required>
                     </div>
                     <div class="password-requirements">
                         <h4>Password Requirements:</h4>
@@ -824,8 +944,8 @@
                             <li>Include at least one special character</li>
                         </ul>
                     </div>
-                </div>
-                <button class="save-btn" onclick="savePassword()">Update Password</button>
+                    <button class="save-btn" type="submit">Update Password</button>
+                </form>
             </div>
             <!-- My Purchase Section -->
             <div class="content-section" id="purchase-section">
@@ -837,7 +957,183 @@
                     <div class="purchase-tab">Cancelled</div>
                     <div class="purchase-tab">Return</div>
                 </div>
-                <div class="purchase-tab-content"></div>
+                <div class="tab-content" id="my-purchases-content">
+                    <div class="tab-pane fade show active" id="to-pay" role="tabpanel">
+                        @if($orders->where('status', 'to pay')->count())
+                            @foreach($orders->where('status', 'to pay') as $order)
+                                <div class="order-card">
+                                    <div class="order-header">
+                                        <div>
+                                            <span class="order-id">Order #{{ $order->id }}</span>
+                                            <span class="order-status to-pay">{{ ucfirst($order->status) }}</span>
+                                        </div>
+                                        <div class="order-date">{{ $order->created_at->format('M d, Y') }}</div>
+                                    </div>
+                                    @foreach($order->items as $item)
+                                        <div class="order-item">
+                                            <img src="{{ asset($item->product->image ?? 'assets/dog-img.png') }}" alt="{{ $item->product->title ?? '' }}">
+                                            <div class="item-details">
+                                                <div>{{ $item->product->title ?? 'Product not found' }}</div>
+                                                <small>x{{ $item->quantity }}</small>
+                                            </div>
+                                            <div class="item-price">₱{{ number_format($item->price, 2) }}</div>
+                                        </div>
+                                    @endforeach
+                                    <div class="order-footer">
+                                        <div class="total-price">
+                                            Order Total: <span>₱{{ number_format($order->total, 2) }}</span>
+                                        </div>
+                                        <button class="btn-primary">Pay Now</button>
+                                    </div>
+                                </div>
+                            @endforeach
+                        @else
+                            <div class="empty-state">
+                                <p>No orders to pay.</p>
+                            </div>
+                        @endif
+                    </div>
+                    <div class="tab-pane fade" id="to-ship" role="tabpanel">
+                        @if($orders->where('status', 'to ship')->count())
+                            @foreach($orders->where('status', 'to ship') as $order)
+                                <div class="order-card">
+                                    <div class="order-header">
+                                        <div>
+                                            <span class="order-id">Order #{{ $order->id }}</span>
+                                            <span class="order-status to-ship">{{ ucfirst($order->status) }}</span>
+                                        </div>
+                                        <div class="order-date">{{ $order->created_at->format('M d, Y') }}</div>
+                                    </div>
+                                    @foreach($order->items as $item)
+                                        <div class="order-item">
+                                            <img src="{{ asset($item->product->image ?? 'assets/dog-img.png') }}" alt="{{ $item->product->title ?? '' }}">
+                                            <div class="item-details">
+                                                <div>{{ $item->product->title ?? 'Product not found' }}</div>
+                                                <small>x{{ $item->quantity }}</small>
+                                            </div>
+                                            <div class="item-price">₱{{ number_format($item->price, 2) }}</div>
+                                        </div>
+                                    @endforeach
+                                    <div class="order-footer">
+                                        <div class="total-price">
+                                            Order Total: <span>₱{{ number_format($order->total, 2) }}</span>
+                                        </div>
+                                        <button class="btn-primary">Track</button>
+                                    </div>
+                                </div>
+                            @endforeach
+                        @else
+                            <div class="empty-state">
+                                <p>No orders to ship.</p>
+                            </div>
+                        @endif
+                    </div>
+                    <div class="tab-pane fade" id="to-receive" role="tabpanel">
+                        @if($orders->where('status', 'to receive')->count())
+                            @foreach($orders->where('status', 'to receive') as $order)
+                                <div class="order-card">
+                                    <div class="order-header">
+                                        <div>
+                                            <span class="order-id">Order #{{ $order->id }}</span>
+                                            <span class="order-status to-receive">{{ ucfirst($order->status) }}</span>
+                                        </div>
+                                        <div class="order-date">{{ $order->created_at->format('M d, Y') }}</div>
+                                    </div>
+                                    @foreach($order->items as $item)
+                                        <div class="order-item">
+                                            <img src="{{ asset($item->product->image ?? 'assets/dog-img.png') }}" alt="{{ $item->product->title ?? '' }}">
+                                            <div class="item-details">
+                                                <div>{{ $item->product->title ?? 'Product not found' }}</div>
+                                                <small>x{{ $item->quantity }}</small>
+                                            </div>
+                                            <div class="item-price">₱{{ number_format($item->price, 2) }}</div>
+                                        </div>
+                                    @endforeach
+                                    <div class="order-footer">
+                                        <div class="total-price">
+                                            Order Total: <span>₱{{ number_format($order->total, 2) }}</span>
+                                        </div>
+                                        <button class="btn-primary">Track</button>
+                                    </div>
+                                </div>
+                            @endforeach
+                        @else
+                            <div class="empty-state">
+                                <p>No orders to receive.</p>
+                            </div>
+                        @endif
+                    </div>
+                    <div class="tab-pane fade" id="completed" role="tabpanel">
+                        @if($orders->where('status', 'completed')->count())
+                            @foreach($orders->where('status', 'completed') as $order)
+                                <div class="order-card">
+                                    <div class="order-header">
+                                        <div>
+                                            <span class="order-id">Order #{{ $order->id }}</span>
+                                            <span class="order-status completed">{{ ucfirst($order->status) }}</span>
+                                        </div>
+                                        <div class="order-date">{{ $order->created_at->format('M d, Y') }}</div>
+                                    </div>
+                                    @foreach($order->items as $item)
+                                        <div class="order-item">
+                                            <img src="{{ asset($item->product->image ?? 'assets/dog-img.png') }}" alt="{{ $item->product->title ?? '' }}">
+                                            <div class="item-details">
+                                                <div>{{ $item->product->title ?? 'Product not found' }}</div>
+                                                <small>x{{ $item->quantity }}</small>
+                                            </div>
+                                            <div class="item-price">₱{{ number_format($item->price, 2) }}</div>
+                                        </div>
+                                    @endforeach
+                                    <div class="order-footer">
+                                        <div class="total-price">
+                                            Order Total: <span>₱{{ number_format($order->total, 2) }}</span>
+                                        </div>
+                                        <button class="btn-primary">View</button>
+                                    </div>
+                                </div>
+                            @endforeach
+                        @else
+                            <div class="empty-state">
+                                <p>No completed orders.</p>
+                            </div>
+                        @endif
+                    </div>
+                    <div class="tab-pane fade" id="cancelled" role="tabpanel">
+                        @if($orders->where('status', 'cancelled')->count())
+                            @foreach($orders->where('status', 'cancelled') as $order)
+                                <div class="order-card">
+                                    <div class="order-header">
+                                        <div>
+                                            <span class="order-id">Order #{{ $order->id }}</span>
+                                            <span class="order-status cancelled">{{ ucfirst($order->status) }}</span>
+                                        </div>
+                                        <div class="order-date">{{ $order->created_at->format('M d, Y') }}</div>
+                                    </div>
+                                    @foreach($order->items as $item)
+                                        <div class="order-item">
+                                            <img src="{{ asset($item->product->image ?? 'assets/dog-img.png') }}" alt="{{ $item->product->title ?? '' }}">
+                                            <div class="item-details">
+                                                <div>{{ $item->product->title ?? 'Product not found' }}</div>
+                                                <small>x{{ $item->quantity }}</small>
+                                            </div>
+                                            <div class="item-price">₱{{ number_format($item->price, 2) }}</div>
+                                        </div>
+                                    @endforeach
+                                    <div class="order-footer">
+                                        <div class="total-price">
+                                            Order Total: <span>₱{{ number_format($order->total, 2) }}</span>
+                                        </div>
+                                        <button class="btn-primary">View</button>
+                                    </div>
+                                </div>
+                            @endforeach
+                        @else
+                            <div class="empty-state">
+                                <p>No cancelled orders.</p>
+                            </div>
+                        @endif
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -874,30 +1170,25 @@
         }
     }
     // Handle navigation with content switching
-    document.querySelectorAll('.sidebaritem').forEach(item => {
+    document.querySelectorAll('.sidebar-item').forEach(item => {
         item.addEventListener('click', function() {
             document.querySelectorAll('.sidebar-item').forEach(nav => nav.classList.remove('active'));
             this.classList.add('active');
-            
             // Hide all content sections
             document.querySelectorAll('.content-section').forEach(section => {
                 section.classList.remove('active');
             });
-            
             // Show selected content section
             const section = this.getAttribute('data-section');
             const targetSection = document.getElementById(section + '-section');
             if (targetSection) {
-                // Add a small delay for smooth transition
                 setTimeout(() => {
                     targetSection.classList.add('active');
                 }, 100);
             }
-            
             // Update page title and subtitle based on selection
             const titleElement = document.querySelector('.profile-title');
             const subtitleElement = document.querySelector('.profile-subtitle');
-            
             switch(section) {
                 case 'profile':
                     titleElement.textContent = 'My Account - Profile';
@@ -912,8 +1203,6 @@
                     subtitleElement.textContent = 'View your order history and track current purchases';
                     break;
             }
-            
-            // Add subtle animation effect
             this.style.transform = 'scale(0.95)';
             setTimeout(() => {
                 this.style.transform = '';
@@ -986,16 +1275,33 @@
     // Initialize everything when page loads
     document.addEventListener('DOMContentLoaded', function() {
         initializeDateSelectors();
-        
         // Add subtle entrance animation
         document.querySelector('.profile-card').style.opacity = '0';
         document.querySelector('.profile-card').style.transform = 'translateY(20px)';
-        
         setTimeout(() => {
             document.querySelector('.profile-card').style.transition = 'all 0.6s ease';
             document.querySelector('.profile-card').style.opacity = '1';
             document.querySelector('.profile-card').style.transform = 'translateY(0)';
         }, 100);
+
+        // If there are password errors, show the password section
+        var hasPasswordError = false;
+        @if ($errors->has('current_password') || $errors->has('new_password') || session('password_error'))
+            hasPasswordError = true;
+        @endif
+        if (hasPasswordError) {
+            // Remove active from all sidebar items and sections
+            document.querySelectorAll('.sidebar-item').forEach(nav => nav.classList.remove('active'));
+            document.querySelectorAll('.content-section').forEach(section => section.classList.remove('active'));
+            // Activate password section
+            document.querySelector('.sidebar-item[data-section="password"]').classList.add('active');
+            document.getElementById('password-section').classList.add('active');
+            // Update title and subtitle
+            const titleElement = document.querySelector('.profile-title');
+            const subtitleElement = document.querySelector('.profile-subtitle');
+            titleElement.textContent = 'Change Password';
+            subtitleElement.textContent = 'Update your password to keep your account secure';
+        }
     });
     // Add keyboard shortcuts
     document.addEventListener('keydown', function(e) {
