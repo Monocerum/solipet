@@ -5,6 +5,8 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\PetController;
+use App\Http\Controllers\AdminController;
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -36,6 +38,9 @@ Route::get('/itempage', function () {
     return view('itempage'); // corresponds to resources/views/itempage.blade.php
 })->name('itempage');
 
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::get('/admin', [AdminController::class, 'index'])->name('admin.dashboard');
+});
 
 Route::put('/user/profile', [UserController::class, 'update'])->name('user.profile.update')->middleware('auth');
 
