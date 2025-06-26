@@ -65,6 +65,17 @@
         .cart-icon {
             height: 28px;
             vertical-align: middle;
+            transition: transform 0.2s;
+        }
+        .cart-icon:hover {
+            transform: scale(1.15) rotate(-8deg);
+        }
+
+        /* Add hover effect for dropdown toggle */
+        .nav-link.dropdown-toggle.nav-link-custom:hover {
+            color: #d4a574 !important;
+            background-color: rgba(242, 213, 188, 0.08);
+            text-decoration: none;
         }
 
         /* Custom beige burger menu styles */
@@ -347,7 +358,7 @@
                                 </div>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('viewCart') }}" style="color: #f2d5bc; font-size: 1.25rem; font-family: 'Manrope', sans-serif; position: relative;">
+                                <a class="nav-link cart-icon" href="{{ route('viewCart') }}" style="color: #f2d5bc; font-size: 1.25rem; font-family: 'Manrope', sans-serif; position: relative;">
                                     <img src="{{ asset('assets/cart.png') }}" alt="Cart" style="height: 28px; vertical-align: middle;">
                                     @if(isset($cartCount) && $cartCount > 0)
                                         <span style="position: absolute; top: 0; right: 0; background: #c0392b; color: #fff; border-radius: 50%; padding: 2px 7px; font-size: 12px;">{{ $cartCount }}</span>

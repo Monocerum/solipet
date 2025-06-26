@@ -242,6 +242,13 @@
 
 .item-card {
     border: 4px solid #8b4513;
+    transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+}
+.item-card:hover {
+    border-color: #dcb99c;
+    background:rgb(223, 133, 69);
+    box-shadow: 0 6px 18px rgba(107,52,16,0.18);
+    z-index: 3;
 }
 
 .item-image {

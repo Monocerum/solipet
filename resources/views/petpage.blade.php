@@ -85,6 +85,13 @@ use Illuminate\Support\Facades\DB;
     box-shadow: 0 4px 8px rgba(0,0,0,0.3);
     overflow: hidden;
     position: relative;
+    transition: transform 0.18s cubic-bezier(.4,2,.6,1), box-shadow 0.18s cubic-bezier(.4,2,.6,1), border-color 0.18s;
+}
+.item-card:hover, .item-card:focus {
+    transform: translateY(-8px) scale(1.03);
+    box-shadow: 0 8px 24px rgba(139,69,19,0.25), 0 2px 8px rgba(0,0,0,0.12);
+    border-color: #c97d3d;
+    z-index: 2;
 }
 
 .item-image {
