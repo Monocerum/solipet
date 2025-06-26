@@ -488,7 +488,7 @@
     color: #d4af37;
 }
 .view-details-btn {
-    background: linear-gradient(135deg, #4ecdc4, #44b3a8);
+    background: linear-gradient(135deg,rgb(168, 152, 122),rgb(186, 146, 72));
     color: white;
     border: none;
     padding: 8px 16px;
@@ -747,19 +747,13 @@
                         Shop by Pet
                     </a>
                     <div class="dropdown-menu dropdown-menu-start" aria-labelledby="navbarDropdown5">
-                        <a class="dropdown-item" href="{{ route('logout') }}"
-                            onclick="event.preventDefault();
-                                document.getElementById('logout-form').submit();">
+                        <a class="dropdown-item" href="{{ route('petpage', ['pet_type' => 'cat']) }}">
                             {{ __('Cat') }}
                         </a>
-                        <a class="dropdown-item" href="{{ route('logout') }}"
-                            onclick="event.preventDefault();
-                                document.getElementById('logout-form').submit();">
+                        <a class="dropdown-item" href="{{ route('petpage', ['pet_type' => 'dog']) }}">
                             {{ __('Dog') }}
                         </a>
-                        <a class="dropdown-item" href="{{ route('logout') }}"
-                            onclick="event.preventDefault();
-                                document.getElementById('logout-form').submit();">
+                        <a class="dropdown-item" href="{{ route('petpage', ['pet_type' => 'small_pet']) }}">
                             {{ __('Small Pet') }}
                         </a>
                     </div>

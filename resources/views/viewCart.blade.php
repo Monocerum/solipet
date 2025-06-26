@@ -510,19 +510,13 @@
                         Shop by Pet
                     </a>
                     <div class="dropdown-menu dropdown-menu-start" aria-labelledby="navbarDropdown5">
-                        <a class="dropdown-item" href="{{ route('logout') }}"
-                            onclick="event.preventDefault();
-                                document.getElementById('logout-form').submit();">
+                        <a class="dropdown-item" href="{{ route('petpage', ['pet_type' => 'cat']) }}">
                             {{ __('Cat') }}
                         </a>
-                        <a class="dropdown-item" href="{{ route('logout') }}"
-                            onclick="event.preventDefault();
-                                document.getElementById('logout-form').submit();">
+                        <a class="dropdown-item" href="{{ route('petpage', ['pet_type' => 'dog']) }}">
                             {{ __('Dog') }}
                         </a>
-                        <a class="dropdown-item" href="{{ route('logout') }}"
-                            onclick="event.preventDefault();
-                                document.getElementById('logout-form').submit();">
+                        <a class="dropdown-item" href="{{ route('petpage', ['pet_type' => 'small_pet']) }}">
                             {{ __('Small Pet') }}
                         </a>
                     </div>
@@ -581,11 +575,11 @@
 
             <div class="delivery-options">
                 <button class="delivery-option active" onclick="selectDelivery('shipping')">
-                    <div class="delivery-icon">🚚</div>
+                    <div class="delivery-icon"><img src="{{ asset('assets/delivery-icon.png') }}" alt="Delivery Icon"></div>
                     <div>Shipping</div>
                 </button>
                 <button class="delivery-option" onclick="selectDelivery('pickup')">
-                    <div class="delivery-icon">🏠</div>
+                    <div class="delivery-icon"><img src="{{ asset('assets/pickup-icon.png') }}" alt="Pickup Icon"></div>
                     <div>Store Pick Up</div>
                 </button>
             </div>
@@ -594,7 +588,7 @@
                 Please click the checkout button to continue.
             </div>
 
-            <form method="POST" action="{{ route('checkout') }}" style="margin:0;">
+            <form method="POST" action="{{ route('checkout') }}" style="margin:0;" id="checkoutForm">
                 @csrf
                 <input type="hidden" name="delivery_option" id="delivery_option" value="shipping">
                 <div style="margin-bottom: 15px;">
@@ -612,7 +606,7 @@
     </div>
 
     <div class="shipping-section" onclick="toggleShipping()">
-        <div class="shipping-icon" id="shippingIcon">🚚</div>
+        <div class="shipping-icon" id="shippingIcon"><img src="{{ asset('assets/delivery-icon.png') }}" alt="Delivery Icon"></div>
         <div class="shipping-text" id="shippingText">Shipping Address</div>
         <div class="dropdown-arrow" id="dropdownArrow">▼</div>
     </div>
@@ -628,11 +622,9 @@
                 {{ $user->shipping_address ?? 'Address not set' }}<br>
                 Phone: {{ $user->shipping_phone ?? 'Phone not set' }}
             @else
-                John Doe<br>
-                123 Main Street, Barangay San Juan<br>
-                Lucena City, Calabarzon 4301<br>
-                Philippines<br>
-                Phone: +63 917 123 4567
+                Your Name<br>
+                Your address<br>
+                Your phone number
             @endif
         </div>
         <button class="edit-address-btn" id="editAddressBtn" onclick="editAddress()">Edit Address</button>
@@ -666,6 +658,14 @@
                     <button type="button" class="btn-cancel" onclick="closeAddressModal()">Cancel</button>
                 </div>
             </form>
+        </div>
+    </div>
+
+    <!-- Modal for empty cart -->
+    <div id="emptyCartModal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.4); z-index:9999; justify-content:center; align-items:center;">
+        <div style="background:#fff; padding:32px 40px; border-radius:12px; box-shadow:0 4px 24px rgba(0,0,0,0.2); text-align:center;">
+            <div style="font-size:20px; font-weight:bold; margin-bottom:16px; color:#8B4513;">No item in the cart</div>
+            <button onclick="document.getElementById('emptyCartModal').style.display='none'" style="margin-top:12px; padding:8px 24px; border:none; border-radius:6px; background:#8B4513; color:#fff; font-size:16px; cursor:pointer;">OK</button>
         </div>
     </div>
 
@@ -753,25 +753,24 @@
             const editAddressBtn = document.getElementById('editAddressBtn');
             
             if (deliveryMethod === 'pickup') {
-                shippingIcon.textContent = '🏠';
+                shippingIcon.innerHTML = '<img src="{{ asset('assets/pickup-icon.png') }}" alt="Pickup Icon">';
                 shippingText.textContent = 'Store Pick Up Instructions';
                 addressText.innerHTML = `
-                    <strong>Store Pick Up Instructions:</strong><br>
-                    <strong>Store Location:</strong> SoliPet Main Branch<br>
-                    <strong>Address:</strong> 456 Pet Street, Barangay San Pedro<br>
-                    Lucena City, Calabarzon 4301<br>
-                    Philippines<br>
-                    <strong>Business Hours:</strong> Monday - Sunday, 9:00 AM - 8:00 PM<br>
-                    <strong>Contact:</strong> +63 917 987 6543<br><br>
-                    <strong>Pick Up Instructions:</strong><br>
-                    • Please bring a valid ID for verification<br>
-                    • Orders will be ready for pickup within 2-3 hours<br>
-                    • You will receive an SMS notification when your order is ready<br>
-                    • Orders not picked up within 24 hours will be cancelled
+                    <strong>STORE PICK UP INSTRUCTIONS</strong><br>
+                    Your order should arrive at the preferred branch within the number of days below:<br><br>
+                    <div style="text-align:center; font-weight:bold;">Silk Residences | Maui Oasis | PUP-Manila</div>
+                    <table style="margin: 10px auto; border-collapse: collapse; min-width: 350px;">
+                        <tr style="border:1px solid #333;"><th style="border:1px solid #333; padding:6px 16px;">ORDER PLACEMENT</th><th style="border:1px solid #333; padding:6px 16px;"></th></tr>
+                        <tr><td style="border:1px solid #333; padding:6px 16px;">Monday to Thursday</td><td style="border:1px solid #333; padding:6px 16px;">2 days</td></tr>
+                        <tr><td style="border:1px solid #333; padding:6px 16px;">Friday to Saturday</td><td style="border:1px solid #333; padding:6px 16px;">3 days</td></tr>
+                        <tr><td style="border:1px solid #333; padding:6px 16px;">Sunday</td><td style="border:1px solid #333; padding:6px 16px;">2 days</td></tr>
+                        <tr><td style="border:1px solid #333; padding:6px 16px;">Public Holidays</td><td style="border:1px solid #333; padding:6px 16px;">2 - 3 days (schedule may vary)</td></tr>
+                    </table>
                 `;
-                editAddressBtn.textContent = 'Change Pickup Location';
+                editAddressBtn.style.display = 'none';
             } else {
-                shippingIcon.textContent = '🚚';
+                editAddressBtn.style.display = '';
+               shippingIcon.innerHTML = '<img src="{{ asset('assets/delivery-icon.png') }}" alt="Delivery Icon">';
                 shippingText.textContent = 'Shipping Address';
                 addressText.innerHTML = `
                     <strong>Default Shipping Address:</strong><br>
@@ -783,11 +782,9 @@
                         {{ $user->shipping_address ?? 'Address not set' }}<br>
                         Phone: {{ $user->shipping_phone ?? 'Phone not set' }}
                     @else
-                        John Doe<br>
-                        123 Main Street, Barangay San Juan<br>
-                        Lucena City, Calabarzon 4301<br>
-                        Philippines<br>
-                        Phone: +63 917 123 4567
+                        Your Name<br>
+                        Your address<br>
+                        Your phone number
                     @endif
                 `;
                 editAddressBtn.textContent = 'Edit Address';
@@ -827,6 +824,14 @@
         function closeAddressModal() {
             document.getElementById('addressModal').style.display = 'none';
         }
+
+        document.getElementById('checkoutForm').addEventListener('submit', function(e) {
+            var items = document.querySelectorAll('.product-item');
+            if (items.length === 0) {
+                e.preventDefault();
+                document.getElementById('emptyCartModal').style.display = 'flex';
+            }
+        });
     </script>
 
 
