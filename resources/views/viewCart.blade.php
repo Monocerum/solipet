@@ -502,6 +502,12 @@
                 flex-direction: column;
             }
         }
+
+        .delivery-icon img, .shipping-icon img {
+            width: 28px;
+            height: 28px;
+            object-fit: contain;
+        }
 </style>
 <div class="home-container">
         <div class="dropdown-bar">
