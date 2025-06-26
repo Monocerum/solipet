@@ -96,6 +96,10 @@
         }
     }
 
+.dog-peek {
+    width: 100%;
+}
+
 .hero-text {
     height: 100vh;
     display: flex;
@@ -141,6 +145,7 @@
     color: #6B3410;
     text-transform: uppercase;
     letter-spacing: 1px;
+    text-align: center;
 }
 
 .pet-card-container {
@@ -153,7 +158,7 @@
 .pet-box {
     position: relative;
     cursor: pointer;
-    margin-top: -38em;
+    margin-top: -41em;
 }
 
 .pet-frame {
@@ -179,15 +184,42 @@
 }
 
 .shop-button {
-    background-color: #6B3410;
+    background: linear-gradient(123.61deg, #92491C 24.06%, #F7DBB4 122.75%);
     color: white;
     border: none;
     width: 50%;
-    padding: 6px 12px;
+    padding: 10px 16px;
     border-radius: 10px;
     font-size: 0.9rem;
-    background: linear-gradient(123.61deg, #92491C 24.06%, #F7DBB4 122.75%);
+    font-weight: bold;
     text-decoration: none;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    position: relative;
+    overflow: hidden;
+}
+
+.shop-button::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 300%;
+    top: -100%;
+    left: 0;
+    background: rgba(255, 255, 255, 0.2);
+    transform: rotate(25deg);
+    transition: top 0.5s ease;
+    z-index: 0;
+}
+
+.shop-button:hover::after {
+    top: 100%;
+}
+
+.shop-button:hover {
+    background: linear-gradient(123.61deg, #F7DBB4 24.06%, #92491C 122.75%);
+    transform: scale(1.05) rotate(-0.5deg);
+    box-shadow: 0 6px 12px rgba(146, 73, 28, 0.4);
 }
 
 .dog-pet-type {
@@ -205,8 +237,7 @@
     margin-top: 2em;
 }
 
-
-.item-card{
+.item-card {
     border: 4px solid #8b4513;
 }
 
@@ -327,9 +358,8 @@
             </div>
         </section>
         <div class="selection-area">
-            <h2 class="selection-title">Which Pet Do You Want to Shop For?</h2>
             <div class="background-pet">
-                <img src="{{ asset('assets/dog-peek.png') }}" alt="Dog face background">
+                <img src="{{ asset('assets/dog-peek.png') }}" alt="Dog face background" class="dog-peek">
             </div>
         </div>
         <div class="pet-card-container">
