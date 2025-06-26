@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.header')
 <style>
 .dropdown-bar {
     margin-bottom: 20px;
@@ -305,6 +305,10 @@
     font-size: 9px;
 }
 
+.promos {
+    margin: 0 5%;
+}
+
 .promos h2 {
     display: flex;
     flex-direction: column;
@@ -313,6 +317,10 @@
     color: #FFE3CA;
     font-size: 3.3em;
     margin: 0;
+}
+
+h6 {
+    margin: 0 5%;
 }
 
 @media screen and (max-width: 1465px) {
@@ -440,10 +448,14 @@
         }
     }
 
+    #dogContainer {
+        margin-top: -15em;
+    }
+
     .pet-box {
         display: flex;
         justify-content: center;
-        width: 80%;
+        width: 90%;
 
         img {
             width: 80%;
@@ -485,6 +497,16 @@
     .shop-button {
         padding: 2%;
         border-radius: 0.2em;
+    }
+
+    #dogContainer {
+        margin-top: -10em;
+    }
+
+    .carousel-track {
+        .carousel-item {
+            width: 250px;
+        }
     }
 }
 
@@ -748,7 +770,6 @@
                 display: none; 
             }
             .carousel-item {
-                min-width: 300px;
                 width: 300px;
                 margin: 0 10px;
                 background: linear-gradient(135deg, #f4d4b8, #e8c4a0);
