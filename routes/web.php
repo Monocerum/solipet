@@ -6,6 +6,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\PetController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\AdminController;
 
 Route::get('/', function () {
     return view('welcome');
