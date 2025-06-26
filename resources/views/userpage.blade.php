@@ -950,8 +950,8 @@
                 </div>
                 <div class="tab-content" id="my-purchases-content">
                     <div class="tab-pane fade show active" id="to-pay" role="tabpanel" aria-labelledby="to-pay-tab">
-                        @if($orders->where('status', 'to pay')->count())
-                            @foreach($orders->where('status', 'to pay') as $order)
+                        @if($orders->where('status', 'pending')->count())
+                            @foreach($orders->where('status', 'pending') as $order)
                                 <div class="order-card">
                                     <div class="order-header">
                                         <div>
@@ -987,8 +987,8 @@
                         @endif
                     </div>
                     <div class="tab-pane fade" id="to-ship" role="tabpanel">
-                        @if($orders->where('status', 'to ship')->count())
-                            @foreach($orders->where('status', 'to ship') as $order)
+                        @if($orders->where('status', 'shipping')->count())
+                            @foreach($orders->where('status', 'shipping') as $order)
                                 <div class="order-card">
                                     <div class="order-header">
                                         <div>

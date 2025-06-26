@@ -108,10 +108,10 @@ class UserController extends Controller
         }
 
         if ($request->payment_method === 'Cash on Delivery') {
-            $status = 'to pay';
+            $status = 'pending';
         } elseif ($request->payment_method === 'GCash') {
             $request->validate(['gcash_number' => 'nullable|string|max:20']);
-            $status = 'to ship';
+            $status = 'shipping';
         }
 
         $total = $cart->items->sum(function($item) {
@@ -122,7 +122,7 @@ class UserController extends Controller
             'user_id' => $user->id,
             'payment_method' => $request->payment_method,
             'status' => $status,
-            'total' => $total,
+            'total_amount' => $total,
             'gcash_number' => $request->payment_method === 'GCash' ? $request->gcash_number : null,
             'shipping_address' => $shipping_address,
             'delivery_option' => $request->delivery_option,
@@ -139,7 +139,7 @@ class UserController extends Controller
 
         $redirect = redirect()->route('userpage')->with('success', 'Order placed successfully!');
 
-        if ($status === 'to ship' || $status === 'to pay') {
+        if ($status === 'shipping' || $status === 'pending') {
              $redirect->with('active_section', 'purchase')
                       ->with('active_purchase_tab', str_replace(' ', '-', $status));
         }

@@ -12,7 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('orders', function (Blueprint $table) {
-            $table->string('order_number')->unique()->after('id');
+            $table->dropForeign(['product_id']);
+            $table->dropColumn('product_id');
         });
     }
 
@@ -22,7 +23,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('orders', function (Blueprint $table) {
-            $table->dropColumn('order_number');
+            $table->foreignId('product_id')->constrained()->onDelete('cascade');
         });
     }
 };

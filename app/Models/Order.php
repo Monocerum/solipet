@@ -13,7 +13,7 @@ class Order extends Model
         'user_id',
         'payment_method',
         'status',
-        'total',
+        'total_amount',
         'gcash_number',
         'shipping_address',
         'delivery_option',
