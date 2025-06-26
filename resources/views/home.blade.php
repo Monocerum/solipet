@@ -1,4 +1,4 @@
-@extends('layouts.header')
+@extends('layouts.app')
 <style>
 .dropdown-bar {
     margin-bottom: 20px;
@@ -65,9 +65,11 @@
 .hero-img {
     position: relative;
     z-index: 3;
+    display: flex;
+    justify-content: flex-end;
 
     img {
-        margin-bottom: -150px;
+        margin-bottom: -400px;
     }
 }
 
@@ -87,6 +89,7 @@
         h3 {
             font-size: 2.1em;
             margin: 0;
+            text-align: end;
         }
 
         h5 {
@@ -125,7 +128,6 @@
     mask-repeat: no-repeat;
     -webkit-mask-position: top;
     mask-position: top;
-    padding-top: 150px;
     z-index: 1;
     dispaly: flex;
     
@@ -153,11 +155,12 @@
     justify-content: center;
     z-index: 3;
     align-items: flex-end;
+    flex-wrap: wrap;
+    margin: 0 5%;
 }
 
 .pet-box {
     position: relative;
-    cursor: pointer;
     margin-top: -41em;
 }
 
@@ -303,14 +306,188 @@
 }
 
 .promos h2 {
-        display: flex;
-        flex-direction: column;
-        font-family: "Irish Grover", sans-serif;
-        align-items: center;
-        color: #FFE3CA;
-        font-size: 3.3em;
-        margin: 0;
+    display: flex;
+    flex-direction: column;
+    font-family: "Irish Grover", sans-serif;
+    align-items: center;
+    color: #FFE3CA;
+    font-size: 3.3em;
+    margin: 0;
 }
+
+@media screen and (max-width: 1465px) {
+    #dogContainer {
+        margin-top: -30em;
+    }
+
+    #catContainer {
+        margin-top: -30em;
+    }
+
+    #smallPetContainer {
+        margin-top: -5em;
+    }
+
+    .solipet-logo {
+        width: 25em;
+    }
+}
+
+@media screen and (max-width: 1250px) {
+    .solipet-logo {
+        width: 20em;
+    }
+
+    .hero-img {
+        img {
+            width: 90%;
+            margin-bottom: -500px;
+        }
+    }
+}
+
+@media screen and (max-width: 1050px) {
+    .solipet-logo {
+        width: 15em;
+    }
+
+    .hero-section {
+        min-height: 60vh;
+
+    }
+
+    .hero-img {
+        justify-content: center;
+
+        img {
+            width: 60%;
+            margin-bottom: -350px;
+        }
+    }
+
+    .solipet-tagline {
+        h3 {
+            font-size: 1.5em;
+            margin: 0;
+            text-align: end;
+        }
+
+        h5 {
+            font-size: 1.2em;
+            margin: 0;
+            text-align: end;
+        }
+    }
+    
+    .hero-text {
+        width: 50%;
+        height: 50vh;
+    }
+}
+
+@media screen and (max-width: 960px) {
+    #dogContainer {
+        margin-top: -20em;
+    }
+
+    #catContainer {
+        margin-top: -2em;
+    }
+
+    #smallPetContainer {
+        margin-top: -5em;
+    }
+}
+
+@media screen and (max-width: 800px) {
+    .hero-section {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .solipet-logo {
+        width: 25em;
+    }
+
+    .hero-img {
+        img {
+            width: 60%;
+            margin-bottom: -180px;
+        }
+    }
+}
+
+@media screen and (max-width: 800px) {
+    .solipet-logo {
+        width: 20em;
+    }
+}
+
+@media screen and (max-width: 700px) {
+    .hero-img {
+        img {
+            width: 60%;
+            margin-bottom: -160px;
+        }
+    }
+}
+
+@media screen and (max-width: 550px) {
+    .hero-img {
+        img {
+            width: 60%;
+            margin-bottom: -125px;
+        }
+    }
+
+    .pet-box {
+        display: flex;
+        justify-content: center;
+        width: 80%;
+
+        img {
+            width: 80%;
+        }
+    }
+
+    .pet-img {
+        width: 50%;
+    }
+
+    .hero-text {
+        width: 50%;
+        height: 30vh;
+    }
+}
+
+@media screen and (max-width: 470px) {
+    .pet-name {
+        margin: 0.5rem 0;
+    }
+}
+
+@media screen and (max-width: 450px) {
+    .solipet-logo {
+        width: 15em;
+    }
+
+    .hero-img {
+        img {
+            width: 60%;
+            margin-bottom: -100px;
+        }
+    }
+
+    #dogContainer {
+        margin-top: -15em;
+    }
+
+    .shop-button {
+        padding: 2%;
+        border-radius: 0.2em;
+    }
+}
+
 
 </style>
 
@@ -363,7 +540,7 @@
             </div>
         </div>
         <div class="pet-card-container">
-            <div class="pet-box">
+            <div class="pet-box" id="dogContainer">
                 <img src="{{ asset('assets/dog-container.png') }}" class="pet-frame" alt="Dog Frame">
                 <div class="pet-content">
                     <div class="pet-img">
@@ -373,7 +550,7 @@
                     <a href="{{ route('login') }}" class="shop-button">SHOP NOW</a>
                 </div>
             </div>
-            <div class="pet-box">
+            <div class="pet-box" id="catContainer">
                 <img src="{{ asset('assets/cat-container.png') }}" class="pet-frame" alt="Cat Frame">
                 <div class="pet-content">
                     <div class="pet-img">
@@ -383,7 +560,7 @@
                     <a href="{{ route('login') }}" class="shop-button">SHOP NOW</a>
                 </div>
             </div>
-            <div class="pet-box">
+            <div class="pet-box" id="smallPetContainer">
                 <img src="{{ asset('assets/small-pet-container.png') }}" class="pet-frame" alt="Rabbit Frame">
                 <div class="pet-content">
                     <div class="pet-img">
