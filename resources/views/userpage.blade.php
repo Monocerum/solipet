@@ -1011,7 +1011,6 @@
                                         <div class="total-price">
                                             Order Total: <span>₱{{ number_format($order->total_amount, 2) }}</span>
                                         </div>
-                                        <button class="btn-primary">Track</button>
                                     </div>
                                 </div>
                             @endforeach
