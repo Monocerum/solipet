@@ -333,109 +333,109 @@
     </aside>
     <div style="flex: 1;">
 <div class="item-container">
-@php
-    // Sample data for demonstration. Replace with $items from your controller/database.
-    $sampleCatItems = [
-        [
-            'title' => 'Sample Cat Food',
-            'price' => 299.00,
-            'savings' => 'Save 10%!',
-            'ratings' => 4,
-            'sold_count' => 1234,
-        ],
-        [
-            'title' => 'Tasty Cat Treats',
-            'price' => 149.00,
-            'savings' => 'Save 5%!',
-            'ratings' => 3,
-            'sold_count' => 567,
-        ],
-        [
-            'title' => 'Premium Cat Kibble',
-            'price' => 399.00,
-            'savings' => 'Save 15%!',
-            'ratings' => 5,
-            'sold_count' => 2001,
-        ],
-    ];
+    @php
+        // Sample data for demonstration. Replace with $items from your controller/database.
+        $sampleCatItems = [
+            [
+                'title' => 'Sample Cat Food',
+                'price' => 299.00,
+                'savings' => 'Save 10%!',
+                'ratings' => 4,
+                'sold_count' => 1234,
+            ],
+            [
+                'title' => 'Tasty Cat Treats',
+                'price' => 149.00,
+                'savings' => 'Save 5%!',
+                'ratings' => 3,
+                'sold_count' => 567,
+            ],
+            [
+                'title' => 'Premium Cat Kibble',
+                'price' => 399.00,
+                'savings' => 'Save 15%!',
+                'ratings' => 5,
+                'sold_count' => 2001,
+            ],
+        ];
 
-    $sampleDogItems = [
-        [
-            'title' => 'Sample Dog Food',
-            'price' => 350.00,
-            'savings' => 'Save 8%!',
-            'ratings' => 5,
-            'sold_count' => 980,
-        ],
-        [
-            'title' => 'Tasty Dog Treats',
-            'price' => 120.00,
-            'savings' => 'Save 3%!',
-            'ratings' => 4,
-            'sold_count' => 430,
-        ],
-        [
-            'title' => 'Premium Dog Kibble',
-            'price' => 499.00,
-            'savings' => 'Save 12%!',
-            'ratings' => 5,
-            'sold_count' => 1500,
-        ],
-    ];
+        $sampleDogItems = [
+            [
+                'title' => 'Sample Dog Food',
+                'price' => 350.00,
+                'savings' => 'Save 8%!',
+                'ratings' => 5,
+                'sold_count' => 980,
+            ],
+            [
+                'title' => 'Tasty Dog Treats',
+                'price' => 120.00,
+                'savings' => 'Save 3%!',
+                'ratings' => 4,
+                'sold_count' => 430,
+            ],
+            [
+                'title' => 'Premium Dog Kibble',
+                'price' => 499.00,
+                'savings' => 'Save 12%!',
+                'ratings' => 5,
+                'sold_count' => 1500,
+            ],
+        ];
 
-    $sampleSmallPetItems = [
-        [
-            'title' => 'Sample Hamster Food',
-            'price' => 99.00,
-            'savings' => 'Save 5%!',
-            'ratings' => 4,
-            'sold_count' => 300,
-        ],
-        [
-            'title' => 'Small Pet Treats',
-            'price' => 59.00,
-            'savings' => 'Save 2%!',
-            'ratings' => 3,
-            'sold_count' => 120,
-        ],
-        [
-            'title' => 'Premium Rabbit Pellets',
-            'price' => 199.00,
-            'savings' => 'Save 10%!',
-            'ratings' => 5,
-            'sold_count' => 450,
-        ],
-    ];
+        $sampleSmallPetItems = [
+            [
+                'title' => 'Sample Hamster Food',
+                'price' => 99.00,
+                'savings' => 'Save 5%!',
+                'ratings' => 4,
+                'sold_count' => 300,
+            ],
+            [
+                'title' => 'Small Pet Treats',
+                'price' => 59.00,
+                'savings' => 'Save 2%!',
+                'ratings' => 3,
+                'sold_count' => 120,
+            ],
+            [
+                'title' => 'Premium Rabbit Pellets',
+                'price' => 199.00,
+                'savings' => 'Save 10%!',
+                'ratings' => 5,
+                'sold_count' => 450,
+            ],
+        ];
 
-    // Repeat the items to fill the page (for demo, repeat 4 times)
-    $items = [];
-    $petType = request('pet_type');
-    if ($petType === 'dog') {
-        for ($i = 0; $i < 4; $i++) {
-            foreach ($sampleDogItems as $item) {
-                $items[] = $item;
+        // Repeat the items to fill the page (for demo, repeat 4 times)
+        $items = [];
+        $petType = request('pet_type');
+        if ($petType === 'dog') {
+            for ($i = 0; $i < 4; $i++) {
+                foreach ($sampleDogItems as $item) {
+                    $items[] = $item;
+                }
             }
-        }
-        $title = "Items for Dogs";
-        $fixedImg = 'assets/dog-img.png';
-    } elseif ($petType === 'small_pet') {
-        for ($i = 0; $i < 4; $i++) {
-            foreach ($sampleSmallPetItems as $item) {
-                $items[] = $item;
+            $title = "Items for Dogs";
+            $fixedImg = 'assets/dog-img.png';
+        } elseif ($petType === 'small_pet') {
+            for ($i = 0; $i < 4; $i++) {
+                foreach ($sampleSmallPetItems as $item) {
+                    $items[] = $item;
+                }
             }
-        }
-        $title = "Items for Small Pets";
-        $fixedImg = 'assets/smallpet-img.png';
-    } else {
-        for ($i = 0; $i < 4; $i++) {
-            foreach ($sampleCatItems as $item) {
-                $items[] = $item;
+            $title = "Items for Small Pets";
+            $fixedImg = 'assets/smallpet-img.png';
+        } else {
+            for ($i = 0; $i < 4; $i++) {
+                foreach ($sampleCatItems as $item) {
+                    $items[] = $item;
+                }
             }
+            $title = "Items for Cats";
+            $fixedImg = 'assets/cat-img.png';
         }
-        $title = "Items for Cats";
-        $fixedImg = 'assets/cat-img.png';
-    }
-@endphp
+    @endphp
 
     <h1 style="font-family: 'Irish Grover', cursive;">{{ $title }}</h1>
 
@@ -469,5 +469,8 @@
         @endforeach
     </div>
 
-</div>
+</div> <br>
+
+@include('components.footer')
+
 @endsection
