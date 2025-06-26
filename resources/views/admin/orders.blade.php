@@ -8,6 +8,10 @@
         min-height: 80vh;
         background-color: #E8C7AA;
         color: black;
+
+        th, td {
+            color: black;
+        }
     }
 
     .inner-container {
@@ -18,41 +22,42 @@
 
     thead {
         color: black;
-        border-bottom: 1px solid;
     }
 </style>
 
 @section('content')
 <div class="table-container rounded-lg p-6">
+    <h1 class="text-2xl font-bold mb-6">ORDERS</h1>
+
     <div class="inner-container flex space-x-5 mb-6">
         <a href="{{ route('admin.orders', ['status' => 'placed']) }}" 
-           class="px-4 py-2 rounded-lg {{ $status === 'placed' ? 'bg-orange-200 font-semibold' : 'bg-orange-100 hover:bg-orange-200' }}">
+           class="px-4 py-2 rounded-lg {{ $status === 'placed' ? 'bg-[#FEB87A] font-semibold' : 'bg-orange-100 hover:bg-orange-200' }}">
             Placed
         </a>
         <a href="{{ route('admin.orders', ['status' => 'preparing']) }}" 
-           class="px-4 py-2 rounded-lg {{ $status === 'preparing' ? 'bg-orange-200 font-semibold' : 'bg-orange-100 hover:bg-orange-200' }}">
+           class="px-4 py-2 rounded-lg {{ $status === 'preparing' ? 'bg-[#FEB87A] font-semibold' : 'bg-orange-100 hover:bg-orange-200' }}">
             Preparing
         </a>
         <a href="{{ route('admin.orders', ['status' => 'shipping']) }}" 
-           class="px-4 py-2 rounded-lg {{ $status === 'shipping' ? 'bg-orange-200 font-semibold' : 'bg-orange-100 hover:bg-orange-200' }}">
+           class="px-4 py-2 rounded-lg {{ $status === 'shipping' ? 'bg-[#FEB87A] font-semibold' : 'bg-orange-100 hover:bg-orange-200' }}">
             Shipping
         </a>
         <a href="{{ route('admin.orders', ['status' => 'delivered']) }}" 
-           class="px-4 py-2 rounded-lg {{ $status === 'delivered' ? 'bg-orange-200 font-semibold' : 'bg-orange-100 hover:bg-orange-200' }}">
+           class="px-4 py-2 rounded-lg {{ $status === 'delivered' ? 'bg-[#FEB87A] font-semibold' : 'bg-orange-100 hover:bg-orange-200' }}">
             Delivered
         </a>
         <a href="{{ route('admin.orders', ['status' => 'cancelled']) }}" 
-           class="px-4 py-2 rounded-lg {{ $status === 'cancelled' ? 'bg-orange-200 font-semibold' : 'bg-orange-100 hover:bg-orange-200' }}">
+           class="px-4 py-2 rounded-lg {{ $status === 'cancelled' ? 'bg-[#FEB87A] font-semibold' : 'bg-orange-100 hover:bg-orange-200' }}">
             Cancelled
         </a>
         <a href="{{ route('admin.orders', ['status' => 'returned']) }}" 
-           class="px-4 py-2 rounded-lg {{ $status === 'returned' ? 'bg-orange-200 font-semibold' : 'bg-orange-100 hover:bg-orange-200' }}">
+           class="px-4 py-2 rounded-lg {{ $status === 'returned' ? 'bg-[#FEB87A] font-semibold' : 'bg-orange-100 hover:bg-orange-200' }}">
             Returned
         </a>
     </div>
     <div class="bg-orange-100 rounded-lg overflow-hidden">
         <table class="w-full">
-            <thead>
+            <thead class="bg-[#FEB87A]">
                 <tr>
                     <th class="px-6 py-3 text-left font-semibold">Order No.</th>
                     <th class="px-6 py-3 text-left font-semibold">User ID</th>
