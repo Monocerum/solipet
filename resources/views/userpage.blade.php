@@ -529,6 +529,114 @@
 .dropdown-menu {
     z-index: 2000 !important;
 }
+
+/* My Purchases Order Cards */
+.order-card {
+    background: #fff;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+}
+.order-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+}
+.order-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    border-bottom: 1px solid #eee;
+}
+.order-id {
+    font-weight: bold;
+    color: #333;
+}
+.order-status {
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+    color: #fff;
+}
+.order-status.to-pay { background: #ffc107; }
+.order-status.to-ship { background: #17a2b8; }
+.order-status.to-receive { background: #007bff; }
+.order-status.completed { background: #28a745; }
+.order-status.cancelled { background: #dc3545; }
+
+.order-date {
+    font-size: 14px;
+    color: #777;
+}
+.order-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px 20px;
+    border-bottom: 1px solid #eee;
+}
+.order-item:last-child {
+    border-bottom: none;
+}
+.order-item img {
+    width: 60px;
+    height: 60px;
+    border-radius: 8px;
+    object-fit: cover;
+}
+.item-details {
+    flex-grow: 1;
+}
+.item-details div {
+    font-weight: 500;
+    color: #333;
+}
+.item-details small {
+    color: #888;
+}
+.item-price {
+    font-weight: bold;
+    color: #333;
+}
+.order-footer {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 20px;
+    padding: 15px 20px;
+    background: #f9f9f9;
+    border-top: 1px solid #eee;
+    border-radius: 0 0 12px 12px;
+}
+.total-price {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+}
+.total-price span {
+    color:rgb(108, 82, 58);
+
+}
+.btn-primary {
+    background: #C49F7E;
+    color: rgb(0, 0, 0);
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+.btn-primary:hover {
+    background:rgb(98, 70, 45);
+    color: white;
+}
+.empty-state {
+    text-align: center;
+    padding: 40px;
+    color: #888;
+}
 </style>
 <div class="dropdown-bar">
     <div>
@@ -849,7 +957,183 @@
                     <div class="purchase-tab">Cancelled</div>
                     <div class="purchase-tab">Return</div>
                 </div>
-                <div class="purchase-tab-content"></div>
+                <div class="tab-content" id="my-purchases-content">
+                    <div class="tab-pane fade show active" id="to-pay" role="tabpanel">
+                        @if($orders->where('status', 'to pay')->count())
+                            @foreach($orders->where('status', 'to pay') as $order)
+                                <div class="order-card">
+                                    <div class="order-header">
+                                        <div>
+                                            <span class="order-id">Order #{{ $order->id }}</span>
+                                            <span class="order-status to-pay">{{ ucfirst($order->status) }}</span>
+                                        </div>
+                                        <div class="order-date">{{ $order->created_at->format('M d, Y') }}</div>
+                                    </div>
+                                    @foreach($order->items as $item)
+                                        <div class="order-item">
+                                            <img src="{{ asset($item->product->image ?? 'assets/dog-img.png') }}" alt="{{ $item->product->title ?? '' }}">
+                                            <div class="item-details">
+                                                <div>{{ $item->product->title ?? 'Product not found' }}</div>
+                                                <small>x{{ $item->quantity }}</small>
+                                            </div>
+                                            <div class="item-price">₱{{ number_format($item->price, 2) }}</div>
+                                        </div>
+                                    @endforeach
+                                    <div class="order-footer">
+                                        <div class="total-price">
+                                            Order Total: <span>₱{{ number_format($order->total, 2) }}</span>
+                                        </div>
+                                        <button class="btn-primary">Pay Now</button>
+                                    </div>
+                                </div>
+                            @endforeach
+                        @else
+                            <div class="empty-state">
+                                <p>No orders to pay.</p>
+                            </div>
+                        @endif
+                    </div>
+                    <div class="tab-pane fade" id="to-ship" role="tabpanel">
+                        @if($orders->where('status', 'to ship')->count())
+                            @foreach($orders->where('status', 'to ship') as $order)
+                                <div class="order-card">
+                                    <div class="order-header">
+                                        <div>
+                                            <span class="order-id">Order #{{ $order->id }}</span>
+                                            <span class="order-status to-ship">{{ ucfirst($order->status) }}</span>
+                                        </div>
+                                        <div class="order-date">{{ $order->created_at->format('M d, Y') }}</div>
+                                    </div>
+                                    @foreach($order->items as $item)
+                                        <div class="order-item">
+                                            <img src="{{ asset($item->product->image ?? 'assets/dog-img.png') }}" alt="{{ $item->product->title ?? '' }}">
+                                            <div class="item-details">
+                                                <div>{{ $item->product->title ?? 'Product not found' }}</div>
+                                                <small>x{{ $item->quantity }}</small>
+                                            </div>
+                                            <div class="item-price">₱{{ number_format($item->price, 2) }}</div>
+                                        </div>
+                                    @endforeach
+                                    <div class="order-footer">
+                                        <div class="total-price">
+                                            Order Total: <span>₱{{ number_format($order->total, 2) }}</span>
+                                        </div>
+                                        <button class="btn-primary">Track</button>
+                                    </div>
+                                </div>
+                            @endforeach
+                        @else
+                            <div class="empty-state">
+                                <p>No orders to ship.</p>
+                            </div>
+                        @endif
+                    </div>
+                    <div class="tab-pane fade" id="to-receive" role="tabpanel">
+                        @if($orders->where('status', 'to receive')->count())
+                            @foreach($orders->where('status', 'to receive') as $order)
+                                <div class="order-card">
+                                    <div class="order-header">
+                                        <div>
+                                            <span class="order-id">Order #{{ $order->id }}</span>
+                                            <span class="order-status to-receive">{{ ucfirst($order->status) }}</span>
+                                        </div>
+                                        <div class="order-date">{{ $order->created_at->format('M d, Y') }}</div>
+                                    </div>
+                                    @foreach($order->items as $item)
+                                        <div class="order-item">
+                                            <img src="{{ asset($item->product->image ?? 'assets/dog-img.png') }}" alt="{{ $item->product->title ?? '' }}">
+                                            <div class="item-details">
+                                                <div>{{ $item->product->title ?? 'Product not found' }}</div>
+                                                <small>x{{ $item->quantity }}</small>
+                                            </div>
+                                            <div class="item-price">₱{{ number_format($item->price, 2) }}</div>
+                                        </div>
+                                    @endforeach
+                                    <div class="order-footer">
+                                        <div class="total-price">
+                                            Order Total: <span>₱{{ number_format($order->total, 2) }}</span>
+                                        </div>
+                                        <button class="btn-primary">Track</button>
+                                    </div>
+                                </div>
+                            @endforeach
+                        @else
+                            <div class="empty-state">
+                                <p>No orders to receive.</p>
+                            </div>
+                        @endif
+                    </div>
+                    <div class="tab-pane fade" id="completed" role="tabpanel">
+                        @if($orders->where('status', 'completed')->count())
+                            @foreach($orders->where('status', 'completed') as $order)
+                                <div class="order-card">
+                                    <div class="order-header">
+                                        <div>
+                                            <span class="order-id">Order #{{ $order->id }}</span>
+                                            <span class="order-status completed">{{ ucfirst($order->status) }}</span>
+                                        </div>
+                                        <div class="order-date">{{ $order->created_at->format('M d, Y') }}</div>
+                                    </div>
+                                    @foreach($order->items as $item)
+                                        <div class="order-item">
+                                            <img src="{{ asset($item->product->image ?? 'assets/dog-img.png') }}" alt="{{ $item->product->title ?? '' }}">
+                                            <div class="item-details">
+                                                <div>{{ $item->product->title ?? 'Product not found' }}</div>
+                                                <small>x{{ $item->quantity }}</small>
+                                            </div>
+                                            <div class="item-price">₱{{ number_format($item->price, 2) }}</div>
+                                        </div>
+                                    @endforeach
+                                    <div class="order-footer">
+                                        <div class="total-price">
+                                            Order Total: <span>₱{{ number_format($order->total, 2) }}</span>
+                                        </div>
+                                        <button class="btn-primary">View</button>
+                                    </div>
+                                </div>
+                            @endforeach
+                        @else
+                            <div class="empty-state">
+                                <p>No completed orders.</p>
+                            </div>
+                        @endif
+                    </div>
+                    <div class="tab-pane fade" id="cancelled" role="tabpanel">
+                        @if($orders->where('status', 'cancelled')->count())
+                            @foreach($orders->where('status', 'cancelled') as $order)
+                                <div class="order-card">
+                                    <div class="order-header">
+                                        <div>
+                                            <span class="order-id">Order #{{ $order->id }}</span>
+                                            <span class="order-status cancelled">{{ ucfirst($order->status) }}</span>
+                                        </div>
+                                        <div class="order-date">{{ $order->created_at->format('M d, Y') }}</div>
+                                    </div>
+                                    @foreach($order->items as $item)
+                                        <div class="order-item">
+                                            <img src="{{ asset($item->product->image ?? 'assets/dog-img.png') }}" alt="{{ $item->product->title ?? '' }}">
+                                            <div class="item-details">
+                                                <div>{{ $item->product->title ?? 'Product not found' }}</div>
+                                                <small>x{{ $item->quantity }}</small>
+                                            </div>
+                                            <div class="item-price">₱{{ number_format($item->price, 2) }}</div>
+                                        </div>
+                                    @endforeach
+                                    <div class="order-footer">
+                                        <div class="total-price">
+                                            Order Total: <span>₱{{ number_format($order->total, 2) }}</span>
+                                        </div>
+                                        <button class="btn-primary">View</button>
+                                    </div>
+                                </div>
+                            @endforeach
+                        @else
+                            <div class="empty-state">
+                                <p>No cancelled orders.</p>
+                            </div>
+                        @endif
+                    </div>
+                </div>
             </div>
         </div>
     </div>
