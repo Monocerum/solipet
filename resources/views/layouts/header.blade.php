@@ -66,8 +66,39 @@
             height: 28px;
             vertical-align: middle;
         }
+
+        /* Custom beige burger menu styles */
+        .navbar-toggler {
+            border: 2px solid #f2d5bc;
+            background-color: transparent;
+        }
+        
+        .navbar-toggler:focus {
+            box-shadow: 0 0 0 0.25rem rgba(242, 213, 188, 0.25);
+            border-color: #f2d5bc;
+        }
+        
+        .navbar-toggler:hover {
+            border-color: #d4a574;
+        }
+        
+        /* Custom beige burger icon */
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28242, 213, 188, 1%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+            width: 24px;
+            height: 24px;
+        }
         
         /* Mobile-first responsive breakpoints */
+        
+        /* Navbar main row layout */
+        .navbar-main-row {
+            position: relative;
+        }
+        
+        .navbar-collapse {
+            width: 100%;
+        }
         
         /* Extra small devices (phones, less than 576px) */
         @media (max-width: 575.98px) {
@@ -231,10 +262,6 @@
         }
         
         /* Accessibility improvements */
-        .navbar-toggler:focus {
-            box-shadow: 0 0 0 0.25rem rgba(242, 213, 188, 0.25);
-        }
-        
         .search-input:focus {
             border-color: #d4a574;
             box-shadow: 0 0 0 0.25rem rgba(212, 165, 116, 0.25);
@@ -249,26 +276,28 @@
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-brown shadow-sm">
             <div class="container">
-                <!-- Brand and company logo -->
-                <div class="d-flex align-items-center">
-                    <a class="navbar-brand me-2" href="{{ url('/') }}">
-                        <img src="{{ asset('assets/logo.svg') }}" alt="{{ config('app.name', 'Laravel') }} Logo">
-                    </a>
-                    <img src="{{ asset('assets/company_logo.svg') }}" alt="Company Logo" class="company-logo" style="margin-left: 10px;">
-                </div>
+                <!-- Main navbar row -->
+                <div class="navbar-main-row d-flex w-100 align-items-center">
+                    <!-- Brand and company logo container -->
+                    <div class="navbar-brand-container d-flex align-items-center">
+                        <a class="navbar-brand me-2" href="{{ url('/') }}">
+                            <img src="{{ asset('assets/logo.svg') }}" alt="{{ config('app.name', 'Laravel') }} Logo">
+                        </a>
+                        <img src="{{ asset('assets/company_logo.svg') }}" alt="Company Logo" class="company-logo" style="margin-left: 10px;">
+                    </div>
 
-                <!-- Mobile navbar toggler -->
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+                    <!-- Desktop search form -->
+                    <div class="desktop-search-wrapper search-container mx-3">
+                        <form class="d-flex w-100" role="search" method="GET" action="{{ route('searchpage') }}" id="searchForm">
+                            <input class="form-control me-2 search-input" type="search" name="query" placeholder="Search..." aria-label="Search">
+                            <button class="btn btn-outline-light search-btn" type="submit">Search</button>
+                        </form>
+                    </div>
 
-                <div style="width:30px;"></div>
-                <!-- Desktop search form -->
-                <div class="desktop-search-wrapper search-container mx-3">
-                    <form class="d-flex w-100" role="search" method="GET" action="{{ route('searchpage') }}" id="searchForm">
-                        <input class="form-control me-2 search-input" type="search" name="query" placeholder="Search..." aria-label="Search">
-                        <button class="btn btn-outline-light search-btn" type="submit">Search</button>
-                    </form>
+                    <!-- Mobile navbar toggler (positioned to the right) -->
+                    <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
                 </div>
 
                 <!-- Navbar collapse content -->
