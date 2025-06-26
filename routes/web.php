@@ -5,8 +5,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\PetController;
-use App\Http\Controllers\AdminController;
-
+use App\Http\Controllers\CartController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -30,9 +29,7 @@ Route::get('/cart', function () {
 
 Route::get('/item/{id}', [App\Http\Controllers\HomeController::class, 'showProduct'])->name('item.show');
 
-Route::get('/userpage', function () {
-    return view('userpage'); // corresponds to resources/views/userpage.blade.php
-})->name('userpage');
+Route::get('/userpage', [UserController::class, 'showUserPage'])->name('userpage')->middleware('auth');
 
 Route::get('/itempage', function () {
     return view('itempage'); // corresponds to resources/views/itempage.blade.php
@@ -52,5 +49,20 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
 
 
 Route::put('/user/profile', [UserController::class, 'update'])->name('user.profile.update')->middleware('auth');
+Route::put('/user/password', [UserController::class, 'updatePassword'])->name('user.password.update')->middleware('auth');
 
 Route::get('/pet/{pet_type}', [PetController::class, 'showByType'])->name('petpage');
+
+Route::get('/viewCart', [CartController::class, 'viewCart'])->name('viewCart');
+
+Route::post('/add-to-cart', [CartController::class, 'addToCart'])->name('add.to.cart')->middleware('auth');
+
+Route::post('/cart/item/{itemId}/quantity', [CartController::class, 'updateQuantity'])->name('cart.item.updateQuantity')->middleware('auth');
+
+Route::post('/cart/item/{itemId}/remove', [CartController::class, 'removeItem'])->name('cart.item.remove')->middleware('auth');
+
+Route::post('/cart/address', [CartController::class, 'updateAddress'])->name('cart.address.update')->middleware('auth');
+
+Route::post('/pay', [UserController::class, 'pay'])->name('pay')->middleware('auth');
+
+Route::post('/checkout', [UserController::class, 'checkout'])->name('checkout')->middleware('auth');

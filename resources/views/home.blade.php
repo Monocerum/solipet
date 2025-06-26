@@ -197,6 +197,90 @@
     background: linear-gradient(123.61deg, #92491C 24.06%, #F7DBB4 122.75%);
 }
 
+.home-container h6 {
+    text-align: center;
+    font-size: 1.2rem;
+    font-family: 'Manrope', sans-serif;
+    color: #F7DBB4;
+    margin-top: 2em;
+}
+
+
+.item-card{
+    border: 4px solid #8b4513;
+}
+
+.item-image {
+    width: 100%;
+    height: 180px;
+    background-color: #4a2c2a;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.item-info {
+    padding: 12px;
+}
+
+.item-name {
+    font-size: 18px;
+    font-weight: bold;
+    color: #2c1810;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+}
+
+.item-price {
+    background: linear-gradient(90deg, #4a2c2a 0%,rgb(236, 189, 156) 100%);
+    color: #f4d4b8;
+    padding: 4px 8px;
+    font-size: 12px;
+    font-weight: bold;
+    margin-bottom: 8px;
+    display: inline-block;
+    width: 100%;
+}
+
+.item-details {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 10px;
+    color: #4a2c2a;
+}
+
+.discount {
+    font-weight: bold;
+}
+
+.rating {
+    margin-left: 20px;
+    display: flex;
+    align-items: center;
+    gap: 2px;
+}
+
+.star {
+    color: #000000;
+}
+
+.sold-count {
+    margin-left: 30px;
+    font-size: 9px;
+}
+
+.promos h2 {
+        display: flex;
+        flex-direction: column;
+        font-family: "Irish Grover", sans-serif;
+        align-items: center;
+        color: #FFE3CA;
+        font-size: 3.3em;
+        margin: 0;
+}
+
 </style>
 
 @section('content')
@@ -279,10 +363,223 @@
                     <a href="{{ route('login') }}" class="shop-button">SHOP NOW</a>
                 </div>
             </div>
+
         </div>
+        <h6>WHICH PET DO YOU WANT TO SHOP FOR?</h6> 
+        <br> <br> <br>
         <section class="promos">
-            
-        </section>
+            <h2>SOLIPET PROMOS</h2>
+            @php
+            // Sample data for demonstration. Replace with $items from your controller/database.
+            $sampleCatItems = [
+                [
+                    'title' => 'Sample Cat Food',
+                    'price' => 299.00,
+                    'savings' => 'Save 10%!',
+                    'ratings' => 4,
+                    'sold_count' => 1234,
+                ],
+                [
+                    'title' => 'Tasty Cat Treats',
+                    'price' => 149.00,
+                    'savings' => 'Save 5%!',
+                    'ratings' => 3,
+                    'sold_count' => 567,
+                ],
+                [
+                    'title' => 'Premium Cat Kibble',
+                    'price' => 399.00,
+                    'savings' => 'Save 15%!',
+                    'ratings' => 5,
+                    'sold_count' => 2001,
+                ],
+            ];
+
+            $sampleDogItems = [
+                [
+                    'title' => 'Sample Dog Food',
+                    'price' => 350.00,
+                    'savings' => 'Save 8%!',
+                    'ratings' => 5,
+                    'sold_count' => 980,
+                ],
+                [
+                    'title' => 'Tasty Dog Treats',
+                    'price' => 120.00,
+                    'savings' => 'Save 3%!',
+                    'ratings' => 4,
+                    'sold_count' => 430,
+                ],
+                [
+                    'title' => 'Premium Dog Kibble',
+                    'price' => 499.00,
+                    'savings' => 'Save 12%!',
+                    'ratings' => 5,
+                    'sold_count' => 1500,
+                ],
+            ];
+
+            $sampleSmallPetItems = [
+                [
+                    'title' => 'Sample Hamster Food',
+                    'price' => 99.00,
+                    'savings' => 'Save 5%!',
+                    'ratings' => 4,
+                    'sold_count' => 300,
+                ],
+                [
+                    'title' => 'Small Pet Treats',
+                    'price' => 59.00,
+                    'savings' => 'Save 2%!',
+                    'ratings' => 3,
+                    'sold_count' => 120,
+                ],
+                [
+                    'title' => 'Premium Rabbit Pellets',
+                    'price' => 199.00,
+                    'savings' => 'Save 10%!',
+                    'ratings' => 5,
+                    'sold_count' => 450,
+                ],
+            ];
+
+            // Repeat the items to fill the page (for demo, repeat 4 times)
+            $items = [];
+            $petType = request('pet_type');
+            if ($petType === 'dog') {
+                for ($i = 0; $i < 4; $i++) {
+                    foreach ($sampleDogItems as $item) {
+                        $items[] = $item;
+                    }
+                }
+                $title = "Items for Dogs";
+                $fixedImg = 'assets/dog-img.png';
+            } elseif ($petType === 'small_pet') {
+                for ($i = 0; $i < 4; $i++) {
+                    foreach ($sampleSmallPetItems as $item) {
+                        $items[] = $item;
+                    }
+                }
+                $title = "Items for Small Pets";
+                $fixedImg = 'assets/smallpet-img.png';
+            } else {
+                for ($i = 0; $i < 4; $i++) {
+                    foreach ($sampleCatItems as $item) {
+                        $items[] = $item;
+                    }
+                }
+                $title = "Items for Cats";
+                $fixedImg = 'assets/cat-img.png';
+            }
+        @endphp
+            <div id="productCarousel" class="carousel-container">
+                <button class="carousel-arrow left" onclick="carouselPrev()">&lt;</button>
+                <div class="carousel-track">
+                    @foreach($items as $index => $item)
+                        <a class="item-card carousel-item" href="{{ route('itempage') }}" style="text-decoration: none;">
+                            <div>
+                                <div class="item-image">
+                                    <div class="pixel-cat"></div>
+                                </div>
+                                <div class="item-info">
+                                    <div class="item-name">{{ $item['title'] }}</div>
+                                    <div class="item-price">PHP {{ number_format($item['price'], 2) }}</div>
+                                    <div class="item-details">
+                                        <span class="discount">
+                                            @if(isset($item['savings']))
+                                                {{ Str::before($item['savings'], 'P') }}
+                                            @endif
+                                        </span>
+                                        <div class="rating">
+                                            @for($i = 0; $i < 5; $i++)
+                                                <span class="star">{{ $i < $item['ratings'] ? '★' : '☆' }}</span>
+                                            @endfor
+                                            <span class="sold-count">{{ number_format($item['sold_count']) }} SOLD</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    @endforeach
+                </div>
+                <button class="carousel-arrow right" onclick="carouselNext()">&gt;</button>
+            </div>
+            <style>
+            .carousel-container {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin: 2em 0;
+                position: relative;
+                width: 100%;
+                max-width: 1100px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+            .carousel-arrow {
+                background: #6B3410;
+                color: #fff;
+                border: none;
+                border-radius: 50%;
+                width: 2.5em;
+                height: 2.5em;
+                font-size: 1.5em;
+                cursor: pointer;
+                z-index: 2;
+            }
+            .carousel-track {
+                display: flex;
+                overflow-x: auto;
+                scroll-behavior: smooth;
+                width: 900px;
+                min-height: 220px;
+                transition: none;
+                scrollbar-width: none; 
+                -ms-overflow-style: none; 
+            }
+            .carousel-track::-webkit-scrollbar {
+                display: none; 
+            }
+            .carousel-item {
+                min-width: 300px;
+                width: 300px;
+                margin: 0 10px;
+                background: linear-gradient(135deg, #f4d4b8, #e8c4a0);
+                border-radius: 1em;
+                box-shadow: 0 2px 8px rgba(107,52,16,0.08);
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                padding: 1em;
+                transition: box-shadow 0.2s;
+                flex-shrink: 0;
+            }
+            </style>
+            <script>
+            let carouselIndex = 0;
+            const visibleItems = 3;
+            function updateCarousel() {
+                const track = document.querySelector('.carousel-track');
+                const items = document.querySelectorAll('.carousel-item');
+                const maxIndex = items.length - visibleItems;
+                if (carouselIndex < 0) carouselIndex = 0;
+                if (carouselIndex > maxIndex) carouselIndex = maxIndex;
+                track.scrollTo({
+                    left: carouselIndex * 320,
+                    behavior: 'smooth'
+                });
+            }
+            function carouselPrev() {
+                carouselIndex--;
+                updateCarousel();
+            }
+            function carouselNext() {
+                carouselIndex++;
+                updateCarousel();
+            }
+            document.addEventListener('DOMContentLoaded', updateCarousel);
+            </script>
+        </section> <br> <br> <br>
         @include('components.footer')
     </div>
 @endsection

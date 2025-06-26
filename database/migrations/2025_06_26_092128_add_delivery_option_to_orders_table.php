@@ -4,14 +4,16 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddProfileFieldsToUsersTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
      */
     public function up(): void
     {
-        // All columns already exist, so nothing to do here.
+        Schema::table('orders', function (Blueprint $table) {
+            $table->string('delivery_option')->after('shipping_address')->default('shipping');
+        });
     }
 
     /**
@@ -19,8 +21,8 @@ class AddProfileFieldsToUsersTable extends Migration
      */
     public function down(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn(['username', 'phone', 'gender', 'dob', 'profile_image']);
+        Schema::table('orders', function (Blueprint $table) {
+            $table->dropColumn('delivery_option');
         });
     }
-}
+};

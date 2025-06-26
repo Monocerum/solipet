@@ -683,7 +683,11 @@
                 
                 <div class="action-buttons">
                     <button class="btn btn-primary">BUY NOW</button>
-                    <button class="btn btn-secondary">ADD TO CART</button>
+                    <form method="POST" action="{{ route('add.to.cart') }}" style="display:inline;">
+                        @csrf
+                        <input type="hidden" name="product_id" value="{{ $product->id }}">
+                        <button type="submit" class="btn btn-secondary">ADD TO CART</button>
+                    </form>
                 </div>
             </div>
         </div>

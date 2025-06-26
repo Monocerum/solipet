@@ -210,5 +210,6 @@
                 @endforeach
             </div>
         @endif
-</div>
+</div> <br> <br> <br>
+@include('components.footer')
 @endsection
