@@ -569,7 +569,7 @@ h6 {
                         <img src="assets/dog-photo.png" alt="Photo of a Dog" class="dog-pet-type">
                     </div>
                     <h2 class="pet-name">DOGS</h2>
-                    <a href="{{ route('login') }}" class="shop-button">SHOP NOW</a>
+                    <a href="{{ route('petpage', ['pet_type' => 'dog']) }}" class="shop-button">SHOP NOW</a>
                 </div>
             </div>
             <div class="pet-box" id="catContainer">
@@ -579,7 +579,7 @@ h6 {
                         <img src="assets/cat-photo.png" alt="Photo of a Cat" class="dog-pet-type">
                     </div>
                     <h2 class="pet-name">CATS</h2>
-                    <a href="{{ route('login') }}" class="shop-button">SHOP NOW</a>
+                    <a href="{{ route('petpage', ['pet_type' => 'cat']) }}" class="shop-button">SHOP NOW</a>
                 </div>
             </div>
             <div class="pet-box" id="smallPetContainer">
@@ -589,7 +589,7 @@ h6 {
                         <img src="assets/hamster-photo.png" alt="Photo of a Hamster" class="dog-pet-type">
                     </div>
                     <h2 class="pet-name">SMALL PETS</h2>
-                    <a href="{{ route('login') }}" class="shop-button">SHOP NOW</a>
+                    <a href="{{ route('petpage', ['pet_type' => 'small_pet']) }}" class="shop-button">SHOP NOW</a>
                 </div>
             </div>
 
@@ -599,113 +599,28 @@ h6 {
         <section class="promos">
             <h2>SOLIPET PROMOS</h2>
             @php
-            // Sample data for demonstration. Replace with $items from your controller/database.
-            $sampleCatItems = [
-                [
-                    'title' => 'Sample Cat Food',
-                    'price' => 299.00,
-                    'savings' => 'Save 10%!',
-                    'ratings' => 4,
-                    'sold_count' => 1234,
-                ],
-                [
-                    'title' => 'Tasty Cat Treats',
-                    'price' => 149.00,
-                    'savings' => 'Save 5%!',
-                    'ratings' => 3,
-                    'sold_count' => 567,
-                ],
-                [
-                    'title' => 'Premium Cat Kibble',
-                    'price' => 399.00,
-                    'savings' => 'Save 15%!',
-                    'ratings' => 5,
-                    'sold_count' => 2001,
-                ],
-            ];
 
-            $sampleDogItems = [
-                [
-                    'title' => 'Sample Dog Food',
-                    'price' => 350.00,
-                    'savings' => 'Save 8%!',
-                    'ratings' => 5,
-                    'sold_count' => 980,
-                ],
-                [
-                    'title' => 'Tasty Dog Treats',
-                    'price' => 120.00,
-                    'savings' => 'Save 3%!',
-                    'ratings' => 4,
-                    'sold_count' => 430,
-                ],
-                [
-                    'title' => 'Premium Dog Kibble',
-                    'price' => 499.00,
-                    'savings' => 'Save 12%!',
-                    'ratings' => 5,
-                    'sold_count' => 1500,
-                ],
-            ];
+                $query = DB::table('products');
+                $title = "All Items";
+                $fixedImg = null;
 
-            $sampleSmallPetItems = [
-                [
-                    'title' => 'Sample Hamster Food',
-                    'price' => 99.00,
-                    'savings' => 'Save 5%!',
-                    'ratings' => 4,
-                    'sold_count' => 300,
-                ],
-                [
-                    'title' => 'Small Pet Treats',
-                    'price' => 59.00,
-                    'savings' => 'Save 2%!',
-                    'ratings' => 3,
-                    'sold_count' => 120,
-                ],
-                [
-                    'title' => 'Premium Rabbit Pellets',
-                    'price' => 199.00,
-                    'savings' => 'Save 10%!',
-                    'ratings' => 5,
-                    'sold_count' => 450,
-                ],
-            ];
-
-            // Repeat the items to fill the page (for demo, repeat 4 times)
-            $items = [];
-            $petType = request('pet_type');
-            if ($petType === 'dog') {
-                for ($i = 0; $i < 4; $i++) {
-                    foreach ($sampleDogItems as $item) {
-                        $items[] = $item;
-                    }
-                }
-                $title = "Items for Dogs";
-                $fixedImg = 'assets/dog-img.png';
-            } elseif ($petType === 'small_pet') {
-                for ($i = 0; $i < 4; $i++) {
-                    foreach ($sampleSmallPetItems as $item) {
-                        $items[] = $item;
-                    }
-                }
-                $title = "Items for Small Pets";
-                $fixedImg = 'assets/smallpet-img.png';
-            } else {
-                for ($i = 0; $i < 4; $i++) {
-                    foreach ($sampleCatItems as $item) {
-                        $items[] = $item;
-                    }
-                }
-                $title = "Items for Cats";
-                $fixedImg = 'assets/cat-img.png';
-            }
-        @endphp
+                // Fetch products, including product id
+                $items = $query->get()->map(function($product) {
+                    return [
+                        'id' => $product->id,
+                        'title' => $product->title,
+                        'price' => $product->price,
+                        'savings' => $product->savings ?? null,
+                        'ratings' => $product->ratings ?? 0,
+                        'sold_count' => $product->sold_count ?? 0,
+                    ];
+                });
+            @endphp
             <div id="productCarousel" class="carousel-container">
                 <button class="carousel-arrow left" onclick="carouselPrev()">&lt;</button>
                 <div class="carousel-track">
                     @foreach($items as $index => $item)
-                        <a class="item-card carousel-item" href="{{ route('itempage') }}" style="text-decoration: none;">
+                        <a class="item-card carousel-item" href="{{ url('item/' . $item['id']) }}" style="text-decoration: none;">
                             <div>
                                 <div class="item-image">
                                     <div class="pixel-cat"></div>
