@@ -11,11 +11,13 @@ class Order extends Model
 
     protected $fillable = [
         'user_id',
-        'product_id',
-        'order_number',
+        'payment_method',
         'status',
-        'quantity',
         'total_amount',
+        'gcash_number',
+        'shipping_address',
+        'delivery_option',
+        'order_number',
     ];
 
     protected $casts = [

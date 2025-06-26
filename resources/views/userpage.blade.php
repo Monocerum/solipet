@@ -950,8 +950,8 @@
                 </div>
                 <div class="tab-content" id="my-purchases-content">
                     <div class="tab-pane fade show active" id="to-pay" role="tabpanel" aria-labelledby="to-pay-tab">
-                        @if($orders->where('status', 'to pay')->count())
-                            @foreach($orders->where('status', 'to pay') as $order)
+                        @if($orders->where('status', 'pending')->count())
+                            @foreach($orders->where('status', 'pending') as $order)
                                 <div class="order-card">
                                     <div class="order-header">
                                         <div>
@@ -972,7 +972,7 @@
                                     @endforeach
                                     <div class="order-footer">
                                         <div class="total-price">
-                                            Order Total: <span>₱{{ number_format($order->total, 2) }}</span>
+                                            Order Total: <span>₱{{ number_format($order->total_amount, 2) }}</span>
                                         </div>
                                         <div>
                                             <span class="paid-indicator">Paid via {{ $order->payment_method }}</span>
@@ -987,8 +987,8 @@
                         @endif
                     </div>
                     <div class="tab-pane fade" id="to-ship" role="tabpanel">
-                        @if($orders->where('status', 'to ship')->count())
-                            @foreach($orders->where('status', 'to ship') as $order)
+                        @if($orders->where('status', 'shipping')->count())
+                            @foreach($orders->where('status', 'shipping') as $order)
                                 <div class="order-card">
                                     <div class="order-header">
                                         <div>
@@ -1009,9 +1009,8 @@
                                     @endforeach
                                     <div class="order-footer">
                                         <div class="total-price">
-                                            Order Total: <span>₱{{ number_format($order->total, 2) }}</span>
+                                            Order Total: <span>₱{{ number_format($order->total_amount, 2) }}</span>
                                         </div>
-                                        <button class="btn-primary">Track</button>
                                     </div>
                                 </div>
                             @endforeach
@@ -1044,7 +1043,7 @@
                                     @endforeach
                                     <div class="order-footer">
                                         <div class="total-price">
-                                            Order Total: <span>₱{{ number_format($order->total, 2) }}</span>
+                                            Order Total: <span>₱{{ number_format($order->total_amount, 2) }}</span>
                                         </div>
                                         <button class="btn-primary">Track</button>
                                     </div>
@@ -1079,7 +1078,7 @@
                                     @endforeach
                                     <div class="order-footer">
                                         <div class="total-price">
-                                            Order Total: <span>₱{{ number_format($order->total, 2) }}</span>
+                                            Order Total: <span>₱{{ number_format($order->total_amount, 2) }}</span>
                                         </div>
                                         <button class="btn-primary">View</button>
                                     </div>
@@ -1114,7 +1113,7 @@
                                     @endforeach
                                     <div class="order-footer">
                                         <div class="total-price">
-                                            Order Total: <span>₱{{ number_format($order->total, 2) }}</span>
+                                            Order Total: <span>₱{{ number_format($order->total_amount, 2) }}</span>
                                         </div>
                                         <button class="btn-primary">View</button>
                                     </div>
@@ -1136,7 +1135,7 @@
                         <h2 class="modal-title">GCash Payment</h2>
                         <button class="close-modal" onclick="closePaymentModal()">&times;</button>
                     </div>
-                    <form id="paymentForm" method="POST" action="">
+                    <form id="paymentForm" method="POST" action="{{ route('checkout') }}" style="margin:0;">
                         @csrf
                         <div class="form-group">
                             <label for="gcash_number" class="form-label" style="margin-bottom: 5px; display: block;">GCash Number:</label>

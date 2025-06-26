@@ -5,15 +5,14 @@
 .dropdown-bar {
     margin-bottom: 20px;
     display: flex;
-    gap: 15px;
-    background-color: beige;
-    padding: 10px;
+    padding-left: 5%;
     border-radius: 6px;
 }
+
 .dropdown-bar > div {
+    justify-content: flex-start;
+    padding: 10px;
     display: flex;
-    justify-content: center;
-    align-items: center;
     width: 100%;
     gap: 30px;
     height: 50px;
@@ -30,10 +29,17 @@
 }
 
 .dropdown-pet .dropdown-toggle, .dropdown-pet1 .dropdown-toggle {
-    color: #000000;
+    color: beige;
     font-family: 'Manrope', sans-serif;
     font-size: 1.25rem;
     font-weight: bold;
+}
+
+.dropdown-pet .dropdown-toggle:hover,
+.dropdown-pet .dropdown-toggle:focus,
+.dropdown-pet .dropdown-toggle:active {
+    color: white;
+    text-decoration: none;
 }
 
 .hero-section {
@@ -153,129 +159,23 @@
 }
 </style>
 <div class="dropdown-bar">
-    <div>
-        <div class="nav-item dropdown-pet">
-            <a id="navbarDropdown1" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Pet Food
-            </a>
-            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown1">
-                {{-- TODO: Replace route to proper name and file --}}
-                <a class="dropdown-item" href="{{ route('logout') }}" 
-                    onclick="event.preventDefault();
-                        document.getElementById('logout-form').submit();">
-                    {{ __('Dry Food') }}
-                </a>
-                <a class="dropdown-item" href="{{ route('logout') }}"
-                    onclick="event.preventDefault();
-                        document.getElementById('logout-form').submit();">
-                    {{ __('Wet Food') }}
-                </a>
-            </div>
-        </div>
-        <div class="nav-item dropdown-pet">
-            <a id="navbarDropdown2" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Pet Treats
-            </a>
-            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown2">
-                <a class="dropdown-item" href="{{ route('logout') }}"
-                    onclick="event.preventDefault();
-                        document.getElementById('logout-form').submit();">
-                    {{ __('Snacks') }}
-                </a>
-                <a class="dropdown-item" href="{{ route('logout') }}"
-                    onclick="event.preventDefault();
-                        document.getElementById('logout-form').submit();">
-                    {{ __('Dental Treats') }}
-                </a>
-                <a class="dropdown-item" href="{{ route('logout') }}"
-                    onclick="event.preventDefault();
-                        document.getElementById('logout-form').submit();">
-                    {{ __('Training Treats') }}
-                </a>
-            </div>
-        </div>
-        <div class="nav-item dropdown-pet1">
-            <a id="navbarDropdown3" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Pet Health & Wellness
-            </a>
-            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown3">
-                <a class="dropdown-item" href="{{ route('logout') }}"
-                    onclick="event.preventDefault();
-                        document.getElementById('logout-form').submit();">
-                    {{ __('Multivitamins & Supplements') }}
-                </a>
-                <a class="dropdown-item" href="{{ route('logout') }}"
-                    onclick="event.preventDefault();
-                        document.getElementById('logout-form').submit();">
-                    {{ __('Skin and Coat Treatment') }}
-                </a>
-                <a class="dropdown-item" href="{{ route('logout') }}"
-                    onclick="event.preventDefault();
-                        document.getElementById('logout-form').submit();">
-                    {{ __('Tick & Flea/Parasite Prevention') }}
-                </a>
-                <a class="dropdown-item" href="{{ route('logout') }}"
-                    onclick="event.preventDefault();
-                        document.getElementById('logout-form').submit();">
-                    {{ __('Special Needs') }}
-                </a>
-            </div>
-        </div>
-        <div class="nav-item dropdown-pet">
-            <a id="navbarDropdown4" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Pet Supplies
-            </a>
-            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown4">
-                <a class="dropdown-item" href="{{ route('logout') }}"
-                    onclick="event.preventDefault();
-                        document.getElementById('logout-form').submit();">
-                    {{ __('Apparel') }}
-                </a>
-                <a class="dropdown-item" href="{{ route('logout') }}"
-                    onclick="event.preventDefault();
-                        document.getElementById('logout-form').submit();">
-                    {{ __('Beds') }}
-                </a>
-                <a class="dropdown-item" href="{{ route('logout') }}"
-                    onclick="event.preventDefault();
-                        document.getElementById('logout-form').submit();">
-                    {{ __('Bowls and Feeders') }}
-                </a>
-                <a class="dropdown-item" href="{{ route('logout') }}"
-                    onclick="event.preventDefault();
-                        document.getElementById('logout-form').submit();">
-                    {{ __('Leashes and Harnesses') }}
-                </a>
-                <a class="dropdown-item" href="{{ route('logout') }}"
-                    onclick="event.preventDefault();
-                        document.getElementById('logout-form').submit();">
-                    {{ __('Crates, Kernels, & Outdoors') }}
-                </a>
-                <a class="dropdown-item" href="{{ route('logout') }}"
-                    onclick="event.preventDefault();
-                        document.getElementById('logout-form').submit();">
-                    {{ __('Toys') }}
-                </a>
-            </div>
-        </div>
-        <div class="nav-item dropdown-pet">
-            <a id="navbarDropdown5" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Pet Type
-            </a>
-            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown5">
-                <a class="dropdown-item" href="{{ route('petpage', ['pet_type' => 'cat']) }}">
-                    {{ __('Cat') }}
-                </a>
-                <a class="dropdown-item" href="{{ route('petpage', ['pet_type' => 'dog']) }}">
-                    {{ __('Dog') }}
-                </a>
-                <a class="dropdown-item" href="{{ route('petpage', ['pet_type' => 'small_pet']) }}">
-                    {{ __('Small Pet') }}
-                </a>
-            </div>
-        </div>
+                <div class="nav-item dropdown-pet">
+                    <a id="petTypeDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Shop by Pet
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-start" aria-labelledby="navbarDropdown5">
+                        <a class="dropdown-item" href="{{ route('petpage', ['pet_type' => 'cat']) }}">
+                            {{ __('Cat') }}
+                        </a>
+                        <a class="dropdown-item" href="{{ route('petpage', ['pet_type' => 'dog']) }}">
+                            {{ __('Dog') }}
+                        </a>
+                        <a class="dropdown-item" href="{{ route('petpage', ['pet_type' => 'small_pet']) }}">
+                            {{ __('Small Pet') }}
+                        </a>
+                    </div>
+                </div>
     </div>
-</div>
 @if(request('pet_type') === 'cat')
 <div class="hero-section">
     <img src="{{ asset('assets/shop-by-cat.png') }}" alt="Shop for Cat" style="max-width:100%; height:auto; border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,0.1);">

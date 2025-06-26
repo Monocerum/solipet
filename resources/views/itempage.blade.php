@@ -285,39 +285,48 @@
 
         .action-buttons {
             display: flex;
-            gap: 15px;
+            gap: 24px;
+            align-items: stretch;
         }
-
-        .btn {
-            padding: 15px 30px;
+        .action-buttons > * {
+            flex: 1 1 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: stretch;
+        }
+        .item-btn {
+            width: 100%;
+            height: 100%;
             border: none;
-            border-radius: 8px;
-            font-size: 16px;
+            border-radius: 14px;
+            font-size: 1.25rem;
             font-weight: bold;
             cursor: pointer;
             transition: all 0.3s ease;
+            padding: 12px 0;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
-
-        .btn-primary {
-            background-color: #4A2C17;
+        .item-btn-primary {
+            background-color: #F5E6D3;
+            color: #341B10;
+            border: 4px solid #341B10;
+            margin-top: 0;
+        }
+        .item-btn-primary:hover,
+        .item-btn-secondary:hover {
+            background-color: #341B10;
             color: #F5E6D3;
+            border: 4px solid #341B10;
         }
-
-        .btn-primary:hover {
-            background-color: #3A1F0F;
-            transform: translateY(-2px);
-        }
-
-        .btn-secondary {
-            background-color: transparent;
-            color: #4A2C17;
-            border: 2px solid #4A2C17;
-        }
-
-        .btn-secondary:hover {
-            background-color: #4A2C17;
-            color: #F5E6D3;
-            transform: translateY(-2px);
+        .item-btn-secondary {
+            background-color: #F5E6D3;
+            color: #341B10;
+            border: 4px solid #341B10;
+            margin-top: 0;
         }
 
         /* Tab Navigation */
@@ -455,9 +464,9 @@
     }
     .action-buttons {
         flex-direction: column;
-        gap: 8px;
+        gap: 12px;
     }
-    .btn {
+    .item-btn {
         width: 100%;
         font-size: 14px;
         padding: 10px 0;
@@ -501,7 +510,7 @@
     .features li {
         font-size: 12px;
     }
-    .btn {
+    .item-btn {
         font-size: 12px;
         padding: 8px 0;
     }
@@ -542,9 +551,11 @@
     <main class="main-content">
         <div class="product-container">
             <div class="product-image"> 
-                <div class="pixel-cat">
-                    <div class="cat-face"><img src="{{ asset('assets/cat-img.png') }}"></div>
-                </div>
+                @if($product->image)
+                    <img src="{{ asset($product->image) }}" alt="{{ $product->title }}" style="width:100%;height:100%;object-fit:cover;border: 10px solid #2E160C; border-radius: 8px;" />
+                @else
+                    <img src="{{ asset('assets/cat-img.png') }}" alt="No Image" style="width:100%;height:100%;object-fit:cover;border: 10px solid #2E160C; border-radius: 8px;" />
+                @endif
             </div>   
             <div class="product-info">
                 <h1 class="product-title">{{ $product->title }}</h1>
@@ -574,11 +585,15 @@
                 </ul>
                 
                 <div class="action-buttons">
-                    <button class="btn btn-primary">BUY NOW</button>
-                    <form method="POST" action="{{ route('add.to.cart') }}" style="display:inline;">
+                     <form method="POST" action="{{ route('buy.now') }}">
                         @csrf
                         <input type="hidden" name="product_id" value="{{ $product->id }}">
-                        <button type="submit" class="btn btn-secondary">ADD TO CART</button>
+                         <button class="item-btn item-btn-primary">BUY NOW</button>
+                    </form>
+                    <form method="POST" action="{{ route('add.to.cart') }}">
+                        @csrf
+                        <input type="hidden" name="product_id" value="{{ $product->id }}">
+                        <button type="submit" class="item-btn item-btn-secondary">ADD TO CART</button>
                     </form>
                 </div>
             </div>
@@ -614,7 +629,7 @@
                         <div class="detail-title">{{ $review->reviewer_name }}</div>
                         <p>{{ $review->review_text }}</p>
                     </div>
-                @endforeach
+                @endforeach 
             @else
                 <p>No reviews yet.</p>
             @endif
