@@ -763,11 +763,11 @@
 
             <div class="delivery-options">
                 <button class="delivery-option active" onclick="selectDelivery('shipping')">
-                    <div class="delivery-icon">🚚</div>
+                    <div class="delivery-icon"><img src="{{ asset('assets/delivery-icon.png') }}" alt="Delivery Icon"></div>
                     <div>Shipping</div>
                 </button>
                 <button class="delivery-option" onclick="selectDelivery('pickup')">
-                    <div class="delivery-icon">🏠</div>
+                    <div class="delivery-icon"><img src="{{ asset('assets/pickup-icon.png') }}" alt="Pickup Icon"></div>
                     <div>Store Pick Up</div>
                 </button>
             </div>
@@ -794,7 +794,7 @@
     </div>
 
     <div class="shipping-section" onclick="toggleShipping()">
-        <div class="shipping-icon" id="shippingIcon">🚚</div>
+        <div class="shipping-icon" id="shippingIcon"><img src="{{ asset('assets/delivery-icon.png') }}" alt="Delivery Icon"></div>
         <div class="shipping-text" id="shippingText">Shipping Address</div>
         <div class="dropdown-arrow" id="dropdownArrow">▼</div>
     </div>
