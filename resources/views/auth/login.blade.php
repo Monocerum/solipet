@@ -12,7 +12,7 @@
     }
     
     .login-container {
-        min-height: 100vh;
+        min-height: 80vh;
         margin: 0;
         display: flex;
         justify-content: center;
@@ -20,7 +20,7 @@
     }
 
     .solipet-tagline-container {
-        height: 80vh;
+        height: 50vh;
         display: flex;
         align-items: flex-end;
         justify-content: flex-end;
@@ -37,11 +37,13 @@
         h3 {
             font-size: 2.1em;
             margin: 0;
+            text-align: end;
         }
 
         h5 {
             font-size: 1.7em;
             margin: 0;
+            text-align: end;
         }
     }
 
@@ -49,7 +51,7 @@
         background: #77401E;
         color: white;
         width: 50em;
-        min-height: 80vh;
+        min-height: 50vh;
         border-radius: 1.5em;
     }
 
@@ -62,6 +64,10 @@
     }
 
     .auth-card-body {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
         font-family: "Manrope", sans-serif;
         padding: 2% 5%;
 
@@ -143,11 +149,9 @@
         </div>
     </div>
     <div class="login-card-container">
-        <div>
             <div class="card auth-card">
-                <div class="auth-card-header">{{ __('LOGIN') }}</div>
-
                 <div class="card-body auth-card-body">
+                    <h2 class="auth-card-header">{{ __('LOGIN') }}</h2>
                     <form method="POST" action="{{ route('login') }}">
                         @csrf
 
@@ -210,6 +214,5 @@
                 </div>
             </div>
         </div>
-    </div>
 </div>
 @endsection
