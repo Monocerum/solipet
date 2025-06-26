@@ -585,7 +585,11 @@
                 </ul>
                 
                 <div class="action-buttons">
-                    <button class="item-btn item-btn-primary">BUY NOW</button>
+                     <form method="POST" action="{{ route('buy.now') }}">
+                        @csrf
+                        <input type="hidden" name="product_id" value="{{ $product->id }}">
+                         <button class="item-btn item-btn-primary">BUY NOW</button>
+                    </form>
                     <form method="POST" action="{{ route('add.to.cart') }}">
                         @csrf
                         <input type="hidden" name="product_id" value="{{ $product->id }}">

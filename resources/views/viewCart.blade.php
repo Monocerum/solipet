@@ -496,6 +496,91 @@
                 flex-direction: column;
             }
         }
+        @media (max-width: 600px) {
+        .checkout-container {
+            flex-direction: column;
+            gap: 10px;
+            padding: 0 4px;
+        }
+        .product-section, .summary-section {
+            min-width: 0;
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+        .product-header, .product-item {
+            font-size: 12px;
+            gap: 6px;
+            padding: 8px 0;
+        }
+        .product-image img, .product-image {
+            width: 40px !important;
+            height: 40px !important;
+        }
+        .quantity-btn, .quantity-display {
+            font-size: 12px;
+            padding: 4px 8px;
+            min-width: 24px;
+            height: 24px;
+        }
+        .item-total {
+            font-size: 12px;
+        }
+        .checkout-btn {
+            font-size: 14px;
+            padding: 10px;
+        }
+        .shipping-section, .shipping-address-content {
+            padding: 8px 4px;
+            font-size: 12px;
+        }
+        .dropdown-bar > div {
+            flex-direction: column;
+            gap: 8px;
+            height: auto;
+            padding: 4px;
+        }
+        .dropdown-pet, .dropdown-pet1 {
+            width: 100%;
+        }
+    }
+    @media (max-width: 480px) {
+        .checkout-container {
+            padding: 0 2px;
+        }
+        .product-section, .summary-section {
+            padding: 4px;
+        }
+        .product-header, .product-item {
+            font-size: 10px;
+            gap: 2px;
+            padding: 4px 0;
+        }
+        .product-image img, .product-image {
+            width: 28px !important;
+            height: 28px !important;
+        }
+        .quantity-btn, .quantity-display {
+            font-size: 10px;
+            padding: 2px 4px;
+            min-width: 16px;
+            height: 16px;
+        }
+        .item-total {
+            font-size: 10px;
+        }
+        .checkout-btn {
+            font-size: 12px;
+            padding: 6px;
+        }
+        .shipping-section, .shipping-address-content {
+            padding: 4px 2px;
+            font-size: 10px;
+        }
+        .dropdown-bar > div {
+            padding: 2px;
+        }
+    }
 </style>
 <div class="dropdown-bar">
     <div>
@@ -926,90 +1011,6 @@
         }
     </script>
 
-    @media (max-width: 600px) {
-        .checkout-container {
-            flex-direction: column;
-            gap: 10px;
-            padding: 0 4px;
-        }
-        .product-section, .summary-section {
-            min-width: 0;
-            width: 100%;
-            padding: 10px;
-            box-sizing: border-box;
-        }
-        .product-header, .product-item {
-            font-size: 12px;
-            gap: 6px;
-            padding: 8px 0;
-        }
-        .product-image img, .product-image {
-            width: 40px !important;
-            height: 40px !important;
-        }
-        .quantity-btn, .quantity-display {
-            font-size: 12px;
-            padding: 4px 8px;
-            min-width: 24px;
-            height: 24px;
-        }
-        .item-total {
-            font-size: 12px;
-        }
-        .checkout-btn {
-            font-size: 14px;
-            padding: 10px;
-        }
-        .shipping-section, .shipping-address-content {
-            padding: 8px 4px;
-            font-size: 12px;
-        }
-        .dropdown-bar > div {
-            flex-direction: column;
-            gap: 8px;
-            height: auto;
-            padding: 4px;
-        }
-        .dropdown-pet, .dropdown-pet1 {
-            width: 100%;
-        }
-    }
-    @media (max-width: 480px) {
-        .checkout-container {
-            padding: 0 2px;
-        }
-        .product-section, .summary-section {
-            padding: 4px;
-        }
-        .product-header, .product-item {
-            font-size: 10px;
-            gap: 2px;
-            padding: 4px 0;
-        }
-        .product-image img, .product-image {
-            width: 28px !important;
-            height: 28px !important;
-        }
-        .quantity-btn, .quantity-display {
-            font-size: 10px;
-            padding: 2px 4px;
-            min-width: 16px;
-            height: 16px;
-        }
-        .item-total {
-            font-size: 10px;
-        }
-        .checkout-btn {
-            font-size: 12px;
-            padding: 6px;
-        }
-        .shipping-section, .shipping-address-content {
-            padding: 4px 2px;
-            font-size: 10px;
-        }
-        .dropdown-bar > div {
-            padding: 2px;
-        }
-    }
+  
 </div>
 @endsection
