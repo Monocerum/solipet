@@ -57,6 +57,7 @@ Route::get('/pet/{pet_type}', [PetController::class, 'showByType'])->name('petpa
 Route::get('/viewCart', [CartController::class, 'viewCart'])->name('viewCart');
 
 Route::post('/add-to-cart', [CartController::class, 'addToCart'])->name('add.to.cart')->middleware('auth');
+Route::post('/buy-now', [CartController::class, 'buyNow'])->name('buy.now')->middleware('auth');
 
 Route::post('/cart/item/{itemId}/quantity', [CartController::class, 'updateQuantity'])->name('cart.item.updateQuantity')->middleware('auth');
 

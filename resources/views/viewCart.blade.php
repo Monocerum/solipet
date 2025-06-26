@@ -41,39 +41,6 @@
     color: white;
     text-decoration: none;
 }
-
-.hero-section {
-    width: 100vw;
-    min-width: 100vw;
-    max-width: 100vw;
-    box-sizing: border-box;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: -20px;
-    margin-bottom: 30px;
-}
-
-.sidebar-catalog {
-    color: beige;
-    font-family: 'Manrope', sans-serif;
-    margin-left: 20px;
-}
-.sidebar-catalog h4,
-.sidebar-catalog h5,
-.sidebar-catalog label,
-.sidebar-catalog a {
-    color: #f2d5bc;
-}
-
-.sidebar-catalog h5 {
-    background-color: #2E160C;
-    color: #f2d5bc;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
  .checkout-container {
             max-width: 1200px;
             margin: 0 auto;
@@ -253,6 +220,13 @@
             font-size: 20px;
         }
 
+        
+        .delivery-icon img, .shipping-icon img {
+            width: 28px;
+            height: 28px;
+            object-fit: contain;
+        }
+        
         .checkout-note {
             font-size: 12px;
             color: #666;
@@ -502,15 +476,93 @@
                 flex-direction: column;
             }
         }
-
-        .delivery-icon img, .shipping-icon img {
-            width: 28px;
-            height: 28px;
-            object-fit: contain;
+        @media (max-width: 600px) {
+        .checkout-container {
+            flex-direction: column;
+            gap: 10px;
+            padding: 0 4px;
         }
+        .product-section, .summary-section {
+            min-width: 0;
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+        .product-header, .product-item {
+            font-size: 12px;
+            gap: 6px;
+            padding: 8px 0;
+        }
+        .product-image img, .product-image {
+            width: 40px !important;
+            height: 40px !important;
+        }
+        .quantity-btn, .quantity-display {
+            font-size: 12px;
+            padding: 4px 8px;
+            min-width: 24px;
+            height: 24px;
+        }
+        .item-total {
+            font-size: 12px;
+        }
+        .checkout-btn {
+            font-size: 14px;
+            padding: 10px;
+        }
+        .shipping-section, .shipping-address-content {
+            padding: 8px 4px;
+            font-size: 12px;
+        }
+        .dropdown-bar > div {
+            flex-direction: column;
+            gap: 8px;
+            height: auto;
+            padding: 4px;
+        }
+        .dropdown-pet, .dropdown-pet1 {
+            width: 100%;
+        }
+    }
+    @media (max-width: 480px) {
+        .checkout-container {
+            padding: 0 2px;
+        }
+        .product-section, .summary-section {
+            padding: 4px;
+        }
+        .product-header, .product-item {
+            font-size: 10px;
+            gap: 2px;
+            padding: 4px 0;
+        }
+        .product-image img, .product-image {
+            width: 28px !important;
+            height: 28px !important;
+        }
+        .quantity-btn, .quantity-display {
+            font-size: 10px;
+            padding: 2px 4px;
+            min-width: 16px;
+            height: 16px;
+        }
+        .item-total {
+            font-size: 10px;
+        }
+        .checkout-btn {
+            font-size: 12px;
+            padding: 6px;
+        }
+        .shipping-section, .shipping-address-content {
+            padding: 4px 2px;
+            font-size: 10px;
+        }
+        .dropdown-bar > div {
+            padding: 2px;
+        }
+    }
 </style>
-<div class="home-container">
-        <div class="dropdown-bar">
+ <div class="dropdown-bar">
                 <div class="nav-item dropdown-pet">
                     <a id="petTypeDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Shop by Pet
@@ -555,6 +607,10 @@
                             <button class="quantity-btn" onclick="changeQuantity('{{ $item->id }}', 1)">+</button>
                         </div>
                         <div class="item-total" id="item-total-{{ $item->id }}">₱ {{ number_format(($item->product->price ?? 0) * $item->quantity, 2) }}</div>
+                        <form method="POST" action="{{ route('cart.item.remove', $item->id) }}" style="margin-left:10px;">
+                            @csrf
+                            <button type="submit" class="quantity-btn" title="Remove item" style="background:#e74c3c;">&times;</button>
+                        </form>
                     </div>
                 @endforeach
             @else
@@ -594,7 +650,7 @@
                 Please click the checkout button to continue.
             </div>
 
-            <form method="POST" action="{{ route('checkout') }}" style="margin:0;" id="checkoutForm">
+            <form method="POST" action="{{ route('checkout') }}" style="margin:0;">
                 @csrf
                 <input type="hidden" name="delivery_option" id="delivery_option" value="shipping">
                 <div style="margin-bottom: 15px;">
@@ -628,9 +684,11 @@
                 {{ $user->shipping_address ?? 'Address not set' }}<br>
                 Phone: {{ $user->shipping_phone ?? 'Phone not set' }}
             @else
-                Your Name<br>
-                Your address<br>
-                Your phone number
+                John Doe<br>
+                123 Main Street, Barangay San Juan<br>
+                Lucena City, Calabarzon 4301<br>
+                Philippines<br>
+                Phone: +63 917 123 4567
             @endif
         </div>
         <button class="edit-address-btn" id="editAddressBtn" onclick="editAddress()">Edit Address</button>
@@ -664,14 +722,6 @@
                     <button type="button" class="btn-cancel" onclick="closeAddressModal()">Cancel</button>
                 </div>
             </form>
-        </div>
-    </div>
-
-    <!-- Modal for empty cart -->
-    <div id="emptyCartModal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.4); z-index:9999; justify-content:center; align-items:center;">
-        <div style="background:#fff; padding:32px 40px; border-radius:12px; box-shadow:0 4px 24px rgba(0,0,0,0.2); text-align:center;">
-            <div style="font-size:20px; font-weight:bold; margin-bottom:16px; color:#8B4513;">No item in the cart</div>
-            <button onclick="document.getElementById('emptyCartModal').style.display='none'" style="margin-top:12px; padding:8px 24px; border:none; border-radius:6px; background:#8B4513; color:#fff; font-size:16px; cursor:pointer;">OK</button>
         </div>
     </div>
 
@@ -752,7 +802,7 @@
             updateShippingContent(option);
         }
 
-        function updateShippingContent(deliveryMethod) {
+          function updateShippingContent(deliveryMethod) {
             const shippingIcon = document.getElementById('shippingIcon');
             const shippingText = document.getElementById('shippingText');
             const addressText = document.getElementById('addressText');
@@ -830,16 +880,8 @@
         function closeAddressModal() {
             document.getElementById('addressModal').style.display = 'none';
         }
-
-        document.getElementById('checkoutForm').addEventListener('submit', function(e) {
-            var items = document.querySelectorAll('.product-item');
-            if (items.length === 0) {
-                e.preventDefault();
-                document.getElementById('emptyCartModal').style.display = 'flex';
-            }
-        });
     </script>
 
-
+  
 </div>
 @endsection

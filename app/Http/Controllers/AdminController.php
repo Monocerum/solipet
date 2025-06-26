@@ -16,6 +16,7 @@ class AdminController extends Controller
 
     public function index()
     {
+        // Get dashboard statistics
         $totalOrders = Order::count();
         $totalProducts = Product::count();
         $totalCustomers = User::where('is_admin', false)->count();
@@ -26,13 +27,11 @@ class AdminController extends Controller
 
     public function orders(Request $request)
     {
-        $status = $request->get('status', 'placed');
-        
-        $orders = Order::with(['user', 'product'])
+        $status = $request->get('status', 'pending');
+        $orders = Order::with(['user', 'items.product'])
             ->where('status', $status)
             ->orderBy('created_at', 'desc')
             ->get();
-
         return view('admin.orders', compact('orders', 'status'));
     }
 
