@@ -136,6 +136,37 @@ class UserController extends Controller
             ]);
         }
         $cart->items()->delete();
-        return redirect()->route('userpage')->with('success', 'Order placed successfully!');
+
+        $redirect = redirect()->route('userpage')->with('success', 'Order placed successfully!');
+
+        if ($status === 'to ship' || $status === 'to pay') {
+             $redirect->with('active_section', 'purchase')
+                      ->with('active_purchase_tab', str_replace(' ', '-', $status));
+        }
+
+        return $redirect;
+    }
+
+    public function payOrder(Request $request, \App\Models\Order $order)
+    {
+        if (auth()->user()->id !== $order->user_id) {
+            abort(403);
+        }
+
+        $request->validate([
+            'gcash_number' => 'required|string|regex:/^09\d{9}$/',
+        ], [
+            'gcash_number.regex' => 'Please enter a valid 11-digit GCash number starting with 09.',
+        ]);
+
+        $order->status = 'to ship';
+        $order->payment_method = 'GCash';
+        $order->gcash_number = $request->gcash_number;
+        $order->save();
+
+        return redirect()->route('userpage')
+            ->with('success', "Payment for Order #{$order->id} successful! Your order will be shipped soon.")
+            ->with('active_section', 'purchase')
+            ->with('active_purchase_tab', 'to-ship');
     }
 } 

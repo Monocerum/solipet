@@ -54,3 +54,5 @@ Route::post('/cart/address', [CartController::class, 'updateAddress'])->name('ca
 Route::post('/pay', [UserController::class, 'pay'])->name('pay')->middleware('auth');
 
 Route::post('/checkout', [UserController::class, 'checkout'])->name('checkout')->middleware('auth');
+
+Route::post('/order/{order}/pay', [UserController::class, 'payOrder'])->name('order.pay')->middleware('auth');
