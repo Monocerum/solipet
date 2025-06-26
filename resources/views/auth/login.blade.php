@@ -139,6 +139,78 @@
             font-style: italic;
         }
     }
+
+    @media screen and (max-width: 1450px) {
+        .auth-card {
+            background: #77401E;
+            color: white;
+            width: 40em;
+            min-height: 50vh;
+            border-radius: 1.5em;
+        }
+    }
+
+    @media screen and (max-width: 1000px) {
+        .auth-card {
+            width: 30em;
+        }
+
+        .solipet-tagline {
+            h3 {
+                font-size: 1.5em;
+            }
+
+            h5 {
+                font-size: 1.2em;
+            }
+        }
+    }
+
+    @media screen and (max-width: 870px) {
+        .login-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            .solipet-tagline-container {
+                height: 10vh;
+                display: flex;
+                padding-right: 0;
+                align-items: center;
+
+                .solipet-tagline {
+                    align-items: center;
+                }
+
+                h3, h5 {
+                    text-align: center;
+                }
+            }
+        }
+    }
+
+    @media screen and (max-width: 550px) {
+        .auth-card {
+            width: 25em;
+        }
+
+        .auth-card-body {
+            padding: 10%;
+        }
+    }
+
+    @media screen and (max-width: 550px) {
+        .auth-card {
+            width: 20em;
+        }
+
+        .redirect-container {
+            p {
+                text-align: center;
+                font-size: 1em;
+            }
+        }
+    }
 </style>
 
 <div class="container login-container">
