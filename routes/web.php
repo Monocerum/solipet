@@ -48,6 +48,19 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     Route::get('/promotions', [AdminController::class, 'promotions'])->name('promotions');
 });
 
+Route::prefix('admin')->name('admin.')->group(function () {
+    // Payment Management Routes
+    Route::get('/payments', [App\Http\Controllers\Admin\PaymentController::class, 'index'])->name('payments');
+    Route::get('/payments/{payment}', [App\Http\Controllers\Admin\PaymentController::class, 'show'])->name('payments.show');
+    Route::patch('/payments/{payment}/status', [App\Http\Controllers\Admin\PaymentController::class, 'updateStatus'])->name('payments.update-status');
+    
+    // Promotion Management Routes
+    Route::get('/payments/promotions/manage', [App\Http\Controllers\Admin\PaymentController::class, 'promotions'])->name('payments.promotions');
+    Route::get('/payments/promotions/create', [App\Http\Controllers\Admin\PaymentController::class, 'createPromotion'])->name('payments.promotions.create');
+    Route::post('/payments/promotions', [App\Http\Controllers\Admin\PaymentController::class, 'storePromotion'])->name('payments.promotions.store');
+    Route::patch('/promotions/{promotion}/toggle', [App\Http\Controllers\Admin\PaymentController::class, 'togglePromotionStatus'])->name('promotions.toggle');
+});
+
 
 Route::put('/user/profile', [UserController::class, 'update'])->name('user.profile.update')->middleware('auth');
 Route::put('/user/password', [UserController::class, 'updatePassword'])->name('user.password.update')->middleware('auth');

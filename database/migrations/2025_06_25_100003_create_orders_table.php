@@ -14,15 +14,12 @@ return new class extends Migration
             $table->foreignId('product_id')->constrained()->onDelete('cascade');
             $table->string('order_number')->unique();
 
-            // Status from the second version (more detailed)
             $table->enum('status', ['pending', 'placed', 'preparing', 'shipping', 'delivered', 'cancelled', 'returned'])->default('pending');
 
             $table->integer('quantity')->default(1);
 
-            // Use the larger precision just in case
             $table->decimal('total_amount', 10, 2);
 
-            // From first migration
             $table->string('payment_method');
             $table->string('gcash_number')->nullable();
             $table->text('shipping_address')->nullable();
