@@ -11,8 +11,9 @@ return new class extends Migration
      */
     public function up()
     {
-        // profile_image column already exists, nothing to do here.
-    }
+        Schema::table('users', function (Blueprint $table) {
+            $table->boolean('is_admin')->default(false);
+        });    }
 
 
     /**
