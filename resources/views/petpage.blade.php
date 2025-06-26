@@ -291,9 +291,10 @@ use Illuminate\Support\Facades\DB;
             $fixedImg = 'assets/cat-img.png';
         }
 
-        // Fetch products
+        // Fetch products, including product id
         $items = $query->get()->map(function($product) {
             return [
+                'id' => $product->id,
                 'title' => $product->title,
                 'price' => $product->price,
                 'savings' => $product->savings ?? null,
@@ -307,7 +308,7 @@ use Illuminate\Support\Facades\DB;
 
     <div class="responsive-item-container">
         @foreach($items as $index => $item)
-            <a class="item-card" href="{{ route('itempage') }}" style="text-decoration: none;">
+            <a class="item-card" href="{{ url('item/' . $item['id']) }}" style="text-decoration: none;">
                 <div>
                     <div class="item-image">
                         <div class="pixel-cat"></div>
