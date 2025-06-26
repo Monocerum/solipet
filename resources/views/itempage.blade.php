@@ -629,7 +629,7 @@
                         <div class="detail-title">{{ $review->reviewer_name }}</div>
                         <p>{{ $review->review_text }}</p>
                     </div>
-                @endforeach
+                @endforeach 
             @else
                 <p>No reviews yet.</p>
             @endif
