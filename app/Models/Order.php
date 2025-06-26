@@ -11,13 +11,16 @@ class Order extends Model
 
     protected $fillable = [
         'user_id',
+        'product_id',
+        'order_number',
         'status',
-        'total',
-        'payment_method',
-        'gcash_number',
-        'shipping_address',
-        'tracking_number',
-        'delivery_option',
+        'quantity',
+        'total_amount',
+    ];
+
+    protected $casts = [
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
     ];
 
     public function user()
@@ -25,8 +28,20 @@ class Order extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function items()
+    public function product()
     {
-        return $this->hasMany(OrderItem::class);
+        return $this->belongsTo(Product::class);
     }
-} 
+
+    // Generate order number
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($order) {
+            if (!$order->order_number) {
+                $order->order_number = 'ORD' . str_pad(Order::count() + 1, 4, '0', STR_PAD_LEFT);
+            }
+        });
+    }
+}

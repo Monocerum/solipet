@@ -37,6 +37,16 @@ Route::get('/itempage', function () {
 
 Route::get('/admin', [AdminController::class, 'index'])->name('admin');
 
+Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/', [AdminController::class, 'index'])->name('dashboard');
+    Route::get('/orders', [AdminController::class, 'orders'])->name('orders');
+    Route::get('/products', [AdminController::class, 'products'])->name('products');
+    Route::get('/inventory', [AdminController::class, 'inventory'])->name('inventory');
+    Route::get('/customers', [AdminController::class, 'customers'])->name('customers');
+    Route::get('/payments', [AdminController::class, 'payments'])->name('payments');
+    Route::get('/promotions', [AdminController::class, 'promotions'])->name('promotions');
+});
+
 
 Route::put('/user/profile', [UserController::class, 'update'])->name('user.profile.update')->middleware('auth');
 Route::put('/user/password', [UserController::class, 'updatePassword'])->name('user.password.update')->middleware('auth');
