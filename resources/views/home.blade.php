@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.header')
 <style>
 .dropdown-bar {
     margin-bottom: 20px;
@@ -505,7 +505,6 @@ h6 {
 
     .carousel-track {
         .carousel-item {
-            min-width: 250px;
             width: 250px;
         }
     }
@@ -771,7 +770,6 @@ h6 {
                 display: none; 
             }
             .carousel-item {
-                min-width: 300px;
                 width: 300px;
                 margin: 0 10px;
                 background: linear-gradient(135deg, #f4d4b8, #e8c4a0);
