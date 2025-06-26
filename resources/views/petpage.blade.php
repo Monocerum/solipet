@@ -70,7 +70,7 @@
 }
 
 .item-card {
-    width: 200px;
+    width: 15%;
     background: linear-gradient(135deg, #f4d4b8, #e8c4a0);
     border: 4px solid #8b4513;
     border-radius: 8px;
@@ -91,7 +91,6 @@
 
 .item-info {
     padding: 12px;
-    background-color: #f4d4b8;
 }
 
 .item-name {

@@ -281,7 +281,7 @@
             </div>
         </div>
         <section class="promos">
-
+            
         </section>
         @include('components.footer')
     </div>
