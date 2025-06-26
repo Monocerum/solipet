@@ -305,6 +305,10 @@
     font-size: 9px;
 }
 
+.promos {
+    margin: 0 5%;
+}
+
 .promos h2 {
     display: flex;
     flex-direction: column;
@@ -313,6 +317,10 @@
     color: #FFE3CA;
     font-size: 3.3em;
     margin: 0;
+}
+
+h6 {
+    margin: 0 5%;
 }
 
 @media screen and (max-width: 1465px) {
@@ -440,10 +448,14 @@
         }
     }
 
+    #dogContainer {
+        margin-top: -15em;
+    }
+
     .pet-box {
         display: flex;
         justify-content: center;
-        width: 80%;
+        width: 90%;
 
         img {
             width: 80%;
@@ -485,6 +497,17 @@
     .shop-button {
         padding: 2%;
         border-radius: 0.2em;
+    }
+
+    #dogContainer {
+        margin-top: -10em;
+    }
+
+    .carousel-track {
+        .carousel-item {
+            min-width: 250px;
+            width: 250px;
+        }
     }
 }
 
