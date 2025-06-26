@@ -5,35 +5,43 @@
 .dropdown-bar {
     margin-bottom: 20px;
     display: flex;
-    gap: 15px;
-    background-color: beige;
-    padding: 10px;
+    padding-left: 5%;
     border-radius: 6px;
-    position: relative;
-    z-index: 100;
 }
+
 .dropdown-bar > div {
+    justify-content: flex-start;
+    padding: 10px;
     display: flex;
-    justify-content: center;
-    align-items: center;
     width: 100%;
     gap: 30px;
     height: 50px;
 }
+
 .dropdown-pet {
     position: relative;
     width: 200px;
 }
+
 .dropdown-pet1 {
     position: relative;
     width: 300px;
 }
+
 .dropdown-pet .dropdown-toggle, .dropdown-pet1 .dropdown-toggle {
-    color: #000000;
+    color: beige;
     font-family: 'Manrope', sans-serif;
     font-size: 1.25rem;
     font-weight: bold;
 }
+
+.dropdown-pet .dropdown-toggle:hover,
+.dropdown-pet .dropdown-toggle:focus,
+.dropdown-pet .dropdown-toggle:active {
+    color: white;
+    text-decoration: none;
+}
+
 .hero-section {
     width: 100%;
     display: flex;
@@ -480,7 +488,7 @@
     color: #d4af37;
 }
 .view-details-btn {
-    background: linear-gradient(135deg, #4ecdc4, #44b3a8);
+    background: linear-gradient(135deg,rgb(168, 152, 122),rgb(186, 146, 72));
     color: white;
     border: none;
     padding: 8px 16px;
@@ -561,8 +569,8 @@
     color: #fff;
 }
 .order-status.to-pay { background: #ffc107; }
-.order-status.to-ship { background: #17a2b8; }
-.order-status.to-receive { background: #007bff; }
+.order-status.to-ship { background:rgb(82, 63, 37); }
+.order-status.to-receive { background: rgb(126, 93, 47); }
 .order-status.completed { background: #28a745; }
 .order-status.cancelled { background: #dc3545; }
 
@@ -637,137 +645,120 @@
     padding: 40px;
     color: #888;
 }
+
+/* Modal Styles */
+.modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 2000;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background: #FFDDAF;
+    border-radius: 12px;
+    padding: 30px;
+    max-width: 500px;
+    width: 90%;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #C49F7E;
+}
+
+.modal-title {
+    color: #8B4513;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.close-modal {
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: #8B4513;
+    cursor: pointer;
+}
+
+.modal-content .form-group {
+    grid-template-columns: 1fr;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.modal-buttons {
+    display: flex;
+    gap: 15px;
+    margin-top: 25px;
+}
+
+.btn-save, .btn-cancel {
+    flex: 1;
+    border: none;
+    border-radius: 6px;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.btn-save {
+    background: #C49F7E;
+    color: black;
+}
+.btn-save:hover {
+    background: rgb(98, 70, 45);
+    color: white;
+}
+
+.btn-cancel {
+    background: #DDD;
+    color: #333;
+}
+.btn-cancel:hover {
+    background: #BBB;
+}
+
+.paid-indicator {
+    font-size: 14px;
+    font-weight: bold;
+    color: #28a745; /* Green color for paid status */
+    background-color: #e9f7ef;
+    padding: 8px 16px;
+    border-radius: 6px;
+}
 </style>
+
 <div class="dropdown-bar">
-    <div>
-        <div class="nav-item dropdown-pet">
-            <a id="navbarDropdown1" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Pet Food
-            </a>
-            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown1">
-                {{-- TODO: Replace route to proper name and file --}}
-                <a class="dropdown-item" href="{{ route('logout') }}" 
-                    onclick="event.preventDefault();
-                        document.getElementById('logout-form').submit();">
-                    {{ __('Dry Food') }}
-                </a>
-                <a class="dropdown-item" href="{{ route('logout') }}"
-                    onclick="event.preventDefault();
-                        document.getElementById('logout-form').submit();">
-                    {{ __('Wet Food') }}
-                </a>
-            </div>
-        </div>
-        <div class="nav-item dropdown-pet">
-            <a id="navbarDropdown2" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Pet Treats
-            </a>
-            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown2">
-                <a class="dropdown-item" href="{{ route('logout') }}"
-                    onclick="event.preventDefault();
-                        document.getElementById('logout-form').submit();">
-                    {{ __('Snacks') }}
-                </a>
-                <a class="dropdown-item" href="{{ route('logout') }}"
-                    onclick="event.preventDefault();
-                        document.getElementById('logout-form').submit();">
-                    {{ __('Dental Treats') }}
-                </a>
-                <a class="dropdown-item" href="{{ route('logout') }}"
-                    onclick="event.preventDefault();
-                        document.getElementById('logout-form').submit();">
-                    {{ __('Training Treats') }}
-                </a>
-            </div>
-        </div>
-        <div class="nav-item dropdown-pet1">
-            <a id="navbarDropdown3" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Pet Health & Wellness
-            </a>
-            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown3">
-                <a class="dropdown-item" href="{{ route('logout') }}"
-                    onclick="event.preventDefault();
-                        document.getElementById('logout-form').submit();">
-                    {{ __('Multivitamins & Supplements') }}
-                </a>
-                <a class="dropdown-item" href="{{ route('logout') }}"
-                    onclick="event.preventDefault();
-                        document.getElementById('logout-form').submit();">
-                    {{ __('Skin and Coat Treatment') }}
-                </a>
-                <a class="dropdown-item" href="{{ route('logout') }}"
-                    onclick="event.preventDefault();
-                        document.getElementById('logout-form').submit();">
-                    {{ __('Tick & Flea/Parasite Prevention') }}
-                </a>
-                <a class="dropdown-item" href="{{ route('logout') }}"
-                    onclick="event.preventDefault();
-                        document.getElementById('logout-form').submit();">
-                    {{ __('Special Needs') }}
-                </a>
-            </div>
-        </div>
-        <div class="nav-item dropdown-pet">
-            <a id="navbarDropdown4" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Pet Supplies
-            </a>
-            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown4">
-                <a class="dropdown-item" href="{{ route('logout') }}"
-                    onclick="event.preventDefault();
-                        document.getElementById('logout-form').submit();">
-                    {{ __('Apparel') }}
-                </a>
-                <a class="dropdown-item" href="{{ route('logout') }}"
-                    onclick="event.preventDefault();
-                        document.getElementById('logout-form').submit();">
-                    {{ __('Beds') }}
-                </a>
-                <a class="dropdown-item" href="{{ route('logout') }}"
-                    onclick="event.preventDefault();
-                        document.getElementById('logout-form').submit();">
-                    {{ __('Bowls and Feeders') }}
-                </a>
-                <a class="dropdown-item" href="{{ route('logout') }}"
-                    onclick="event.preventDefault();
-                        document.getElementById('logout-form').submit();">
-                    {{ __('Leashes and Harnesses') }}
-                </a>
-                <a class="dropdown-item" href="{{ route('logout') }}"
-                    onclick="event.preventDefault();
-                        document.getElementById('logout-form').submit();">
-                    {{ __('Crates, Kernels, & Outdoors') }}
-                </a>
-                <a class="dropdown-item" href="{{ route('logout') }}"
-                    onclick="event.preventDefault();
-                        document.getElementById('logout-form').submit();">
-                    {{ __('Toys') }}
-                </a>
-            </div>
-        </div>
-        <div class="nav-item dropdown-pet">
-            <a id="navbarDropdown5" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Pet Type
-            </a>
-            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown5">
-                <a class="dropdown-item" href="{{ route('logout') }}"
-                    onclick="event.preventDefault();
-                        document.getElementById('logout-form').submit();">
-                    {{ __('Cat') }}
-                </a>
-                <a class="dropdown-item" href="{{ route('logout') }}"
-                    onclick="event.preventDefault();
-                        document.getElementById('logout-form').submit();">
-                    {{ __('Dog') }}
-                </a>
-                <a class="dropdown-item" href="{{ route('logout') }}"
-                    onclick="event.preventDefault();
-                        document.getElementById('logout-form').submit();">
-                    {{ __('Small Pet') }}
-                </a>
-            </div>
-        </div>
+                <div class="nav-item dropdown-pet">
+                    <a id="petTypeDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Shop by Pet
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-start" aria-labelledby="navbarDropdown5">
+                        <a class="dropdown-item" href="{{ route('petpage', ['pet_type' => 'cat']) }}">
+                            {{ __('Cat') }}
+                        </a>
+                        <a class="dropdown-item" href="{{ route('petpage', ['pet_type' => 'dog']) }}">
+                            {{ __('Dog') }}
+                        </a>
+                        <a class="dropdown-item" href="{{ route('petpage', ['pet_type' => 'small_pet']) }}">
+                            {{ __('Small Pet') }}
+                        </a>
+                    </div>
+                </div>
     </div>
-</div>
 
 <div class="userpage-flex-container">
     <div class="sidebar">
@@ -798,7 +789,7 @@
         <div class="sidebar-section">
             <div class="sidebar-title">My Account</div>
             <div class="sidebar-item active" data-section="profile">
-                <div class="nav-icon"><img src="user-icon.png" alt="user icon"> </i></div>
+                <div class="nav-icon">👤</i></div>
                 <span>Profile</span>
             </div>
             <div class="sidebar-item" data-section="password">
@@ -949,16 +940,16 @@
             </div>
             <!-- My Purchase Section -->
             <div class="content-section" id="purchase-section">
-                <div class="purchase-tabs">
-                    <div class="purchase-tab active">To Pay</div>
-                    <div class="purchase-tab">To Ship</div>
-                    <div class="purchase-tab">To Receive</div>
-                    <div class="purchase-tab">Completed</div>
-                    <div class="purchase-tab">Cancelled</div>
-                    <div class="purchase-tab">Return</div>
+                <div class="purchase-tabs nav nav-tabs" id="purchase-tabs-nav" role="tablist">
+                    <button class="purchase-tab nav-link active" id="to-pay-tab" data-bs-toggle="tab" data-bs-target="#to-pay" type="button" role="tab" aria-controls="to-pay" aria-selected="true">To Pay</button>
+                    <button class="purchase-tab nav-link" id="to-ship-tab" data-bs-toggle="tab" data-bs-target="#to-ship" type="button" role="tab" aria-controls="to-ship" aria-selected="false">To Ship</button>
+                    <button class="purchase-tab nav-link" id="to-receive-tab" data-bs-toggle="tab" data-bs-target="#to-receive" type="button" role="tab" aria-controls="to-receive" aria-selected="false">To Receive</button>
+                    <button class="purchase-tab nav-link" id="completed-tab" data-bs-toggle="tab" data-bs-target="#completed" type="button" role="tab" aria-controls="completed" aria-selected="false">Completed</button>
+                    <button class="purchase-tab nav-link" id="cancelled-tab" data-bs-toggle="tab" data-bs-target="#cancelled" type="button" role="tab" aria-controls="cancelled" aria-selected="false">Cancelled</button>
+                    <div class="purchase-tab nav-link disabled">Return</div>
                 </div>
                 <div class="tab-content" id="my-purchases-content">
-                    <div class="tab-pane fade show active" id="to-pay" role="tabpanel">
+                    <div class="tab-pane fade show active" id="to-pay" role="tabpanel" aria-labelledby="to-pay-tab">
                         @if($orders->where('status', 'to pay')->count())
                             @foreach($orders->where('status', 'to pay') as $order)
                                 <div class="order-card">
@@ -983,7 +974,9 @@
                                         <div class="total-price">
                                             Order Total: <span>₱{{ number_format($order->total, 2) }}</span>
                                         </div>
-                                        <button class="btn-primary">Pay Now</button>
+                                        <div>
+                                            <span class="paid-indicator">Paid via {{ $order->payment_method }}</span>
+                                        </div>
                                     </div>
                                 </div>
                             @endforeach
@@ -1135,6 +1128,28 @@
                     </div>
                 </div>
             </div>
+
+            <!-- GCash Payment Modal -->
+            <div class="modal-overlay" id="paymentModal" style="display:none;">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2 class="modal-title">GCash Payment</h2>
+                        <button class="close-modal" onclick="closePaymentModal()">&times;</button>
+                    </div>
+                    <form id="paymentForm" method="POST" action="">
+                        @csrf
+                        <div class="form-group">
+                            <label for="gcash_number" class="form-label" style="margin-bottom: 5px; display: block;">GCash Number:</label>
+                            <input type="text" id="gcash_number" name="gcash_number" class="form-input" placeholder="09xxxxxxxxx" required>
+                        </div>
+                        <div class="modal-buttons">
+                            <button type="submit" class="btn-save">Confirm Payment</button>
+                            <button type="button" class="btn-cancel" onclick="closePaymentModal()">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
         </div>
     </div>
 </div>
@@ -1302,6 +1317,39 @@
             titleElement.textContent = 'Change Password';
             subtitleElement.textContent = 'Update your password to keep your account secure';
         }
+
+        @if(session('active_section'))
+            const sectionToShow = '{{ session('active_section') }}';
+            const purchaseTabToShow = '{{ session('active_purchase_tab') }}';
+
+            // Deactivate all sidebar items and content sections
+            document.querySelectorAll('.sidebar-item').forEach(nav => nav.classList.remove('active'));
+            document.querySelectorAll('.content-section').forEach(section => section.classList.remove('active'));
+
+            // Activate the correct sidebar item and content section
+            const sidebarItem = document.querySelector(`.sidebar-item[data-section="${sectionToShow}"]`);
+            const sectionElement = document.getElementById(`${sectionToShow}-section`);
+            if (sidebarItem && sectionElement) {
+                sidebarItem.classList.add('active');
+                sectionElement.classList.add('active');
+
+                // Update titles
+                const titleElement = document.querySelector('.profile-title');
+                const subtitleElement = document.querySelector('.profile-subtitle');
+                if (sectionToShow === 'purchase') {
+                    titleElement.textContent = 'My Purchase';
+                    subtitleElement.textContent = 'View your order history and track current purchases';
+                }
+            }
+            
+            if (sectionToShow === 'purchase' && purchaseTabToShow) {
+                const triggerEl = document.querySelector(`#${purchaseTabToShow}-tab`);
+                if (triggerEl) {
+                    const tab = new bootstrap.Tab(triggerEl);
+                    tab.show();
+                }
+            }
+        @endif
     });
     // Add keyboard shortcuts
     document.addEventListener('keydown', function(e) {
@@ -1309,6 +1357,25 @@
             e.preventDefault();
             document.querySelector('.profile-form').submit();
         }
+    });
+
+    // Payment Modal Logic
+    function openPaymentModal(orderId) {
+        const modal = document.getElementById('paymentModal');
+        const form = document.getElementById('paymentForm');
+        form.action = `/order/${orderId}/pay`;
+        modal.style.display = 'flex';
+    }
+
+    function closePaymentModal() {
+        document.getElementById('paymentModal').style.display = 'none';
+    }
+
+    document.querySelectorAll('.pay-now-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const orderId = this.dataset.orderId;
+            openPaymentModal(orderId);
+        });
     });
 </script>
 @endsection

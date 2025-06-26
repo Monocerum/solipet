@@ -92,7 +92,7 @@
                                 </div>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('cart') }}" style="color: #f2d5bc; font-size: 1.25rem; font-family: 'Manrope', sans-serif;">
+                                <a class="nav-link" href="{{ route('viewCart') }}" style="color: #f2d5bc; font-size: 1.25rem; font-family: 'Manrope', sans-serif;">
                                     <img src="{{ asset('assets/cart.png') }}" alt="Cart" style="height: 28px; vertical-align: middle;">
                                 </a>
                             </li>
