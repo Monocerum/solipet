@@ -38,9 +38,8 @@ Route::get('/itempage', function () {
     return view('itempage'); // corresponds to resources/views/itempage.blade.php
 })->name('itempage');
 
-Route::middleware(['auth', 'admin'])->group(function () {
-    Route::get('/admin', [AdminController::class, 'index'])->name('admin.dashboard');
-});
+Route::get('/admin', [AdminController::class, 'index'])->name('admin');
+
 
 Route::put('/user/profile', [UserController::class, 'update'])->name('user.profile.update')->middleware('auth');
 
