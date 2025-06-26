@@ -11,11 +11,13 @@ class Order extends Model
 
     protected $fillable = [
         'user_id',
-        'product_id',
-        'order_number',
+        'payment_method',
         'status',
-        'quantity',
-        'total_amount',
+        'total',
+        'gcash_number',
+        'shipping_address',
+        'delivery_option',
+        'order_number',
     ];
 
     protected $casts = [
@@ -31,6 +33,11 @@ class Order extends Model
     public function product()
     {
         return $this->belongsTo(Product::class);
+    }
+
+    public function items()
+    {
+        return $this->hasMany(OrderItem::class);
     }
 
     // Generate order number
