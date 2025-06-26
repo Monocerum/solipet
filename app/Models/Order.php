@@ -35,12 +35,16 @@ class Order extends Model
         return $this->belongsTo(Product::class);
     }
 
-    public function items()
+    public function payment()
     {
-        return $this->hasMany(OrderItem::class);
+        return $this->hasOne(Payment::class);
     }
 
-    // Generate order number
+    public function shippingInfo()
+    {
+        return $this->hasOne(ShippingInfo::class);
+    }
+
     protected static function boot()
     {
         parent::boot();
