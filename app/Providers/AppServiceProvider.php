@@ -23,7 +23,7 @@ class AppServiceProvider extends ServiceProvider
             $cartCount = 0;
             if (\Illuminate\Support\Facades\Auth::check()) {
                 $cart = \App\Models\Cart::where('user_id', \Illuminate\Support\Facades\Auth::id())->first();
-                $cartCount = $cart ? $cart->items()->sum('quantity') : 0;
+                $cartCount = $cart ? $cart->items()->count('product_id') : 0;
             }
             $view->with('cartCount', $cartCount);
         });
