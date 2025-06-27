@@ -59,12 +59,17 @@ class UserController extends Controller
         ]);
         // Check current password
         if (!\Hash::check($request->current_password, $user->password)) {
-            return back()->with('password_error', 'Current password is incorrect.')->withInput();
+            return back()
+                ->with('password_error', 'Current password is incorrect.')
+                ->with('active_section', 'password')
+                ->withInput();
         }
         // Update password
         $user->password = bcrypt($request->new_password);
         $user->save();
-        return back()->with('password_success', 'Password updated successfully!');
+        return back()
+            ->with('password_success', 'Password updated successfully!')
+            ->with('active_section', 'password');
     }
 
     public function showUserPage()
