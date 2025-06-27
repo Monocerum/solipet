@@ -43,11 +43,27 @@
     
 }
 
-.result-container h4, p{
+.result-container h4 {
     font-family: 'Irish Grover', cursive; 
     color: #f2d5bc;
 }
 
+.result-container p{
+    font-family: 'Manrope', cursive; 
+    color: #f2d5bc;
+}
+
+.result-label{
+    display: flex; 
+    align-items: center; 
+    gap: 20px;
+}
+
+.result-label p {
+    margin-left: auto;
+    margin-right: 10px;
+    text-align: right;
+}
 
 .item-card {
     width: 15%;
@@ -144,25 +160,26 @@
     <div>
         <div class="nav-item dropdown-pet">
             <a id="navbarDropdown1" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Shop By Pet
+                Filter By Pet
             </a>
             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown1">
-                {{-- TODO: Replace route to proper name and file --}}
-                <a class="dropdown-item" href="{{ route('logout') }}" 
-                    onclick="event.preventDefault();
-                        document.getElementById('logout-form').submit();">
-                    {{ __('Cat') }}
-                </a>
-                <a class="dropdown-item" href="{{ route('logout') }}"
-                    onclick="event.preventDefault();
-                        document.getElementById('logout-form').submit();">
-                    {{ __('Dog') }}
-                </a>
-                <a class="dropdown-item" href="{{ route('logout') }}"
-                    onclick="event.preventDefault();
-                        document.getElementById('logout-form').submit();">
-                    {{ __('Small Animal') }}
-                </a>
+                <form method="GET" action="{{ url()->current() }}">
+                    <input type="hidden" name="query" value="{{ request('query') }}">
+                    <input type="hidden" name="sort" value="{{ request('sort') }}">
+
+                    <button class="dropdown-item" type="submit" name="pet" value="cat">
+                        {{ __('Cat') }}
+                    </button>
+                    <button class="dropdown-item" type="submit" name="pet" value="dog">
+                        {{ __('Dog') }}
+                    </button>
+                    <button class="dropdown-item" type="submit" name="pet" value="small_animal">
+                        {{ __('Small Animal') }}
+                    </button>
+                    <button class="dropdown-item" type="submit" name="pet" value="">
+                        {{ __('All Pets') }}
+                    </button>
+                </form>
             </div>
         </div>
         <div class="nav-item dropdown-pet">
@@ -184,7 +201,13 @@
     </div>
 </div>
 <div class="result-container">
-        <h4>Search Results for: " {{ $query }} "</h4> <br>
+        <div class="result-label">
+            <h4>Search Results for: " {{ $query }} "</h4>
+            @if(request('pet'))
+                <p><strong>Filter:</strong> For <u>{{ ucfirst(str_replace('_', ' ', request('pet'))) }}</u> Only </p>
+            @endif
+        </div>
+        <br>
 
         @if ($results->isEmpty())
             <p>No results found.</p>
@@ -206,8 +229,18 @@
                                         @endif
                                     </span>
                                     <div class="rating">
+                                        @php
+                                            $fullStars = floor($item['ratings']);
+                                            $halfStar = ($item['ratings'] - $fullStars) >= 0.5;
+                                        @endphp
                                         @for($i = 0; $i < 5; $i++)
-                                            <span class="star">{{ $i < $item['ratings'] ? '★' : '☆' }}</span>
+                                            @if($i < $fullStars)
+                                                <span class="star">★</span>
+                                            @elseif($i == $fullStars && $halfStar)
+                                                <span class="star">⯨</span>
+                                            @else
+                                                <span class="star">☆</span>
+                                            @endif
                                         @endfor
                                         <span class="sold-count">
                                             {{ is_numeric($item['rating_text']) ? number_format($item['rating_text']) : e($item['rating_text']) }}
