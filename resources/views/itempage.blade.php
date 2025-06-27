@@ -579,7 +579,7 @@
                 <div class="savings">{{ $product->savings }}</div>
                 
                 <ul class="features">
-                    @foreach($product->features as $feature)
+                    @foreach($product->features ?? [] as $feature)
                         <li>{{ $feature }}</li>
                     @endforeach
                 </ul>
@@ -623,7 +623,7 @@
         </div>
         <div id="reviews-section" class="product-details" style="display:none;">
             <h3>Reviews</h3>
-            @if($reviews && count($reviews))
+            @if(isset($reviews) && $reviews && count($reviews))
                 @foreach($reviews as $review)
                     <div class="detail-section">
                         <div class="detail-title">{{ $review->reviewer_name }}</div>

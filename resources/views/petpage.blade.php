@@ -1,3 +1,4 @@
+
 @extends('layouts.header') 
 
 @section('content')
@@ -335,6 +336,18 @@
             $title = "Items for Cats";
             $fixedImg = 'assets/cat-img.png';
         }
+
+        // Fetch products, including product id
+        $items = $query->get()->map(function($product) {
+            return [
+                'id' => $product->id,
+                'title' => $product->title,
+                'price' => $product->price,
+                'savings' => $product->savings ?? null,
+                'ratings' => $product->ratings ?? 0,
+                'sold_count' => $product->sold_count ?? 0,
+            ];
+        });
     @endphp
 
     <h1 style="font-family: 'Irish Grover', cursive;">{{ $title }}</h1>
@@ -360,7 +373,9 @@
                                 @for($i = 0; $i < 5; $i++)
                                     <span class="star">{{ $i < $item['ratings'] ? '★' : '☆' }}</span>
                                 @endfor
-                                <span class="sold-count">{{ number_format($item['sold_count']) }} SOLD</span>
+                                <span class="sold-count">
+                                    {{ is_numeric($item['sold_count']) ? number_format($item['sold_count']) : e($item['sold_count']) }}
+                                </span>
                             </div>
                         </div>
                     </div>
