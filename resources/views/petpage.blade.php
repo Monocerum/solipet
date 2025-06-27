@@ -273,33 +273,60 @@
             ->unique()
             ->sort()
             ->values();
+
+        // Get selected filters from request
+        $selectedCategories = request()->input('category', []);
+        $selectedBrands = request()->input('brand', []);
     @endphp
 
     <aside style="width: 250px; background: #1B0800; border-radius: 8px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
         <h4 style="font-family: 'Manrope', sans-serif; font-weight: bold; margin-bottom: 20px;">Catalogs</h4>
         <div style="margin-bottom: 30px;">
             <h5 style="font-family: 'Manrope', sans-serif; font-weight: bold; margin-bottom: 12px;">Categories</h5>
-            <form id="category-filter-form">
+            <form id="category-filter-form" method="GET" action="{{ url()->current() }}">
                 @foreach($categories as $cat)
                     <div style="margin-bottom: 10px;">
-                        <input type="checkbox" id="category_{{ \Illuminate\Support\Str::slug($cat) }}" name="category[]" value="{{ $cat }}">
+                        <input type="checkbox" id="category_{{ \Illuminate\Support\Str::slug($cat) }}" name="category[]" value="{{ $cat }}"
+                            {{ in_array($cat, (array)$selectedCategories) ? 'checked' : '' }}
+                            onchange="this.form.submit()">
                         <label for="category_{{ \Illuminate\Support\Str::slug($cat) }}" style="color: #f2d5bc;">{{ $cat }}</label>
                     </div>
+                @endforeach
+                @foreach(request()->except(['category']) as $key => $value)
+                    @if(is_array($value))
+                        @foreach($value as $v)
+                            <input type="hidden" name="{{ $key }}[]" value="{{ $v }}">
+                        @endforeach
+                    @else
+                        <input type="hidden" name="{{ $key }}" value="{{ $value }}">
+                    @endif
                 @endforeach
             </form>
         </div>
         <div>
             <h5 style="font-family: 'Manrope', sans-serif; font-weight: bold; margin-bottom: 12px;">Brands</h5>
-            <form id="brand-filter-form">
+            <form id="brand-filter-form" method="GET" action="{{ url()->current() }}">
                 @foreach($brands as $brand)
                     <div style="margin-bottom: 10px;">
-                        <input type="checkbox" id="brand_{{ \Illuminate\Support\Str::slug($brand) }}" name="brand[]" value="{{ $brand }}">
+                        <input type="checkbox" id="brand_{{ \Illuminate\Support\Str::slug($brand) }}" name="brand[]" value="{{ $brand }}"
+                            {{ in_array($brand, (array)$selectedBrands) ? 'checked' : '' }}
+                            onchange="this.form.submit()">
                         <label for="brand_{{ \Illuminate\Support\Str::slug($brand) }}" style="color: #f2d5bc;">{{ $brand }}</label>
                     </div>
+                @endforeach
+                @foreach(request()->except(['brand']) as $key => $value)
+                    @if(is_array($value))
+                        @foreach($value as $v)
+                            <input type="hidden" name="{{ $key }}[]" value="{{ $v }}">
+                        @endforeach
+                    @else
+                        <input type="hidden" name="{{ $key }}" value="{{ $value }}">
+                    @endif
                 @endforeach
             </form>
         </div>
     </aside>
+
     <div style="flex: 1;">
 <div class="item-container">
     @php
@@ -336,54 +363,91 @@
         });
     @endphp
 
+    @php
+        // Apply filters to the products query
+        if (!empty($selectedCategories)) {
+            $query->where(function($q) use ($selectedCategories) {
+                foreach ($selectedCategories as $cat) {
+                    $q->orWhere('category', 'like', '%' . $cat . '%');
+                }
+            });
+        }
+        if (!empty($selectedBrands)) {
+            $query->where(function($q) use ($selectedBrands) {
+                foreach ($selectedBrands as $brand) {
+                    $q->orWhere('brand', 'like', '%' . $brand . '%');
+                }
+            });
+        }
+        // Re-fetch filtered items
+        $items = $query->get()->map(function($product) {
+            return [
+                'id' => $product->id,
+                'title' => $product->title,
+                'price' => $product->price,
+                'savings' => $product->savings ?? null,
+                'ratings' => $product->ratings ?? 0,
+                'sold_count' => $product->rating_text ?? 0,
+                'image' => $product->image ?? null,
+            ];
+        });
+    @endphp
+
     <h1 style="font-family: 'Irish Grover', cursive;">{{ $title }}</h1>
 
-    <div class="responsive-item-container">
-        @foreach($items as $index => $item)
-            <a class="item-card" href="{{ url('item/' . $item['id']) }}" style="text-decoration: none;">
-                <div>
-                    <div class="item-image">
-                        <div class="pixel-cat">
-                            <img src="{{ asset($item['image']) }}" alt="Product Image">
+    @if($items->isEmpty())
+        <div style="font-family: 'Manrope', sans-serif; color:rgb(255, 143, 63); font-size: 1.2rem; margin-top: 40px;">
+            No products found.
+        </div>
+    @else
+        <div class="responsive-item-container">
+            @foreach($items as $index => $item)
+                <a class="item-card" href="{{ url('item/' . $item['id']) }}" style="text-decoration: none;">
+                    <div>
+                        <div class="item-image">
+                            <div class="pixel-cat">
+                                <img src="{{ asset($item['image']) }}" alt="Product Image">
+                            </div>
+                            <img src="{{ asset($fixedImg) }}" class="cat-img" alt="Pet">
                         </div>
-                        <img src="{{ asset($fixedImg) }}" class="cat-img" alt="Pet">
-                    </div>
-                    <div class="item-info">
-                        <div class="item-name">{{ $item['title'] }}</div>
-                        <div class="item-price">PHP {{ number_format($item['price'], 2) }}</div>
-                        <div class="item-details">
-                            <span class="discount">
-                                @if(isset($item['savings']))
-                                    {{ Str::before($item['savings'], 'P') }}
-                                @endif
-                            </span>
-                            <div class="rating">
-                                @php
-                                    $fullStars = floor($item['ratings']);
-                                    $halfStar = ($item['ratings'] - $fullStars) >= 0.5;
-                                @endphp
-                                @for($i = 0; $i < 5; $i++)
-                                    @if($i < $fullStars)
-                                        <span class="star">★</span>
-                                    @elseif($i == $fullStars && $halfStar)
-                                        <span class="star">⯨</span>
-                                    @else
-                                        <span class="star">☆</span>
+                        <div class="item-info">
+                            <div class="item-name">{{ $item['title'] }}</div>
+                            <div class="item-price">PHP {{ number_format($item['price'], 2) }}</div>
+                            <div class="item-details">
+                                <span class="discount">
+                                    @if(isset($item['savings']))
+                                        {{ Str::before($item['savings'], 'P') }}
                                     @endif
-                                @endfor
-                                <span class="sold-count">
-                                    {{ is_numeric($item['sold_count']) ? number_format($item['sold_count']) : e($item['sold_count']) }}
                                 </span>
+                                <div class="rating">
+                                    @php
+                                        $fullStars = floor($item['ratings']);
+                                        $halfStar = ($item['ratings'] - $fullStars) >= 0.5;
+                                    @endphp
+                                    @for($i = 0; $i < 5; $i++)
+                                        @if($i < $fullStars)
+                                            <span class="star">★</span>
+                                        @elseif($i == $fullStars && $halfStar)
+                                            <span class="star">⯨</span>
+                                        @else
+                                            <span class="star">☆</span>
+                                        @endif
+                                    @endfor
+                                    <span class="sold-count">
+                                        {{ is_numeric($item['sold_count']) ? number_format($item['sold_count']) : e($item['sold_count']) }}
+                                    </span>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </a>
-        @endforeach
-    </div>
+                </a>
+            @endforeach
+        </div>
+    @endif
 
 </div> <br>
 
 @include('components.footer')
 
 @endsection
+
