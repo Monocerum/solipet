@@ -635,6 +635,7 @@
             @endif
         </div>
     </main>
+    @include('components.footer')
 @endsection
 <script>
 function showTab(tab) {
@@ -643,4 +644,5 @@ function showTab(tab) {
     document.getElementById('info-tab').classList.toggle('active', tab === 'info');
     document.getElementById('reviews-tab').classList.toggle('active', tab === 'reviews');
 }
+
 </script>

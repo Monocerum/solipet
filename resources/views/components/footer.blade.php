@@ -30,14 +30,14 @@
 
 <footer>
         <div class="footer-logo">
-            <a href="/"><img src="assets/brand-logo-dark.svg" alt="Logo of Solipet" class="solipet-logo-dark"></a>
+            <a href="/"><img src="{{ asset('assets/brand-logo-dark.svg') }}" alt="Logo of Solipet" class="solipet-logo-dark"></a>
         </div>
         <div class="footer-copyright">
             <p>&copy; 2025 Solipet. All Rights Reserved. <br> Unauthorized use or reproduction of content is strictly prohibited.</p>
         </div>
         <div class="footer-contacts">
-            <a href="https://www.facebook.com/" target="_blank" class="contact-img"><img src="assets/fb-logo.png" alt="Logo of Facebook" class="contact-logo"></a>
-            <a href="https://www.instagram.com/" target="_blank" class="contact-img"><img src="assets/ig-logo.png" alt="Logo of Instagram" class="contact-logo"></a>
-            <a href="https://x.com/?lang=en" target="_blank" class="contact-img"><img src="assets/twitter-logo.png" alt="Logo of Twitter" class="contact-logo"></a>
+            <a href="https://www.facebook.com/" target="_blank" class="contact-img"><img src="{{ asset('assets/fb-logo.png') }}" alt="Logo of Facebook" class="contact-logo"></a>
+            <a href="https://www.instagram.com/" target="_blank" class="contact-img"><img src="{{ asset('assets/ig-logo.png') }}" alt="Logo of Instagram" class="contact-logo"></a>
+            <a href="https://x.com/?lang=en" target="_blank" class="contact-img"><img src="{{ asset('assets/twitter-logo.png') }}" alt="Logo of Twitter" class="contact-logo"></a>
         </div>
 </footer>
