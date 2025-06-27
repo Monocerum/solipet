@@ -1,5 +1,3 @@
-use Illuminate\Support\Facades\DB;
-
 @extends('layouts.header') 
 
 @section('content')
@@ -85,13 +83,6 @@ use Illuminate\Support\Facades\DB;
     box-shadow: 0 4px 8px rgba(0,0,0,0.3);
     overflow: hidden;
     position: relative;
-    transition: transform 0.18s cubic-bezier(.4,2,.6,1), box-shadow 0.18s cubic-bezier(.4,2,.6,1), border-color 0.18s;
-}
-.item-card:hover, .item-card:focus {
-    transform: translateY(-8px) scale(1.03);
-    box-shadow: 0 8px 24px rgba(139,69,19,0.25), 0 2px 8px rgba(0,0,0,0.12);
-    border-color: #c97d3d;
-    z-index: 2;
 }
 
 .item-image {
@@ -166,42 +157,6 @@ use Illuminate\Support\Facades\DB;
     margin-bottom: -4px;
     pointer-events: none;
 }
-
-.responsive-item-container {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 24px;
-    }
-    .responsive-item-container .item-card {
-        width: 15%;
-        min-width: 220px;
-        max-width: 100%;
-        box-sizing: border-box;
-    }
-    @media (max-width: 1200px) {
-        .responsive-item-container .item-card {
-            width: 22%;
-        }
-    }
-    @media (max-width: 900px) {
-        .responsive-item-container .item-card {
-            width: 30%;
-        }
-    }
-    @media (max-width: 700px) {
-        .responsive-item-container .item-card {
-            width: 45%;
-        }
-    }
-    @media (max-width: 500px) {
-        .responsive-item-container {
-            gap: 12px;
-        }
-        .responsive-item-container .item-card {
-            width: 100%;
-            min-width: 0;
-        }
-    }
 </style>
 <div class="dropdown-bar">
                 <div class="nav-item dropdown-pet">
@@ -279,43 +234,114 @@ use Illuminate\Support\Facades\DB;
     <div style="flex: 1;">
 <div class="item-container">
     @php
+        // Sample data for demonstration. Replace with $items from your controller/database.
+        $sampleCatItems = [
+            [
+                'title' => 'Sample Cat Food',
+                'price' => 299.00,
+                'savings' => 'Save 10%!',
+                'ratings' => 4,
+                'sold_count' => 1234,
+            ],
+            [
+                'title' => 'Tasty Cat Treats',
+                'price' => 149.00,
+                'savings' => 'Save 5%!',
+                'ratings' => 3,
+                'sold_count' => 567,
+            ],
+            [
+                'title' => 'Premium Cat Kibble',
+                'price' => 399.00,
+                'savings' => 'Save 15%!',
+                'ratings' => 5,
+                'sold_count' => 2001,
+            ],
+        ];
 
+        $sampleDogItems = [
+            [
+                'title' => 'Sample Dog Food',
+                'price' => 350.00,
+                'savings' => 'Save 8%!',
+                'ratings' => 5,
+                'sold_count' => 980,
+            ],
+            [
+                'title' => 'Tasty Dog Treats',
+                'price' => 120.00,
+                'savings' => 'Save 3%!',
+                'ratings' => 4,
+                'sold_count' => 430,
+            ],
+            [
+                'title' => 'Premium Dog Kibble',
+                'price' => 499.00,
+                'savings' => 'Save 12%!',
+                'ratings' => 5,
+                'sold_count' => 1500,
+            ],
+        ];
+
+        $sampleSmallPetItems = [
+            [
+                'title' => 'Sample Hamster Food',
+                'price' => 99.00,
+                'savings' => 'Save 5%!',
+                'ratings' => 4,
+                'sold_count' => 300,
+            ],
+            [
+                'title' => 'Small Pet Treats',
+                'price' => 59.00,
+                'savings' => 'Save 2%!',
+                'ratings' => 3,
+                'sold_count' => 120,
+            ],
+            [
+                'title' => 'Premium Rabbit Pellets',
+                'price' => 199.00,
+                'savings' => 'Save 10%!',
+                'ratings' => 5,
+                'sold_count' => 450,
+            ],
+        ];
+
+        // Repeat the items to fill the page (for demo, repeat 4 times)
+        $items = [];
         $petType = request('pet_type');
-        $query = DB::table('products');
-
-        // Filter by pet type (column may contain multiple types, e.g., "cat,dog")
         if ($petType === 'dog') {
-            $query->where('pet_type', 'like', '%dog%');
+            for ($i = 0; $i < 4; $i++) {
+                foreach ($sampleDogItems as $item) {
+                    $items[] = $item;
+                }
+            }
             $title = "Items for Dogs";
             $fixedImg = 'assets/dog-img.png';
         } elseif ($petType === 'small_pet') {
-            $query->where('pet_type', 'like', '%small%pet%');
+            for ($i = 0; $i < 4; $i++) {
+                foreach ($sampleSmallPetItems as $item) {
+                    $items[] = $item;
+                }
+            }
             $title = "Items for Small Pets";
             $fixedImg = 'assets/smallpet-img.png';
         } else {
-            $query->where('pet_type', 'like', '%cat%');
+            for ($i = 0; $i < 4; $i++) {
+                foreach ($sampleCatItems as $item) {
+                    $items[] = $item;
+                }
+            }
             $title = "Items for Cats";
             $fixedImg = 'assets/cat-img.png';
         }
-
-        // Fetch products, including product id
-        $items = $query->get()->map(function($product) {
-            return [
-                'id' => $product->id,
-                'title' => $product->title,
-                'price' => $product->price,
-                'savings' => $product->savings ?? null,
-                'ratings' => $product->ratings ?? 0,
-                'sold_count' => $product->sold_count ?? 0,
-            ];
-        });
     @endphp
 
     <h1 style="font-family: 'Irish Grover', cursive;">{{ $title }}</h1>
 
-    <div class="responsive-item-container">
+    <div style="display: flex; flex-wrap: wrap; gap: 24px;">
         @foreach($items as $index => $item)
-            <a class="item-card" href="{{ url('item/' . $item['id']) }}" style="text-decoration: none;">
+            <a class="item-card" href="{{ route('itempage') }}" style="text-decoration: none;">
                 <div>
                     <div class="item-image">
                         <div class="pixel-cat"></div>
@@ -327,7 +353,7 @@ use Illuminate\Support\Facades\DB;
                         <div class="item-details">
                             <span class="discount">
                                 @if(isset($item['savings']))
-                                    {{ Str::before($item['savings'], 'P') }}
+                                            {{ Str::before($item['savings'], 'P') }}
                                 @endif
                             </span>
                             <div class="rating">
