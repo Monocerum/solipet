@@ -873,6 +873,6 @@
     </script>
 
   
-</div>
+</div> <br> <br>
   @include('components.footer')
 @endsection

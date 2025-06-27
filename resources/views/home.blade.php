@@ -599,12 +599,11 @@ h6 {
         <section class="promos">
             <h2>SOLIPET PROMOS</h2>
             @php
-
                 $query = DB::table('products');
                 $title = "All Items";
                 $fixedImg = null;
 
-                // Fetch products, including product id
+                // Fetch products, including product id, then randomly select 8 items
                 $items = $query->get()->map(function($product) {
                     return [
                         'id' => $product->id,
@@ -614,7 +613,7 @@ h6 {
                         'ratings' => $product->ratings ?? 0,
                         'sold_count' => $product->sold_count ?? 0,
                     ];
-                });
+                })->shuffle()->take(8);
             @endphp
             <div id="productCarousel" class="carousel-container">
                 <button class="carousel-arrow left" onclick="carouselPrev()">&lt;</button>
