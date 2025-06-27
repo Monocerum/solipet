@@ -246,40 +246,57 @@
 </div>
 @endif
 <div class="sidebar-catalog" style="display: flex; gap: 30px;">
+    @php
+        // Fetch unique categories and brands from the products table
+        $categories = DB::table('products')
+            ->selectRaw('DISTINCT category')
+            ->whereNotNull('category')
+            ->pluck('category')
+            ->map(function($cat) {
+                // Support comma-separated categories
+                return array_map('trim', explode(',', $cat));
+            })
+            ->flatten()
+            ->unique()
+            ->sort()
+            ->values();
+
+        $brands = DB::table('products')
+            ->selectRaw('DISTINCT brand')
+            ->whereNotNull('brand')
+            ->pluck('brand')
+            ->map(function($brand) {
+                // Support comma-separated brands
+                return array_map('trim', explode(',', $brand));
+            })
+            ->flatten()
+            ->unique()
+            ->sort()
+            ->values();
+    @endphp
+
     <aside style="width: 250px; background: #1B0800; border-radius: 8px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
         <h4 style="font-family: 'Manrope', sans-serif; font-weight: bold; margin-bottom: 20px;">Catalogs</h4>
         <div style="margin-bottom: 30px;">
             <h5 style="font-family: 'Manrope', sans-serif; font-weight: bold; margin-bottom: 12px;">Categories</h5>
             <form id="category-filter-form">
-            <div style="margin-bottom: 10px;">
-                <input type="checkbox" id="category_food" name="category[]" value="food">
-                <label for="category_food" style="color: #f2d5bc;">Food</label>
-            </div>
-            <div style="margin-bottom: 10px;">
-                <input type="checkbox" id="category_treats" name="category[]" value="treats">
-                <label for="category_treats" style="color: #f2d5bc;">Treats</label>
-            </div>
-            <div style="margin-bottom: 10px;">
-                <input type="checkbox" id="category_supplies" name="category[]" value="supplies">
-                <label for="category_supplies" style="color: #f2d5bc;">Supplies</label>
-            </div>
+                @foreach($categories as $cat)
+                    <div style="margin-bottom: 10px;">
+                        <input type="checkbox" id="category_{{ \Illuminate\Support\Str::slug($cat) }}" name="category[]" value="{{ $cat }}">
+                        <label for="category_{{ \Illuminate\Support\Str::slug($cat) }}" style="color: #f2d5bc;">{{ $cat }}</label>
+                    </div>
+                @endforeach
             </form>
         </div>
         <div>
             <h5 style="font-family: 'Manrope', sans-serif; font-weight: bold; margin-bottom: 12px;">Brands</h5>
             <form id="brand-filter-form">
-            <div style="margin-bottom: 10px;">
-                <input type="checkbox" id="brand1" name="brand[]" value="brand1">
-                <label for="brand1" style="color: #f2d5bc;">Brand Placeholder 1</label>
-            </div>
-            <div style="margin-bottom: 10px;">
-                <input type="checkbox" id="brand2" name="brand[]" value="brand2">
-                <label for="brand2" style="color: #f2d5bc;">Brand Placeholder 2</label>
-            </div>
-            <div style="margin-bottom: 10px;">
-                <input type="checkbox" id="brand3" name="brand[]" value="brand3">
-                <label for="brand3" style="color: #f2d5bc;">Brand Placeholder 3</label>
-            </div>
+                @foreach($brands as $brand)
+                    <div style="margin-bottom: 10px;">
+                        <input type="checkbox" id="brand_{{ \Illuminate\Support\Str::slug($brand) }}" name="brand[]" value="{{ $brand }}">
+                        <label for="brand_{{ \Illuminate\Support\Str::slug($brand) }}" style="color: #f2d5bc;">{{ $brand }}</label>
+                    </div>
+                @endforeach
             </form>
         </div>
     </aside>
