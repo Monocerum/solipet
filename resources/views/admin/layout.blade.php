@@ -73,11 +73,6 @@
                     <i class="fas fa-credit-card mr-3"></i>
                     PAYMENT AND SHIPPING
                 </a>
-                
-                <a href="{{ route('admin.promotions') }}" class="flex items-center p-3 rounded-lg hover:bg-[#572215] {{ request()->routeIs('admin.promotions') ? 'active-nav' : '' }}">
-                    <i class="fas fa-percentage mr-3"></i>
-                    PROMOTIONS
-                </a>
             </nav>
         </div>
         
