@@ -115,6 +115,14 @@
     text-transform: uppercase;
 }
 
+.pixel-cat {
+    width:100%; height:100%; display:flex; align-items:center; justify-content:center; overflow:hidden;
+}
+
+.pixel-cat img {
+    max-width:100%; max-height:100%; object-fit:contain; display:block;
+}
+
 .item-price {
     background: linear-gradient(90deg, #4a2c2a 0%,rgb(236, 189, 156) 100%);
     color: #f4d4b8;
@@ -297,7 +305,7 @@
             $fixedImg = 'assets/cat-img.png';
         }
 
-        // Fetch products, including product id
+        // Fetch products, including product id and image
         $items = $query->get()->map(function($product) {
             return [
                 'id' => $product->id,
@@ -306,6 +314,7 @@
                 'savings' => $product->savings ?? null,
                 'ratings' => $product->ratings ?? 0,
                 'sold_count' => $product->rating_text ?? 0,
+                'image' => $product->image ?? null,
             ];
         });
     @endphp
@@ -317,7 +326,9 @@
             <a class="item-card" href="{{ url('item/' . $item['id']) }}" style="text-decoration: none;">
                 <div>
                     <div class="item-image">
-                        <div class="pixel-cat"></div>
+                        <div class="pixel-cat">
+                            <img src="{{ asset($item['image']) }}" alt="Product Image">
+                        </div>
                         <img src="{{ asset($fixedImg) }}" class="cat-img" alt="Pet">
                     </div>
                     <div class="item-info">
