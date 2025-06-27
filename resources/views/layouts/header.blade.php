@@ -291,7 +291,7 @@
                 <div class="navbar-main-row d-flex w-100 align-items-center">
                     <!-- Brand and company logo container -->
                     <div class="navbar-brand-container d-flex align-items-center">
-                        <a class="navbar-brand me-2" href="{{ url('/') }}">
+                        <a class="navbar-brand me-2" href="{{ route('home') }}">
                             <img src="{{ asset('assets/logo.svg') }}" alt="{{ config('app.name', 'Laravel') }} Logo">
                         </a>
                         <img src="{{ asset('assets/company_logo.svg') }}" alt="Company Logo" class="company-logo" style="margin-left: 10px;">
