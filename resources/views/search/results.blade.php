@@ -43,19 +43,51 @@
     
 }
 
-.result-container h4, p{
+.result-container h4 {
     font-family: 'Irish Grover', cursive; 
     color: #f2d5bc;
 }
 
+.result-container p{
+    font-family: 'Manrope', cursive; 
+    color: #f2d5bc;
+}
+
+.result-label{
+    display: flex; 
+    align-items: center; 
+    gap: 20px;
+}
+
+.result-label p {
+    margin-left: auto;
+    margin-right: 10px;
+    text-align: right;
+}
+
 .item-card {
-    width: 200px;
+    width: 15%;
     background: linear-gradient(135deg, #f4d4b8, #e8c4a0);
     border: 4px solid #8b4513;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0,0,0,0.3);
     overflow: hidden;
     position: relative;
+    transition: transform 0.18s cubic-bezier(.4,2,.6,1), box-shadow 0.18s cubic-bezier(.4,2,.6,1), border-color 0.18s;
+}
+.item-card:hover, .item-card:focus {
+    transform: translateY(-8px) scale(1.03);
+    box-shadow: 0 8px 24px rgba(139,69,19,0.25), 0 2px 8px rgba(0,0,0,0.12);
+    border-color: #c97d3d;
+    z-index: 2;
+}
+
+.pixel-cat {
+    width:100%; height:100%; display:flex; align-items:center; justify-content:center; overflow:hidden;
+}
+
+.pixel-cat img {
+    max-width:100%; max-height:100%; object-fit:contain; display:block;
 }
 
 .item-image {
@@ -131,30 +163,43 @@
     margin-bottom: -4px;
     pointer-events: none;
 }
+
+.responsive-item-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 24px;
+    }
+    .responsive-item-container .item-card {
+        width: 15%;
+        min-width: 220px;
+        max-width: 100%;
+        box-sizing: border-box;
+    }
 </style>
 <div class="dropdown-bar">
     <div>
         <div class="nav-item dropdown-pet">
             <a id="navbarDropdown1" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Shop By Pet
+                Filter By Pet
             </a>
             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown1">
-                {{-- TODO: Replace route to proper name and file --}}
-                <a class="dropdown-item" href="{{ route('logout') }}" 
-                    onclick="event.preventDefault();
-                        document.getElementById('logout-form').submit();">
-                    {{ __('Cat') }}
-                </a>
-                <a class="dropdown-item" href="{{ route('logout') }}"
-                    onclick="event.preventDefault();
-                        document.getElementById('logout-form').submit();">
-                    {{ __('Dog') }}
-                </a>
-                <a class="dropdown-item" href="{{ route('logout') }}"
-                    onclick="event.preventDefault();
-                        document.getElementById('logout-form').submit();">
-                    {{ __('Small Animal') }}
-                </a>
+                <form method="GET" action="{{ url()->current() }}">
+                    <input type="hidden" name="query" value="{{ request('query') }}">
+                    <input type="hidden" name="sort" value="{{ request('sort') }}">
+
+                    <button class="dropdown-item" type="submit" name="pet" value="cat">
+                        {{ __('Cat') }}
+                    </button>
+                    <button class="dropdown-item" type="submit" name="pet" value="dog">
+                        {{ __('Dog') }}
+                    </button>
+                    <button class="dropdown-item" type="submit" name="pet" value="small_animal">
+                        {{ __('Small Animal') }}
+                    </button>
+                    <button class="dropdown-item" type="submit" name="pet" value="">
+                        {{ __('All Pets') }}
+                    </button>
+                </form>
             </div>
         </div>
         <div class="nav-item dropdown-pet">
@@ -176,17 +221,25 @@
     </div>
 </div>
 <div class="result-container">
-        <h4>Search Results for: " {{ $query }} "</h4>
+        <div class="result-label">
+            <h4>Search Results for: " {{ $query }} "</h4>
+            @if(request('pet'))
+                <p><strong>Filter:</strong> For <u>{{ ucfirst(str_replace('_', ' ', request('pet'))) }}</u> Only </p>
+            @endif
+        </div>
+        <br>
 
         @if ($results->isEmpty())
             <p>No results found.</p>
         @else
-            <div style="display: flex; flex-wrap: wrap; gap: 24px;">
+            <div class="responsive-item-container">
                 @foreach($results as $index => $item)
-                    <a class="item-card" href="{{ route('itempage', ['id' => $item['id']]) }}" style="text-decoration: none;">
+                    <a class="item-card" href="{{ url('item/' . $item['id']) }}" style="text-decoration: none;">
                         <div>
                             <div class="item-image">
-                                <div class="pixel-cat"></div>
+                                <div class="pixel-cat">
+                                    <img src="{{ asset($item['image']) }}" alt="Product Image">
+                                </div>
                             </div>
                             <div class="item-info">
                                 <div class="item-name">{{ $item['title'] }}</div>
@@ -198,10 +251,22 @@
                                         @endif
                                     </span>
                                     <div class="rating">
+                                        @php
+                                            $fullStars = floor($item['ratings']);
+                                            $halfStar = ($item['ratings'] - $fullStars) >= 0.5;
+                                        @endphp
                                         @for($i = 0; $i < 5; $i++)
-                                            <span class="star">{{ $i < ($item['ratings'] ?? 0) ? '★' : '☆' }}</span>
+                                            @if($i < $fullStars)
+                                                <span class="star">★</span>
+                                            @elseif($i == $fullStars && $halfStar)
+                                                <span class="star">⯨</span>
+                                            @else
+                                                <span class="star">☆</span>
+                                            @endif
                                         @endfor
-                                        <span class="sold-count">{{ $item['rating_text'] ?? '' }}</span>
+                                        <span class="sold-count">
+                                            {{ is_numeric($item['rating_text']) ? number_format($item['rating_text']) : e($item['rating_text']) }}
+                                        </span>
                                     </div>
                                 </div>
                             </div>

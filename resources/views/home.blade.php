@@ -261,6 +261,14 @@
     justify-content: center;
 }
 
+.pixel-cat {
+    width:100%; height:100%; display:flex; align-items:center; justify-content:center; overflow:hidden;
+}
+
+.pixel-cat img {
+    max-width:100%; max-height:100%; object-fit:contain; display:block;
+}
+
 .item-info {
     padding: 12px;
 }
@@ -606,12 +614,11 @@ h6 {
         <section class="promos">
             <h2>SOLIPET PROMOS</h2>
             @php
-
                 $query = DB::table('products');
                 $title = "All Items";
                 $fixedImg = null;
 
-                // Fetch products, including product id
+                // Fetch products, including product id, then randomly select 8 items
                 $items = $query->get()->map(function($product) {
                     return [
                         'id' => $product->id,
@@ -619,9 +626,10 @@ h6 {
                         'price' => $product->price,
                         'savings' => $product->savings ?? null,
                         'ratings' => $product->ratings ?? 0,
-                        'sold_count' => $product->sold_count ?? 0,
+                        'sold_count' => $product->rating_text ?? 0,
+                        'image' => $product->image ?? null,
                     ];
-                });
+                })->shuffle()->take(8);
             @endphp
             <div id="productCarousel" class="carousel-container">
                 <button class="carousel-arrow left" onclick="carouselPrev()">&lt;</button>
@@ -630,7 +638,9 @@ h6 {
                         <a class="item-card carousel-item" href="{{ url('item/' . $item['id']) }}" style="text-decoration: none;">
                             <div>
                                 <div class="item-image">
-                                    <div class="pixel-cat"></div>
+                                    <div class="pixel-cat">
+                                        <img src="{{ asset($item['image']) }}" alt="Product Image">
+                                    </div>
                                 </div>
                                 <div class="item-info">
                                     <div class="item-name">{{ $item['title'] }}</div>
@@ -642,10 +652,22 @@ h6 {
                                             @endif
                                         </span>
                                         <div class="rating">
+                                            @php
+                                                $fullStars = floor($item['ratings']);
+                                                $halfStar = ($item['ratings'] - $fullStars) >= 0.5;
+                                            @endphp
                                             @for($i = 0; $i < 5; $i++)
-                                                <span class="star">{{ $i < $item['ratings'] ? '★' : '☆' }}</span>
+                                                @if($i < $fullStars)
+                                                    <span class="star">★</span>
+                                                @elseif($i == $fullStars && $halfStar)
+                                                    <span class="star">⯨</span>
+                                                @else
+                                                    <span class="star">☆</span>
+                                                @endif
                                             @endfor
-                                            <span class="sold-count">{{ number_format($item['sold_count']) }} SOLD</span>
+                                            <span class="sold-count">
+                                                {{ is_numeric($item['sold_count']) ? number_format($item['sold_count']) : e($item['sold_count']) }}
+                                            </span>
                                         </div>
                                     </div>
                                 </div>
