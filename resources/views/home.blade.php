@@ -261,6 +261,14 @@
     justify-content: center;
 }
 
+.pixel-cat {
+    width:100%; height:100%; display:flex; align-items:center; justify-content:center; overflow:hidden;
+}
+
+.pixel-cat img {
+    max-width:100%; max-height:100%; object-fit:contain; display:block;
+}
+
 .item-info {
     padding: 12px;
 }
@@ -619,6 +627,7 @@ h6 {
                         'savings' => $product->savings ?? null,
                         'ratings' => $product->ratings ?? 0,
                         'sold_count' => $product->rating_text ?? 0,
+                        'image' => $product->image ?? null,
                     ];
                 })->shuffle()->take(8);
             @endphp
@@ -629,7 +638,9 @@ h6 {
                         <a class="item-card carousel-item" href="{{ url('item/' . $item['id']) }}" style="text-decoration: none;">
                             <div>
                                 <div class="item-image">
-                                    <div class="pixel-cat"></div>
+                                    <div class="pixel-cat">
+                                        <img src="{{ asset($item['image']) }}" alt="Product Image">
+                                    </div>
                                 </div>
                                 <div class="item-info">
                                     <div class="item-name">{{ $item['title'] }}</div>

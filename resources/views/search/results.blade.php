@@ -82,6 +82,14 @@
     z-index: 2;
 }
 
+.pixel-cat {
+    width:100%; height:100%; display:flex; align-items:center; justify-content:center; overflow:hidden;
+}
+
+.pixel-cat img {
+    max-width:100%; max-height:100%; object-fit:contain; display:block;
+}
+
 .item-image {
     width: 100%;
     height: 180px;
@@ -229,7 +237,9 @@
                     <a class="item-card" href="{{ url('item/' . $item['id']) }}" style="text-decoration: none;">
                         <div>
                             <div class="item-image">
-                                <div class="pixel-cat"></div>
+                                <div class="pixel-cat">
+                                    <img src="{{ asset($item['image']) }}" alt="Product Image">
+                                </div>
                             </div>
                             <div class="item-info">
                                 <div class="item-name">{{ $item['title'] }}</div>
