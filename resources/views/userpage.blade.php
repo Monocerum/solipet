@@ -405,7 +405,7 @@
                 </div>
                 <div class="user-info">
                     <h3>{{ $user->username ?? $user->name }}</h3>
-                    <a href="#" class="edit-profile">✏ Edit Profile</a>
+                    <a href="#" class="edit-profile" id="editProfileLink">✏ Edit Profile</a>
                 </div>
             @else
                 <div class="user-avatar">?</div>
@@ -943,6 +943,27 @@
                 }
             }
         @endif
+
+        // Add event listener for Edit Profile link (moved inside DOMContentLoaded)
+        document.getElementById('editProfileLink')?.addEventListener('click', function(e) {
+            e.preventDefault();
+            // Activate the Profile sidebar item
+            document.querySelectorAll('.sidebar-item').forEach(nav => nav.classList.remove('active'));
+            const profileSidebar = document.querySelector('.sidebar-item[data-section="profile"]');
+            if (profileSidebar) profileSidebar.classList.add('active');
+            // Hide all content sections
+            document.querySelectorAll('.content-section').forEach(section => section.classList.remove('active'));
+            // Show the profile section
+            const profileSection = document.getElementById('profile-section');
+            if (profileSection) profileSection.classList.add('active');
+            // Update title and subtitle
+            const titleElement = document.querySelector('.profile-title');
+            const subtitleElement = document.querySelector('.profile-subtitle');
+            if (titleElement) titleElement.textContent = 'My Account - Profile';
+            if (subtitleElement) subtitleElement.textContent = 'Manage your personal information and account preferences';
+            // Optionally scroll to the profile card
+            document.querySelector('.profile-card')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        });
     });
     // Add keyboard shortcuts
     document.addEventListener('keydown', function(e) {

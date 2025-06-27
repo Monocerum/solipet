@@ -46,19 +46,18 @@ class CartController extends Controller
     public function updateQuantity(Request $request, $itemId)
     {
         $request->validate([
-            'action' => 'required|in:increment,decrement',
+            'quantity' => 'required|integer|min:1',
         ]);
         $item = \App\Models\CartItem::findOrFail($itemId);
         // Ensure the item belongs to the current user's cart
         if ($item->cart->user_id !== auth()->id()) {
             abort(403);
         }
-        if ($request->action === 'increment') {
-            $item->quantity += 1;
-        } elseif ($request->action === 'decrement' && $item->quantity > 1) {
-            $item->quantity -= 1;
-        }
+        $item->quantity = $request->quantity;
         $item->save();
+        if ($request->wantsJson()) {
+            return response()->json(['success' => true, 'quantity' => $item->quantity]);
+        }
         return redirect()->route('viewCart');
     }
 
