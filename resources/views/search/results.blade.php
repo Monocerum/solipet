@@ -155,6 +155,18 @@
     margin-bottom: -4px;
     pointer-events: none;
 }
+
+.responsive-item-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 24px;
+    }
+    .responsive-item-container .item-card {
+        width: 15%;
+        min-width: 220px;
+        max-width: 100%;
+        box-sizing: border-box;
+    }
 </style>
 <div class="dropdown-bar">
     <div>
@@ -212,7 +224,7 @@
         @if ($results->isEmpty())
             <p>No results found.</p>
         @else
-            <div style="display: flex; flex-wrap: wrap; gap: 24px;">
+            <div class="responsive-item-container">
                 @foreach($results as $index => $item)
                     <a class="item-card" href="{{ url('item/' . $item['id']) }}" style="text-decoration: none;">
                         <div>

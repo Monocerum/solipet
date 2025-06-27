@@ -254,6 +254,7 @@
         .shipping-section {
             max-width: 1200px;
             margin: 20px auto 0;
+            margin-bottom:30px;
             background: #F5DEB3;
             border-radius: 12px;
             padding: 15px 20px;
@@ -626,15 +627,6 @@
                 </div>
             </div>
 
-            <div class="order-instruction">
-                <select>
-                    <option>Order Instruction</option>
-                    <option>Leave at door</option>
-                    <option>Ring doorbell</option>
-                    <option>Call upon arrival</option>
-                </select>
-            </div>
-
             <div class="delivery-options">
                 <button class="delivery-option active" onclick="selectDelivery('shipping')">
                     <div class="delivery-icon"><img src="{{ asset('assets/delivery-icon.png') }}" alt="Delivery Icon"></div>
@@ -684,11 +676,9 @@
                 {{ $user->shipping_address ?? 'Address not set' }}<br>
                 Phone: {{ $user->shipping_phone ?? 'Phone not set' }}
             @else
-                John Doe<br>
-                123 Main Street, Barangay San Juan<br>
-                Lucena City, Calabarzon 4301<br>
-                Philippines<br>
-                Phone: +63 917 123 4567
+                Your Name<br>
+                Your Address<br>
+                Your Phone Number
             @endif
         </div>
         <button class="edit-address-btn" id="editAddressBtn" onclick="editAddress()">Edit Address</button>
@@ -883,6 +873,6 @@
     </script>
 
   
-</div>
+</div> <br> <br>
   @include('components.footer')
 @endsection
