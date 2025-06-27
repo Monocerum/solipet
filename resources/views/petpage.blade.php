@@ -1,4 +1,3 @@
-use Illuminate\Support\Facades\DB;
 
 @extends('layouts.header') 
 
@@ -306,7 +305,7 @@ use Illuminate\Support\Facades\DB;
                 'price' => $product->price,
                 'savings' => $product->savings ?? null,
                 'ratings' => $product->ratings ?? 0,
-                'sold_count' => $product->sold_count ?? 0,
+                'sold_count' => $product->rating_text ?? 0,
             ];
         });
     @endphp
@@ -334,7 +333,9 @@ use Illuminate\Support\Facades\DB;
                                 @for($i = 0; $i < 5; $i++)
                                     <span class="star">{{ $i < $item['ratings'] ? '★' : '☆' }}</span>
                                 @endfor
-                                <span class="sold-count">{{ number_format($item['sold_count']) }} SOLD</span>
+                                <span class="sold-count">
+                                    {{ is_numeric($item['sold_count']) ? number_format($item['sold_count']) : e($item['sold_count']) }}
+                                </span>
                             </div>
                         </div>
                     </div>

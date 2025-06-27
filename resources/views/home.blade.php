@@ -645,7 +645,9 @@ h6 {
                                             @for($i = 0; $i < 5; $i++)
                                                 <span class="star">{{ $i < $item['ratings'] ? '★' : '☆' }}</span>
                                             @endfor
-                                            <span class="sold-count">{{ number_format($item['sold_count']) }} SOLD</span>
+                                            <span class="sold-count">
+                                                {{ is_numeric($item['sold_count']) ? number_format($item['sold_count']) : e($item['sold_count']) }}
+                                            </span>
                                         </div>
                                     </div>
                                 </div>

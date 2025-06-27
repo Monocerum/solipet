@@ -48,14 +48,22 @@
     color: #f2d5bc;
 }
 
+
 .item-card {
-    width: 200px;
+    width: 15%;
     background: linear-gradient(135deg, #f4d4b8, #e8c4a0);
     border: 4px solid #8b4513;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0,0,0,0.3);
     overflow: hidden;
     position: relative;
+    transition: transform 0.18s cubic-bezier(.4,2,.6,1), box-shadow 0.18s cubic-bezier(.4,2,.6,1), border-color 0.18s;
+}
+.item-card:hover, .item-card:focus {
+    transform: translateY(-8px) scale(1.03);
+    box-shadow: 0 8px 24px rgba(139,69,19,0.25), 0 2px 8px rgba(0,0,0,0.12);
+    border-color: #c97d3d;
+    z-index: 2;
 }
 
 .item-image {
@@ -176,14 +184,14 @@
     </div>
 </div>
 <div class="result-container">
-        <h4>Search Results for: " {{ $query }} "</h4>
+        <h4>Search Results for: " {{ $query }} "</h4> <br>
 
         @if ($results->isEmpty())
             <p>No results found.</p>
         @else
             <div style="display: flex; flex-wrap: wrap; gap: 24px;">
                 @foreach($results as $index => $item)
-                    <a class="item-card" href="{{ route('itempage', ['id' => $item['id']]) }}" style="text-decoration: none;">
+                    <a class="item-card" href="{{ url('item/' . $item['id']) }}" style="text-decoration: none;">
                         <div>
                             <div class="item-image">
                                 <div class="pixel-cat"></div>
@@ -199,9 +207,11 @@
                                     </span>
                                     <div class="rating">
                                         @for($i = 0; $i < 5; $i++)
-                                            <span class="star">{{ $i < ($item['ratings'] ?? 0) ? '★' : '☆' }}</span>
+                                            <span class="star">{{ $i < $item['ratings'] ? '★' : '☆' }}</span>
                                         @endfor
-                                        <span class="sold-count">{{ $item['rating_text'] ?? '' }}</span>
+                                        <span class="sold-count">
+                                            {{ is_numeric($item['rating_text']) ? number_format($item['rating_text']) : e($item['rating_text']) }}
+                                        </span>
                                     </div>
                                 </div>
                             </div>
