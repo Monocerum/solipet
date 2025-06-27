@@ -34,6 +34,7 @@ class ProductSeeder extends Seeder
             'dimensions' => 'L: 20 cm x W: 3 cm x H: 3 cm',
             'care_instructions' => 'Pets should be supervised when playing with toys. This toy is strong but not indestructible and will eventually become susceptible to chew damage. Examine regularly for wear and replace if any damage could represent a health hazard.',
             'category' => 'Dog Toy',
+            'pet_type' => 'Dog',
             'created_at' => now(),
             'updated_at' => now(),
         ]);
@@ -57,6 +58,7 @@ class ProductSeeder extends Seeder
             'dimensions' => 'L: 10 cm x W: 4 cm x H: 3 cm',
             'care_instructions' => 'Spot clean with mild soap and water. Replace if torn or damaged.',
             'category' => 'Cat Toy',
+            'pet_type' => 'Cat',
             'created_at' => now(),
             'updated_at' => now(),
         ]);
@@ -80,6 +82,7 @@ class ProductSeeder extends Seeder
             'dimensions' => 'S, M, L, XL',
             'care_instructions' => 'Hand wash with mild detergent. Air dry.',
             'category' => 'Dog Accessory',
+            'pet_type' => 'Dog',
             'created_at' => now(),
             'updated_at' => now(),
         ]);
@@ -103,6 +106,7 @@ class ProductSeeder extends Seeder
             'dimensions' => 'L: 45 cm',
             'care_instructions' => 'Supervise play. Replace if damaged.',
             'category' => 'Cat Toy',
+            'pet_type' => 'Cat',
             'created_at' => now(),
             'updated_at' => now(),
         ]);
@@ -126,8 +130,10 @@ class ProductSeeder extends Seeder
             'dimensions' => 'Diameter: 16 cm, Height: 5 cm',
             'care_instructions' => 'Dishwasher safe. Wash regularly.',
             'category' => 'Pet Feeding',
+            'pet_type' => 'Dog, Cat, Small Pet',
             'created_at' => now(),
             'updated_at' => now(),
         ]);
     }
 }
+
