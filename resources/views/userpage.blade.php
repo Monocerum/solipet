@@ -1,4 +1,4 @@
-@extends('layouts.header') 
+@extends('layouts.header')
 
 @section('content')
 <style>
@@ -943,15 +943,14 @@
                 <div class="purchase-tabs nav nav-tabs" id="purchase-tabs-nav" role="tablist">
                     <button class="purchase-tab nav-link active" id="to-pay-tab" data-bs-toggle="tab" data-bs-target="#to-pay" type="button" role="tab" aria-controls="to-pay" aria-selected="true">To Pay</button>
                     <button class="purchase-tab nav-link" id="to-ship-tab" data-bs-toggle="tab" data-bs-target="#to-ship" type="button" role="tab" aria-controls="to-ship" aria-selected="false">To Ship</button>
-                    <button class="purchase-tab nav-link" id="to-receive-tab" data-bs-toggle="tab" data-bs-target="#to-receive" type="button" role="tab" aria-controls="to-receive" aria-selected="false">To Receive</button>
                     <button class="purchase-tab nav-link" id="completed-tab" data-bs-toggle="tab" data-bs-target="#completed" type="button" role="tab" aria-controls="completed" aria-selected="false">Completed</button>
                     <button class="purchase-tab nav-link" id="cancelled-tab" data-bs-toggle="tab" data-bs-target="#cancelled" type="button" role="tab" aria-controls="cancelled" aria-selected="false">Cancelled</button>
                     <div class="purchase-tab nav-link disabled">Return</div>
                 </div>
                 <div class="tab-content" id="my-purchases-content">
                     <div class="tab-pane fade show active" id="to-pay" role="tabpanel" aria-labelledby="to-pay-tab">
-                        @if($orders->where('status', 'to pay')->count())
-                            @foreach($orders->where('status', 'to pay') as $order)
+                        @if($orders->where('status', 'pending')->count())
+                            @foreach($orders->where('status', 'pending') as $order)
                                 <div class="order-card">
                                     <div class="order-header">
                                         <div>
@@ -972,7 +971,7 @@
                                     @endforeach
                                     <div class="order-footer">
                                         <div class="total-price">
-                                            Order Total: <span>₱{{ number_format($order->total, 2) }}</span>
+                                            Order Total: <span>₱{{ number_format($order->total_amount, 2) }}</span>
                                         </div>
                                         <div>
                                             <span class="paid-indicator">Paid via {{ $order->payment_method }}</span>
@@ -987,8 +986,8 @@
                         @endif
                     </div>
                     <div class="tab-pane fade" id="to-ship" role="tabpanel">
-                        @if($orders->where('status', 'to ship')->count())
-                            @foreach($orders->where('status', 'to ship') as $order)
+                        @if($orders->where('status', 'shipping')->count())
+                            @foreach($orders->where('status', 'shipping') as $order)
                                 <div class="order-card">
                                     <div class="order-header">
                                         <div>
@@ -1009,7 +1008,7 @@
                                     @endforeach
                                     <div class="order-footer">
                                         <div class="total-price">
-                                            Order Total: <span>₱{{ number_format($order->total, 2) }}</span>
+                                            Order Total: <span>₱{{ number_format($order->total_amount, 2) }}</span>
                                         </div>
                                         <button class="btn-primary">Track</button>
                                     </div>
@@ -1021,44 +1020,9 @@
                             </div>
                         @endif
                     </div>
-                    <div class="tab-pane fade" id="to-receive" role="tabpanel">
-                        @if($orders->where('status', 'to receive')->count())
-                            @foreach($orders->where('status', 'to receive') as $order)
-                                <div class="order-card">
-                                    <div class="order-header">
-                                        <div>
-                                            <span class="order-id">Order #{{ $order->id }}</span>
-                                            <span class="order-status to-receive">{{ ucfirst($order->status) }}</span>
-                                        </div>
-                                        <div class="order-date">{{ $order->created_at->format('M d, Y') }}</div>
-                                    </div>
-                                    @foreach($order->items as $item)
-                                        <div class="order-item">
-                                            <img src="{{ asset($item->product->image ?? 'assets/dog-img.png') }}" alt="{{ $item->product->title ?? '' }}">
-                                            <div class="item-details">
-                                                <div>{{ $item->product->title ?? 'Product not found' }}</div>
-                                                <small>x{{ $item->quantity }}</small>
-                                            </div>
-                                            <div class="item-price">₱{{ number_format($item->price, 2) }}</div>
-                                        </div>
-                                    @endforeach
-                                    <div class="order-footer">
-                                        <div class="total-price">
-                                            Order Total: <span>₱{{ number_format($order->total, 2) }}</span>
-                                        </div>
-                                        <button class="btn-primary">Track</button>
-                                    </div>
-                                </div>
-                            @endforeach
-                        @else
-                            <div class="empty-state">
-                                <p>No orders to receive.</p>
-                            </div>
-                        @endif
-                    </div>
                     <div class="tab-pane fade" id="completed" role="tabpanel">
-                        @if($orders->where('status', 'completed')->count())
-                            @foreach($orders->where('status', 'completed') as $order)
+                        @if($orders->where('status', 'delivered')->count())
+                            @foreach($orders->where('status', 'delivered') as $order)
                                 <div class="order-card">
                                     <div class="order-header">
                                         <div>
@@ -1079,7 +1043,7 @@
                                     @endforeach
                                     <div class="order-footer">
                                         <div class="total-price">
-                                            Order Total: <span>₱{{ number_format($order->total, 2) }}</span>
+                                            Order Total: <span>₱{{ number_format($order->total_amount, 2) }}</span>
                                         </div>
                                         <button class="btn-primary">View</button>
                                     </div>
@@ -1114,7 +1078,7 @@
                                     @endforeach
                                     <div class="order-footer">
                                         <div class="total-price">
-                                            Order Total: <span>₱{{ number_format($order->total, 2) }}</span>
+                                            Order Total: <span>₱{{ number_format($order->total_amount, 2) }}</span>
                                         </div>
                                         <button class="btn-primary">View</button>
                                     </div>

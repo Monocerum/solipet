@@ -103,7 +103,7 @@ class UserController extends Controller
             return redirect()->route('viewCart')->with('error', 'Your cart is empty.');
         }
 
-        $status = 'pending';
+        $status = 'pending'; // default for Cash on Delivery
         $shipping_address = '';
 
         if ($request->delivery_option === 'shipping') {

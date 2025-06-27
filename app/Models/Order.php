@@ -45,6 +45,11 @@ class Order extends Model
         return $this->hasOne(ShippingInfo::class);
     }
 
+    public function items()
+    {
+        return $this->hasMany(OrderItem::class);
+    }
+
     protected static function boot()
     {
         parent::boot();
