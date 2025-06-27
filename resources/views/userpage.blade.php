@@ -99,11 +99,36 @@
         display: grid;
         gap: 25px;
         max-width: 500px;
+        margin: 0 auto;
+        justify-items: center;
+        width: 100%;
     }
-    .userpage-wrapper .password-requirements { background: #f8f9fa; padding: 20px; border-radius: 10px; border-left: 4px solid #d4af37; margin-top: 20px; }
+    .userpage-wrapper .password-form .form-group {
+        width: 100%;
+    }
+    .userpage-wrapper .password-form .form-input {
+        width: 100%;
+    }
+    .userpage-wrapper .password-requirements {
+        background: #f8f9fa;
+        padding: 20px;
+        border-radius: 10px;
+        border-left: 4px solid #d4af37;
+        margin-top: 20px;
+        max-width: 500px;
+        margin-left: auto;
+        margin-right: auto;
+        text-align: left;
+    }
     .userpage-wrapper .password-requirements h4 { margin-bottom: 10px; color: #2c1810; }
     .userpage-wrapper .password-requirements ul { margin-left: 20px; color: #666; }
     .userpage-wrapper .password-requirements li { margin-bottom: 5px; }
+    .userpage-wrapper .password-requirements .save-btn {
+        display: block;
+        margin: 0 auto;
+        width: 100%;
+        max-width: 350px;
+    }
     .userpage-wrapper .purchase-filters { display: flex; gap: 15px; margin-bottom: 30px; align-items: center; }
     .userpage-wrapper .filter-select, .userpage-wrapper .search-input { padding: 10px 15px; border: 2px solid #d4af37; border-radius: 8px; font-size: 14px; background: white; outline: none; }
     .userpage-wrapper .search-input { flex: 1; max-width: 300px; }
@@ -177,6 +202,172 @@
     .userpage-wrapper .btn-cancel:hover { background: #BBB; }
 
     .userpage-wrapper .paid-indicator { font-size: 14px; font-weight: bold; color: #28a745; /* Green color for paid status */ background-color: #e9f7ef; padding: 8px 16px; border-radius: 6px; }
+
+    @media (max-width: 1200px) {
+        .userpage-wrapper .userpage-flex-container {
+            flex-direction: column;
+        }
+        .userpage-wrapper .sidebar {
+            width: 100%;
+            min-width: 0;
+            max-width: 100%;
+            flex-direction: row;
+            flex-wrap: wrap;
+            padding: 15px 10px;
+            margin-bottom: 20px;
+        }
+        .userpage-wrapper .main-content {
+            padding: 20px;
+        }
+    }
+    @media (max-width: 900px) {
+        .userpage-wrapper .profile-card {
+            padding: 20px;
+            max-width: 100%;
+        }
+        .userpage-wrapper .order-card {
+            margin-bottom: 15px;
+        }
+        .userpage-wrapper .order-item img {
+            width: 45px;
+            height: 45px;
+        }
+        .userpage-wrapper .profile-image {
+            width: 100px;
+            height: 100px;
+        }
+        .userpage-wrapper .purchase-tabs {
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+    }
+    @media (max-width: 700px) {
+        .userpage-wrapper .userpage-flex-container {
+            flex-direction: column;
+        }
+        .userpage-wrapper .sidebar {
+            width: 100%;
+            min-width: 0;
+            max-width: 100%;
+            flex-direction: row;
+            flex-wrap: wrap;
+            padding: 10px 5px;
+            margin-bottom: 15px;
+        }
+        .userpage-wrapper .main-content {
+            padding: 10px;
+        }
+        .userpage-wrapper .profile-card {
+            padding: 10px;
+        }
+        .userpage-wrapper .form-label,
+        .userpage-wrapper .radio-label {
+            font-size: 14px;
+        }
+        .userpage-wrapper .form-input,
+        .userpage-wrapper .date-select {
+            font-size: 14px;
+            padding: 8px 10px;
+        }
+        .userpage-wrapper .profile-title {
+            font-size: 22px;
+        }
+        .userpage-wrapper .profile-image {
+            width: 70px;
+            height: 70px;
+        }
+        .userpage-wrapper .order-item img {
+            width: 35px;
+            height: 35px;
+        }
+        .userpage-wrapper .purchase-tabs {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 5px;
+        }
+        .userpage-wrapper .purchase-tab {
+            width: 100%;
+            text-align: center;
+            margin: 0;
+        }
+        .userpage-wrapper .password-form {
+            max-width: 100%;
+            padding: 0 10px;
+        }
+        .userpage-wrapper .password-requirements {
+            max-width: 100%;
+            padding: 10px;
+        }
+        .userpage-wrapper .password-form .save-btn {
+            max-width: 100%;
+        }
+    }
+    @media (max-width: 500px) {
+        .userpage-wrapper .userpage-flex-container {
+            flex-direction: column;
+        }
+        .userpage-wrapper .sidebar {
+            width: 100%;
+            min-width: 0;
+            max-width: 100%;
+            flex-direction: column;
+            padding: 5px 2px;
+            margin-bottom: 10px;
+        }
+        .userpage-wrapper .main-content {
+            padding: 5px;
+        }
+        .userpage-wrapper .profile-card {
+            padding: 5px;
+        }
+        .userpage-wrapper .form-label,
+        .userpage-wrapper .radio-label {
+            font-size: 12px;
+        }
+        .userpage-wrapper .form-input,
+        .userpage-wrapper .date-select {
+            font-size: 12px;
+            padding: 6px 6px;
+        }
+        .userpage-wrapper .profile-title {
+            font-size: 16px;
+        }
+        .userpage-wrapper .profile-image {
+            width: 50px;
+            height: 50px;
+        }
+        .userpage-wrapper .order-item img {
+            width: 25px;
+            height: 25px;
+        }
+        .userpage-wrapper .purchase-tabs {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 2px;
+        }
+        .userpage-wrapper .purchase-tab {
+            width: 100%;
+            text-align: center;
+            margin: 0;
+        }
+        .userpage-wrapper .order-card,
+        .userpage-wrapper .purchase-tab-content {
+            padding: 8px 2px;
+        }
+        .userpage-wrapper .order-header,
+        .userpage-wrapper .order-footer {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 8px;
+            padding: 8px 2px;
+        }
+        .userpage-wrapper .order-item {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 4px;
+            padding: 8px 2px;
+        }
+    }
     </style>
     <!-- Userpage content starts here -->
     <div class="dropdown-bar">
