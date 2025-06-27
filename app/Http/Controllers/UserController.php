@@ -108,10 +108,10 @@ class UserController extends Controller
         }
 
         if ($request->payment_method === 'Cash on Delivery') {
-            $status = 'to pay';
+            $status = 'pending';
         } elseif ($request->payment_method === 'GCash') {
             $request->validate(['gcash_number' => 'nullable|string|max:20']);
-            $status = 'to ship';
+            $status = 'shipping';
         }
 
         $total = $cart->items->sum(function($item) {
@@ -122,7 +122,7 @@ class UserController extends Controller
             'user_id' => $user->id,
             'payment_method' => $request->payment_method,
             'status' => $status,
-            'total' => $total,
+            'total_amount' => $total,
             'gcash_number' => $request->payment_method === 'GCash' ? $request->gcash_number : null,
             'shipping_address' => $shipping_address,
             'delivery_option' => $request->delivery_option,
@@ -136,6 +136,37 @@ class UserController extends Controller
             ]);
         }
         $cart->items()->delete();
-        return redirect()->route('userpage')->with('success', 'Order placed successfully!');
+
+        $redirect = redirect()->route('userpage')->with('success', 'Order placed successfully!');
+
+        if ($status === 'shipping' || $status === 'pending') {
+             $redirect->with('active_section', 'purchase')
+                      ->with('active_purchase_tab', str_replace(' ', '-', $status));
+        }
+
+        return $redirect;
+    }
+
+    public function payOrder(Request $request, \App\Models\Order $order)
+    {
+        if (auth()->user()->id !== $order->user_id) {
+            abort(403);
+        }
+
+        $request->validate([
+            'gcash_number' => 'required|string|regex:/^09\d{9}$/',
+        ], [
+            'gcash_number.regex' => 'Please enter a valid 11-digit GCash number starting with 09.',
+        ]);
+
+        $order->status = 'to ship';
+        $order->payment_method = 'GCash';
+        $order->gcash_number = $request->gcash_number;
+        $order->save();
+
+        return redirect()->route('userpage')
+            ->with('success', "Payment for Order #{$order->id} successful! Your order will be shipped soon.")
+            ->with('active_section', 'purchase')
+            ->with('active_purchase_tab', 'to-ship');
     }
 } 

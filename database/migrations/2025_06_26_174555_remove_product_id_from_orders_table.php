@@ -11,7 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        // No longer needed. Price column is handled in create_carts_table.
+        Schema::table('orders', function (Blueprint $table) {
+            $table->dropForeign(['product_id']);
+            $table->dropColumn('product_id');
+        });
     }
 
     /**
@@ -19,10 +22,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        if (Schema::hasColumn('carts', 'price')) {
-            Schema::table('carts', function (Blueprint $table) {
-                $table->dropColumn('price');
-            });
-        }
+        Schema::table('orders', function (Blueprint $table) {
+            $table->foreignId('product_id')->constrained()->onDelete('cascade');
+        });
     }
 };

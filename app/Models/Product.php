@@ -25,10 +25,16 @@ class Product extends Model
 
     protected $casts = [
         'features' => 'array',
+        'price' => 'decimal:2',
     ];
 
     public function reviews()
     {
         return $this->hasMany(Review::class);
+    }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
     }
 }

@@ -32,7 +32,7 @@ class CartController extends Controller
             ]);
         }
 
-        return redirect()->route('viewCart');
+        return redirect()->back()->with('success', 'Added to cart!');
     }
 
     public function viewCart()
@@ -85,5 +85,30 @@ class CartController extends Controller
         $user->shipping_address = $request->address;
         $user->save();
         return redirect()->route('viewCart')->with('success', 'Shipping address updated!');
+    }
+
+    public function buyNow(Request $request)
+    {
+        $request->validate([
+            'product_id' => 'required|exists:products,id',
+            'quantity' => 'nullable|integer|min:1',
+        ]);
+
+        $user = Auth::user();
+        $cart = Cart::firstOrCreate(['user_id' => $user->id]);
+        $quantity = $request->input('quantity', 1);
+
+        $cartItem = $cart->items()->where('product_id', $request->product_id)->first();
+        if ($cartItem) {
+            $cartItem->quantity += $quantity;
+            $cartItem->save();
+        } else {
+            $cart->items()->create([
+                'product_id' => $request->product_id,
+                'quantity' => $quantity,
+            ]);
+        }
+
+        return redirect()->route('viewCart');
     }
 }

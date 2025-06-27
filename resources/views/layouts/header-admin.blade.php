@@ -31,7 +31,7 @@
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-brown shadow-sm" id="searchNav">
             <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
+                <a class="navbar-brand" href="{{ url('/admin') }}">
                     <img src="{{ asset('assets/logo.svg') }}" alt="{{ config('app.name', 'Laravel') }} Logo" style="height: 40px;">
                 </a>
                 <img src="{{ asset('assets/company_logo.svg') }}" alt="Company Logo" style="height: 40px; margin-left: 10px;">
@@ -40,11 +40,6 @@
                 </button>
 
                 <div style="width: 60px;"></div>
-
-                <form class="d-flex ms-3" role="search" method="GET" action="{{ route('searchpage') }}" id="searchForm">
-                    <input class="form-control me-2" type="search" name="query" placeholder="Search..." aria-label="Search" style="width: 650px; background-color: #f2d5bc;">
-                    <button class="btn btn-outline-light" type="submit" onclick="document.getElementById('searchForm').submit();">Search</button>
-                </form>
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
@@ -75,10 +70,6 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('userpage') }}" style="color: #000000; font-family: 'Manrope', sans-serif;">
-                                        {{ __('My Profile') }}
-                                    </a>
-
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();"
@@ -90,14 +81,6 @@
                                         @csrf
                                     </form>
                                 </div>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('viewCart') }}" style="color: #f2d5bc; font-size: 1.25rem; font-family: 'Manrope', sans-serif; position: relative;">
-                                    <img src="{{ asset('assets/cart.png') }}" alt="Cart" style="height: 28px; vertical-align: middle;">
-                                    @if(isset($cartCount) && $cartCount > 0)
-                                        <span style="position: absolute; top: 0; right: 0; background: #c0392b; color: #fff; border-radius: 50%; padding: 2px 7px; font-size: 12px;">{{ $cartCount }}</span>
-                                    @endif
-                                </a>
                             </li>
                         @endguest
                     </ul>
