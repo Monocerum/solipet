@@ -619,7 +619,7 @@ h6 {
                         'price' => $product->price,
                         'savings' => $product->savings ?? null,
                         'ratings' => $product->ratings ?? 0,
-                        'sold_count' => $product->sold_count ?? 0,
+                        'sold_count' => $product->rating_text ?? 0,
                     ];
                 });
             @endphp
@@ -642,10 +642,22 @@ h6 {
                                             @endif
                                         </span>
                                         <div class="rating">
+                                            @php
+                                                $fullStars = floor($item['ratings']);
+                                                $halfStar = ($item['ratings'] - $fullStars) >= 0.5;
+                                            @endphp
                                             @for($i = 0; $i < 5; $i++)
-                                                <span class="star">{{ $i < $item['ratings'] ? '★' : '☆' }}</span>
+                                                @if($i < $fullStars)
+                                                    <span class="star">★</span>
+                                                @elseif($i == $fullStars && $halfStar)
+                                                    <span class="star">⯨</span>
+                                                @else
+                                                    <span class="star">☆</span>
+                                                @endif
                                             @endfor
-                                            <span class="sold-count">{{ number_format($item['sold_count']) }} SOLD</span>
+                                            <span class="sold-count">
+                                                {{ is_numeric($item['sold_count']) ? number_format($item['sold_count']) : e($item['sold_count']) }}
+                                            </span>
                                         </div>
                                     </div>
                                 </div>
