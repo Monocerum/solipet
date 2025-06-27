@@ -619,7 +619,7 @@ h6 {
                         'price' => $product->price,
                         'savings' => $product->savings ?? null,
                         'ratings' => $product->ratings ?? 0,
-                        'sold_count' => $product->sold_count ?? 0,
+                        'sold_count' => $product->rating_text ?? 0,
                     ];
                 });
             @endphp
