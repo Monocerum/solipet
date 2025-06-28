@@ -552,13 +552,13 @@
         <div class="product-container">
             <div class="product-image"> 
                 @if($product->image)
-                    <img src="{{ asset($product->image) }}" alt="{{ $product->title }}" style="width:100%;height:100%;object-fit:cover;border: 10px solid #2E160C; border-radius: 8px;" />
+                    <img src="{{ asset($product->image) }}" alt="{{ $product->name }}" style="width:100%;height:100%;object-fit:cover;border: 10px solid #2E160C; border-radius: 8px;" />
                 @else
                     <img src="{{ asset('assets/cat-img.png') }}" alt="No Image" style="width:100%;height:100%;object-fit:cover;border: 10px solid #2E160C; border-radius: 8px;" />
                 @endif
             </div>   
             <div class="product-info">
-                <h1 class="product-title">{{ $product->title }}</h1>
+                <h1 class="product-name">{{ $product->name }}</h1>
                  <div class="price-rating-row">
                     <div class="price-container">PHP {{ number_format($product->price, 2) }}</div>
                     <div class="rating">
