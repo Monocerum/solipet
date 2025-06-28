@@ -294,7 +294,9 @@
                         <a class="navbar-brand me-2" href="{{ route('home') }}">
                             <img src="{{ asset('assets/logo.svg') }}" alt="{{ config('app.name', 'Laravel') }} Logo">
                         </a>
+                        <a class="navbar-brand me-2" href="{{ route('home') }}">
                         <img src="{{ asset('assets/company_logo.svg') }}" alt="Company Logo" class="company-logo" style="margin-left: 10px;">
+                        </a>
                     </div>
 
                     <!-- Desktop search form -->

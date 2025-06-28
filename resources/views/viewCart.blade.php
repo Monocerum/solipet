@@ -731,21 +731,34 @@
         function changeQuantity(itemId, change) {
             const itemElement = document.getElementById(`product-item-${itemId}`);
             const quantityElement = document.getElementById(`quantity-display-${itemId}`);
-            
             if (!itemElement || !quantityElement) return;
-
-            const currentQuantity = parseInt(quantityElement.textContent);
-            
+            let currentQuantity = parseInt(quantityElement.textContent);
             let newQuantity = currentQuantity + change;
-            if (newQuantity < 1) {
-                newQuantity = 1;
-            }
-
-            quantityElement.textContent = newQuantity;
-            itemElement.dataset.quantity = newQuantity;
-
-            updateItemTotal(itemId);
-            updateCartTotal();
+            if (newQuantity < 1) newQuantity = 1;
+            // Send AJAX request to update quantity in DB
+            fetch(`/cart/item/${itemId}/quantity`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                    'Accept': 'application/json',
+                },
+                body: JSON.stringify({ quantity: newQuantity })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    quantityElement.textContent = newQuantity;
+                    itemElement.dataset.quantity = newQuantity;
+                    updateItemTotal(itemId);
+                    updateCartTotal();
+                } else {
+                    alert('Failed to update quantity.');
+                }
+            })
+            .catch(() => {
+                alert('Error updating quantity.');
+            });
         }
 
         function updateItemTotal(itemId) {
