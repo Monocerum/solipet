@@ -7,6 +7,7 @@ use App\Http\Controllers\SearchController;
 use App\Http\Controllers\PetController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\Admin\ProductController as AdminProductController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -70,6 +71,15 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/payments/promotions/create', [App\Http\Controllers\Admin\PaymentController::class, 'createPromotion'])->name('payments.promotions.create');
     Route::post('/payments/promotions', [App\Http\Controllers\Admin\PaymentController::class, 'storePromotion'])->name('payments.promotions.store');
     Route::patch('/promotions/{promotion}/toggle', [App\Http\Controllers\Admin\PaymentController::class, 'togglePromotionStatus'])->name('promotions.toggle');
+});
+
+Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
+    Route::get('/products', [AdminProductController::class, 'index'])->name('products');
+    Route::get('/products/create', [AdminProductController::class, 'create'])->name('products.create');
+    Route::post('/products', [AdminProductController::class, 'store'])->name('products.store');
+    Route::get('/products/{product}/edit', [AdminProductController::class, 'edit'])->name('products.edit');
+    Route::put('/products/{product}', [AdminProductController::class, 'update'])->name('products.update');
+    Route::delete('/products/{product}', [AdminProductController::class, 'destroy'])->name('products.destroy');
 });
 
 

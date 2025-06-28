@@ -514,6 +514,7 @@ h6 {
 </style>
 
 @section('content')
+@section('title', 'Solipet | Home')
 
 <div class="home-container">
         <div class="dropdown-bar">

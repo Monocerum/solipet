@@ -1,6 +1,6 @@
 @extends('admin.layout')
 
-@section('title', 'Products Management')
+@section('name', 'Products Management')
 
 <style>
     .table-container {
@@ -50,7 +50,7 @@
                 @forelse($products as $product)
                 <tr class="border-b border-orange-200 hover:bg-orange-50 odd:bg-orange-100 even:bg-[#E8C7AA]">
                     <td class="px-6 py-4">{{ $product->id }}</td>
-                    <td class="px-6 py-4">{{ $product->title }}</td>
+                    <td class="px-6 py-4">{{ $product->name }}</td>
                     <td class="px-6 py-4">{{ $product->category ?? 'N/A' }}</td>
                     <td class="px-6 py-4">{{ $product->brand ?? 'N/A' }}</td>
                     <td class="px-6 py-4 space-x-2">
