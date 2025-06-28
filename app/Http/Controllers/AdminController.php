@@ -112,4 +112,12 @@ class AdminController extends Controller
 
         return redirect()->route('admin.products')->with('success', 'Product deleted successfully.');
     }
+
+    public function deleteCustomer($id)
+    {
+        $customer = User::where('is_admin', false)->findOrFail($id);
+        $customer->delete();
+
+        return redirect()->route('admin.customers')->with('success', 'Customer deleted successfully.');
+    }
 }

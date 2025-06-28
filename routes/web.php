@@ -48,14 +48,15 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     Route::get('/promotions', [AdminController::class, 'promotions'])->name('promotions');
 });
 
-// For Adding Products
+// For CRUD functions.
 Route::middleware(['auth'])->prefix('admin')->group(function () {
     Route::get('/products', [AdminController::class, 'products'])->name('admin.products');
-    Route::get('/products/create', [AdminController::class, 'createProduct'])->name('admin.products.create');
+    Route::get('/products/create', [AdminController::class, 'createProduct'])->name('admin.products.create'); // Same na nare-read si Inventory and automatically nags-separate.
     Route::post('/products', [AdminController::class, 'storeProduct'])->name('admin.products.store');
     Route::get('/products/{id}/edit', [AdminController::class, 'editProduct'])->name('admin.products.edit');
     Route::put('/products/{id}', [AdminController::class, 'updateProduct'])->name('admin.products.update');
     Route::delete('/products/{id}', [AdminController::class, 'deleteProduct'])->name('admin.products.delete');
+    Route::delete('/customers/{id}', [AdminController::class, 'deleteCustomer'])->name('admin.customers.delete');
 });
 
 Route::prefix('admin')->name('admin.')->group(function () {
