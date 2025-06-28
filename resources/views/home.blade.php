@@ -599,11 +599,12 @@ h6 {
         <section class="promos">
             <h2>SOLIPET PROMOS</h2>
             @php
+
                 $query = DB::table('products');
                 $title = "All Items";
                 $fixedImg = null;
 
-                // Fetch products, including product id, then randomly select 8 items
+                // Fetch products, including product id
                 $items = $query->get()->map(function($product) {
                     return [
                         'id' => $product->id,
