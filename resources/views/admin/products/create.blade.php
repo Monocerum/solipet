@@ -1,28 +1,9 @@
-@extends('admin.layout')
+@extends('layouts.admin')
 
 @section('title', 'Add Product')
 
+@section('styles')
 <style>
-    .table-container {
-        width: 100%;
-        min-height: 80vh;
-        background-color: #E8C7AA;
-        color: black;
-    }
-
-    .table-container th, 
-    .table-container td {
-        color: black;
-    }
-
-    .inner-container a {
-        color: black;
-    }
-
-    thead {
-        color: black;
-    }
-
     .form-section {
         background-color: #f5f5f5;
         padding: 1.5rem;
@@ -38,6 +19,7 @@
         padding-bottom: 0.5rem;
     }
 </style>
+@endsection
 
 @section('content')
 <div class="p-6 bg-orange-100 rounded-lg">
@@ -66,10 +48,10 @@
             <h3>Basic Information</h3>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                    <label class="block font-semibold text-gray-700 mb-2">Product Title *</label>
-                    <input type="text" name="title" value="{{ old('title') }}" 
+                    <label class="block font-semibold text-gray-700 mb-2">Product Name *</label>
+                    <input type="text" name="name" value="{{ old('name') }}" 
                            class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-orange-300 focus:border-transparent" 
-                           placeholder="Enter product title" required>
+                           placeholder="Enter product name" required>
                 </div>
 
                 <div>
