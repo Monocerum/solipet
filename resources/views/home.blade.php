@@ -242,6 +242,13 @@
 
 .item-card {
     border: 4px solid #8b4513;
+    transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+}
+.item-card:hover {
+    border-color: #dcb99c;
+    background:rgb(223, 133, 69);
+    box-shadow: 0 6px 18px rgba(107,52,16,0.18);
+    z-index: 3;
 }
 
 .item-image {
@@ -522,7 +529,6 @@ h6 {
 </style>
 
 @section('content')
-@section('title', 'Solipet | Home')
 
 <div class="home-container">
         <div class="dropdown-bar">
@@ -578,7 +584,7 @@ h6 {
                         <img src="assets/dog-photo.png" alt="Photo of a Dog" class="dog-pet-type">
                     </div>
                     <h2 class="pet-name">DOGS</h2>
-                    <a href="{{ route('login') }}" class="shop-button">SHOP NOW</a>
+                    <a href="{{ route('petpage', ['pet_type' => 'dog']) }}" class="shop-button">SHOP NOW</a>
                 </div>
             </div>
             <div class="pet-box" id="catContainer">
@@ -588,7 +594,7 @@ h6 {
                         <img src="assets/cat-photo.png" alt="Photo of a Cat" class="dog-pet-type">
                     </div>
                     <h2 class="pet-name">CATS</h2>
-                    <a href="{{ route('login') }}" class="shop-button">SHOP NOW</a>
+                    <a href="{{ route('petpage', ['pet_type' => 'cat']) }}" class="shop-button">SHOP NOW</a>
                 </div>
             </div>
             <div class="pet-box" id="smallPetContainer">
@@ -598,7 +604,7 @@ h6 {
                         <img src="assets/hamster-photo.png" alt="Photo of a Hamster" class="dog-pet-type">
                     </div>
                     <h2 class="pet-name">SMALL PETS</h2>
-                    <a href="{{ route('login') }}" class="shop-button">SHOP NOW</a>
+                    <a href="{{ route('petpage', ['pet_type' => 'small_pet']) }}" class="shop-button">SHOP NOW</a>
                 </div>
             </div>
 
@@ -629,7 +635,7 @@ h6 {
                 <button class="carousel-arrow left" onclick="carouselPrev()">&lt;</button>
                 <div class="carousel-track">
                     @foreach($items as $index => $item)
-                        <a class="item-card carousel-item" href="{{ route('itempage') }}" style="text-decoration: none;">
+                        <a class="item-card carousel-item" href="{{ url('item/' . $item['id']) }}" style="text-decoration: none;">
                             <div>
                                 <div class="item-image">
                                     <div class="pixel-cat">
