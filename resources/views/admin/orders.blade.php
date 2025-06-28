@@ -77,7 +77,7 @@
                     <td class="px-6 py-4">{{ $order->user_id }}</td>
                     <td class="px-6 py-4">
                         @foreach($order->items as $item)
-                            <div>{{ $item->product->title ?? 'N/A' }} x{{ $item->quantity }}</div>
+                            <div>{{ $item->product->name ?? 'N/A' }} x{{ $item->quantity }}</div>
                         @endforeach
                     </td>
                     <td class="px-6 py-4">{{ $order->user->name ?? 'N/A' }}</td>

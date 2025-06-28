@@ -14,11 +14,10 @@ class SearchController extends Controller
     $pet = $request->input('pet');
     $sort = $request->input('sort');
 
-    // Example query builder (assuming you use Eloquent)
     $results = Product::query();
 
     if ($query) {
-        $results->where('title', 'LIKE', "%$query%");
+        $results->where('name', 'LIKE', "%$query%");
     }
 
     if ($pet) {

@@ -116,7 +116,7 @@
                     <td class="px-6 py-4">
                         <div class="font-semibold">{{ $payment->order->order_number ?? 'N/A' }}</div>
                         @if($payment->order->product)
-                            <div class="text-sm text-gray-600">{{ Str::limit($payment->order->product->title, 30) }}</div>
+                            <div class="text-sm text-gray-600">{{ Str::limit($payment->order->product->name, 30) }}</div>
                         @endif
                     </td>
                     <td class="px-6 py-4">
@@ -161,7 +161,7 @@
                     <td class="px-6 py-4">
                         @if($payment->promotion)
                             <div class="promotion-tag">{{ $payment->promotion->voucher_code }}</div>
-                            <div class="text-sm text-gray-600 mt-1">{{ $payment->promotion->title }}</div>
+                            <div class="text-sm text-gray-600 mt-1">{{ $payment->promotion->name }}</div>
                         @else
                             <span class="text-gray-500">None</span>
                         @endif
