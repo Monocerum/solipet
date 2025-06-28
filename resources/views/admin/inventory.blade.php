@@ -1,6 +1,6 @@
 @extends('admin.layout')
 
-@section('title', 'Inventory Management')
+@section('name', 'Inventory Management')
 
 <style>
     .table-container {
@@ -50,10 +50,10 @@
                 @forelse($products as $product)
                 <tr class="border-b border-orange-200 hover:bg-orange-50 odd:bg-orange-100 even:bg-[#E8C7AA]">
                     <td class="px-6 py-4">{{ $product->id }}</td>
-                    <td class="px-6 py-4">{{ $product->title }}</td>
+                    <td class="px-6 py-4">{{ $product->name }}</td>
                     <td class="px-6 py-4">
-                        <span class="px-2 py-1 rounded {{ $product->stock_quantity > 10 ? 'bg-green-200 text-green-800' : ($product->stock_quantity > 0 ? 'bg-yellow-200 text-yellow-800' : 'bg-red-200 text-red-800') }}">
-                            {{ $product->stock_quantity ?? 0 }}
+                        <span class="px-2 py-1 rounded {{ $product->stock > 10 ? 'bg-green-200 text-green-800' : ($product->stock > 0 ? 'bg-yellow-200 text-yellow-800' : 'bg-red-200 text-red-800') }}">
+                            {{ $product->stock ?? 0 }}
                         </span>
                     </td>
                     <td class="px-6 py-4">{{ $product->reserved_quantity ?? 0 }}</td>
