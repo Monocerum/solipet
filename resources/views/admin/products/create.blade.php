@@ -40,7 +40,7 @@
 </style>
 
 @section('content')
-<div class="p-6 bg-orange-100 rounded-lg">
+<div class="table-container rounded-lg p-6">
     <div class="flex items-center justify-between mb-6">
         <h2 class="text-2xl font-bold text-gray-800">Create New Product</h2>
         <a href="{{ route('admin.products') }}" class="text-gray-600 hover:text-gray-800 underline">

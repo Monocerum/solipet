@@ -36,7 +36,7 @@
 </style>
 
 @section('content')
-<div class="p-6 bg-orange-100 rounded-lg">
+<div class="table-container rounded-lg p-6">
     <div class="flex items-center justify-between mb-6">
         <h2 class="text-2xl font-bold text-gray-800">Edit Product</h2>
         <a href="{{ route('admin.products') }}" class="text-gray-600 hover:text-gray-800 underline">
@@ -64,7 +64,7 @@
                 <div>
                     <label class="block font-semibold text-gray-700 mb-2">Product Title *</label>
                     <input type="text" name="title" value="{{ old('title', $product->title) }}"
-                           class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-orange-300 focus:border-transparent"
+                           class="w-full border border-gray-300 rounded-lg p-3 text-black focus:ring-2 focus:ring-orange-300 focus:border-transparent"
                            required>
                 </div>
 
@@ -73,7 +73,7 @@
                     <div class="relative">
                         <span class="absolute left-3 top-3 text-gray-500">$</span>
                         <input type="number" step="0.01" name="price" value="{{ old('price', $product->price) }}"
-                               class="w-full border border-gray-300 rounded-lg p-3 pl-8 focus:ring-2 focus:ring-orange-300 focus:border-transparent"
+                               class="w-full border border-gray-300 rounded-lg p-3 pl-8 text-black focus:ring-2 focus:ring-orange-300 focus:border-transparent"
                                required>
                     </div>
                 </div>
@@ -81,14 +81,14 @@
                 <div>
                     <label class="block font-semibold text-gray-700 mb-2">Stock Quantity *</label>
                     <input type="number" name="stock" value="{{ old('stock', $product->stock) }}"
-                           class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-orange-300 focus:border-transparent"
+                           class="w-full border border-gray-300 rounded-lg p-3 text-black focus:ring-2 focus:ring-orange-300 focus:border-transparent"
                            required>
                 </div>
 
                 <div>
                     <label class="block font-semibold text-gray-700 mb-2">Brand</label>
                     <input type="text" name="brand" value="{{ old('brand', $product->brand) }}"
-                           class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-orange-300 focus:border-transparent">
+                           class="w-full border border-gray-300 rounded-lg p-3 text-black focus:ring-2 focus:ring-orange-300 focus:border-transparent">
                 </div>
             </div>
         </div>
@@ -98,7 +98,7 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                     <label class="block font-semibold text-gray-700 mb-2">Category</label>
-                    <select name="category" class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-orange-300 focus:border-transparent">
+                    <select name="category" class="w-full border border-gray-300 rounded-lg p-3 text-black focus:ring-2 focus:ring-orange-300 focus:border-transparent">
                         <option value="">Select Category</option>
                         @foreach(['Food', 'Toys', 'Accessories', 'Health & Care', 'Grooming', 'Beds & Furniture'] as $cat)
                             <option value="{{ $cat }}" {{ old('category', $product->category) == $cat ? 'selected' : '' }}>{{ $cat }}</option>
@@ -108,7 +108,7 @@
 
                 <div>
                     <label class="block font-semibold text-gray-700 mb-2">Pet Type</label>
-                    <select name="pet_type" class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-orange-300 focus:border-transparent">
+                    <select name="pet_type" class="w-full border border-gray-300 rounded-lg p-3 text-black focus:ring-2 focus:ring-orange-300 focus:border-transparent">
                         <option value="">Select Pet Type</option>
                         @foreach(['Dog', 'Cat', 'Bird', 'Fish', 'Small Animals', 'Reptile', 'All Pets'] as $type)
                             <option value="{{ $type }}" {{ old('pet_type', $product->pet_type) == $type ? 'selected' : '' }}>{{ $type }}</option>
@@ -124,32 +124,32 @@
                 <div>
                     <label class="block font-semibold text-gray-700 mb-2">Material</label>
                     <input type="text" name="material" value="{{ old('material', $product->material) }}"
-                           class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-orange-300 focus:border-transparent">
+                           class="w-full border border-gray-300 rounded-lg p-3 text-black focus:ring-2 focus:ring-orange-300 focus:border-transparent">
                 </div>
 
                 <div>
                     <label class="block font-semibold text-gray-700 mb-2">Dimensions</label>
                     <input type="text" name="dimensions" value="{{ old('dimensions', $product->dimensions) }}"
-                           class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-orange-300 focus:border-transparent">
+                           class="w-full border border-gray-300 rounded-lg p-3 text-black focus:ring-2 focus:ring-orange-300 focus:border-transparent">
                 </div>
             </div>
 
             <div class="mb-4">
                 <label class="block font-semibold text-gray-700 mb-2">Savings Text</label>
                 <input type="text" name="savings" value="{{ old('savings', $product->savings) }}"
-                       class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-orange-300 focus:border-transparent">
+                       class="w-full border border-gray-300 rounded-lg p-3 text-black focus:ring-2 focus:ring-orange-300 focus:border-transparent">
             </div>
 
             <div class="mb-4">
                 <label class="block font-semibold text-gray-700 mb-2">Description</label>
                 <textarea name="description" rows="4"
-                          class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-orange-300 focus:border-transparent">{{ old('description', $product->description) }}</textarea>
+                          class="w-full border border-gray-300 rounded-lg p-3 text-black focus:ring-2 focus:ring-orange-300 focus:border-transparent">{{ old('description', $product->description) }}</textarea>
             </div>
 
             <div class="mb-4">
                 <label class="block font-semibold text-gray-700 mb-2">Care Instructions</label>
                 <textarea name="care_instructions" rows="3"
-                          class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-orange-300 focus:border-transparent">{{ old('care_instructions', $product->care_instructions) }}</textarea>
+                          class="w-full border border-gray-300 rounded-lg p-3 text-black focus:ring-2 focus:ring-orange-300 focus:border-transparent">{{ old('care_instructions', $product->care_instructions) }}</textarea>
             </div>
         </div>
 
@@ -158,7 +158,7 @@
             <div>
                 <label class="block font-semibold text-gray-700 mb-2">Upload Image</label>
                 <input type="file" name="image" accept="image/*"
-                       class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-orange-300 focus:border-transparent">
+                       class="w-full border border-gray-300 rounded-lg p-3 text-black focus:ring-2 focus:ring-orange-300 focus:border-transparent">
                 <p class="text-sm text-gray-500 mt-1">Accepted formats: JPG, PNG, GIF. Max size: 2MB</p>
             </div>
             @if($product->image)
@@ -175,7 +175,7 @@
                 @foreach(old('features', $product->features ?? []) as $index => $feature)
                     <div class="flex gap-2 mb-2">
                         <input type="text" name="features[]" value="{{ $feature }}"
-                               class="flex-1 border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-orange-300 focus:border-transparent">
+                               class="flex-1 border border-gray-300 rounded-lg p-3 text-black focus:ring-2 focus:ring-orange-300 focus:border-transparent">
                         <button type="button" onclick="removeFeature(this)"
                                 class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg transition duration-200">
                             Remove
@@ -184,7 +184,7 @@
                 @endforeach
             </div>
             <button type="button" onclick="addFeature()"
-                    class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg transition duration-200">
+                    class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition duration-200">
                 + Add
             </button>
         </div>
@@ -209,7 +209,7 @@ function addFeature() {
     newFeature.className = 'flex gap-2 mb-2';
     newFeature.innerHTML = `
         <input type="text" name="features[]"
-               class="flex-1 border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-orange-300 focus:border-transparent">
+               class="flex-1 border border-gray-300 rounded-lg p-3 text-black focus:ring-2 focus:ring-orange-300 focus:border-transparent">
         <button type="button" onclick="removeFeature(this)"
                 class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg transition duration-200">
             Remove
