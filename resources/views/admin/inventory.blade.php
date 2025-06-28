@@ -31,7 +31,7 @@
 
     <div class="mb-4">
         <a href="{{ route('admin.products.create') }}" class="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded">
-            + Add Product
+            + Add Item
         </a>
     </div>
 
