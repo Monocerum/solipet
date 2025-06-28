@@ -529,32 +529,39 @@ h6 {
 </style>
 
 @section('content')
-
 <div class="home-container">
-        <div class="dropdown-bar">
+    <div class="dropdown-bar">
                 <div class="nav-item dropdown-pet">
                     <a id="petTypeDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Shop by Pet
                     </a>
                     <div class="dropdown-menu dropdown-menu-start" aria-labelledby="navbarDropdown5">
-                        <a class="dropdown-item" href="{{ route('logout') }}"
-                            onclick="event.preventDefault();
-                                document.getElementById('logout-form').submit();">
+                        <a class="dropdown-item" href="{{ route('petpage', ['pet_type' => 'cat']) }}">
                             {{ __('Cat') }}
                         </a>
-                        <a class="dropdown-item" href="{{ route('logout') }}"
-                            onclick="event.preventDefault();
-                                document.getElementById('logout-form').submit();">
+                        <a class="dropdown-item" href="{{ route('petpage', ['pet_type' => 'dog']) }}">
                             {{ __('Dog') }}
                         </a>
-                        <a class="dropdown-item" href="{{ route('logout') }}"
-                            onclick="event.preventDefault();
-                                document.getElementById('logout-form').submit();">
+                        <a class="dropdown-item" href="{{ route('petpage', ['pet_type' => 'small_pet']) }}">
                             {{ __('Small Pet') }}
                         </a>
                     </div>
                 </div>
     </div>
+@if(request('pet_type') === 'cat')
+<div class="hero-section">
+    <img src="{{ asset('assets/shop-by-cat.png') }}" alt="Shop for Cat" style="max-width:100%; height:auto; border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,0.1);">
+</div>
+@elseif(request('pet_type') === 'dog')
+<div class="hero-section">
+    <img src="{{ asset('assets/shop-by-dog.png') }}" alt="Shop for Dog" style="max-width:100%; height:auto; border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,0.1);">
+</div>
+@elseif(request('pet_type') === 'small_pet')
+<div class="hero-section">
+    <img src="{{ asset('assets/shop-by-smallpet.png') }}" alt="Shop for Small Pet" style="max-width:100%; height:auto; border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,0.1);">
+</div>
+@else
+@endif
         <section class="hero-section">
             <div class="hero-text">
                 <div class="solipet-logo-container">
