@@ -242,7 +242,7 @@
                                 </div>
                             </div>
                             <div class="item-info">
-                                <div class="item-name">{{ $item['name'] }}</div>
+                                <div class="item-name">{{ $item['title'] }}</div>
                                 <div class="item-price">PHP {{ number_format($item['price'], 2) }}</div>
                                 <div class="item-details">
                                     <span class="discount">
