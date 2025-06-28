@@ -164,7 +164,9 @@
             @if($product->image)
                 <div class="mt-3">
                     <label class="block font-semibold text-gray-700 mb-2">Current Image</label>
-                    <img src="{{ asset('storage/' . $product->image) }}" class="rounded w-full max-w-xs">
+                    <img src="{{ asset('storage/' . $product->image) }}" alt="Product Image"
+                         class="rounded object-cover border border-gray-300"
+                         style="max-width: 200px; max-height: 200px;">
                 </div>
             @endif
         </div>
