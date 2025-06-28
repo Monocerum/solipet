@@ -590,9 +590,9 @@
                                     </div>
                                     @foreach($order->items as $item)
                                         <div class="order-item">
-                                            <img src="{{ asset($item->product->image ?? 'assets/dog-img.png') }}" alt="{{ $item->product->title ?? '' }}">
+                                            <img src="{{ asset($item->product->image ?? 'assets/dog-img.png') }}" alt="{{ $item->product->name ?? '' }}">
                                             <div class="item-details">
-                                                <div>{{ $item->product->title ?? 'Product not found' }}</div>
+                                                <div>{{ $item->product->name ?? 'Product not found' }}</div>
                                                 <small>x{{ $item->quantity }}</small>
                                             </div>
                                             <div class="item-price">₱{{ number_format($item->price, 2) }}</div>
@@ -627,9 +627,9 @@
                                     </div>
                                     @foreach($order->items as $item)
                                         <div class="order-item">
-                                            <img src="{{ asset($item->product->image ?? 'assets/dog-img.png') }}" alt="{{ $item->product->title ?? '' }}">
+                                            <img src="{{ asset($item->product->image ?? 'assets/dog-img.png') }}" alt="{{ $item->product->name ?? '' }}">
                                             <div class="item-details">
-                                                <div>{{ $item->product->title ?? 'Product not found' }}</div>
+                                                <div>{{ $item->product->name ?? 'Product not found' }}</div>
                                                 <small>x{{ $item->quantity }}</small>
                                             </div>
                                             <div class="item-price">₱{{ number_format($item->price, 2) }}</div>
@@ -662,9 +662,9 @@
                                     </div>
                                     @foreach($order->items as $item)
                                         <div class="order-item">
-                                            <img src="{{ asset($item->product->image ?? 'assets/dog-img.png') }}" alt="{{ $item->product->title ?? '' }}">
+                                            <img src="{{ asset($item->product->image ?? 'assets/dog-img.png') }}" alt="{{ $item->product->name ?? '' }}">
                                             <div class="item-details">
-                                                <div>{{ $item->product->title ?? 'Product not found' }}</div>
+                                                <div>{{ $item->product->name ?? 'Product not found' }}</div>
                                                 <small>x{{ $item->quantity }}</small>
                                             </div>
                                             <div class="item-price">₱{{ number_format($item->price, 2) }}</div>
@@ -697,9 +697,9 @@
                                     </div>
                                     @foreach($order->items as $item)
                                         <div class="order-item">
-                                            <img src="{{ asset($item->product->image ?? 'assets/dog-img.png') }}" alt="{{ $item->product->title ?? '' }}">
+                                            <img src="{{ asset($item->product->image ?? 'assets/dog-img.png') }}" alt="{{ $item->product->name ?? '' }}">
                                             <div class="item-details">
-                                                <div>{{ $item->product->title ?? 'Product not found' }}</div>
+                                                <div>{{ $item->product->name ?? 'Product not found' }}</div>
                                                 <small>x{{ $item->quantity }}</small>
                                             </div>
                                             <div class="item-price">₱{{ number_format($item->price, 2) }}</div>

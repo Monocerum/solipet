@@ -37,7 +37,7 @@
                                 <div class="form-group mb-3">
                                     <label for="name" class="form-label">Product Name <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control @error('name') is-invalid @enderror" 
-                                           id="name" name="name" value="{{ old('name', $product->name ?? $product->title) }}" required>
+                                           id="name" name="name" value="{{ old('name', $product->name ?? $product->name) }}" required>
                                     @error('name')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
@@ -216,7 +216,7 @@
                                         <label class="form-label">Current Image</label>
                                         <div class="border rounded p-2">
                                             <img src="{{ asset('storage/' . $product->image) }}" 
-                                                 alt="{{ $product->title }}" 
+                                                 alt="{{ $product->name }}" 
                                                  class="img-fluid rounded" 
                                                  style="max-height: 200px; width: 100%; object-fit: cover;">
                                         </div>

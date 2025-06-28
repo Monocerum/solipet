@@ -629,7 +629,7 @@ h6 {
                 $items = $query->get()->map(function($product) {
                     return [
                         'id' => $product->id,
-                        'title' => $product->title,
+                        'title' => $product->name,
                         'price' => $product->price,
                         'savings' => $product->savings ?? null,
                         'ratings' => $product->ratings ?? 0,
@@ -650,7 +650,7 @@ h6 {
                                     </div>
                                 </div>
                                 <div class="item-info">
-                                    <div class="item-name">{{ $item['title'] }}</div>
+                                    <div class="item-name">{{ $item['name'] }}</div>
                                     <div class="item-price">PHP {{ number_format($item['price'], 2) }}</div>
                                     <div class="item-details">
                                         <span class="discount">

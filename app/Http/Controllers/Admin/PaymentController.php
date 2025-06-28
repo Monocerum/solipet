@@ -73,7 +73,7 @@ class PaymentController extends Controller
     public function storePromotion(Request $request)
     {
         $request->validate([
-            'title' => 'required|string|max:255',
+            'name' => 'required|string|max:255',
             'voucher_code' => 'required|string|unique:promotions,voucher_code',
             'description' => 'nullable|string',
             'discount_type' => 'required|in:percentage,fixed',
