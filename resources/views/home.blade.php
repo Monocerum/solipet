@@ -527,34 +527,56 @@ h6 {
 
 
 </style>
-
+@section('title', 'Home | Solipet')
 @section('content')
-
 <div class="home-container">
-        <div class="dropdown-bar">
+    <!-- Flash Messages -->
+    @if (session('error'))
+        <div class="alert alert-danger alert-dismissible fade show" role="alert" style="margin: 20px; border-radius: 10px; background-color: #f8d7da; border-color: #f5c6cb; color: #721c24;">
+            <strong>Error!</strong> {{ session('error') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
+
+    @if (session('success'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert" style="margin: 20px; border-radius: 10px; background-color: #d4edda; border-color: #c3e6cb; color: #155724;">
+            <strong>Success!</strong> {{ session('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
+
+    <div class="dropdown-bar">
                 <div class="nav-item dropdown-pet">
                     <a id="petTypeDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Shop by Pet
                     </a>
                     <div class="dropdown-menu dropdown-menu-start" aria-labelledby="navbarDropdown5">
-                        <a class="dropdown-item" href="{{ route('logout') }}"
-                            onclick="event.preventDefault();
-                                document.getElementById('logout-form').submit();">
+                        <a class="dropdown-item" href="{{ route('petpage', ['pet_type' => 'cat']) }}">
                             {{ __('Cat') }}
                         </a>
-                        <a class="dropdown-item" href="{{ route('logout') }}"
-                            onclick="event.preventDefault();
-                                document.getElementById('logout-form').submit();">
+                        <a class="dropdown-item" href="{{ route('petpage', ['pet_type' => 'dog']) }}">
                             {{ __('Dog') }}
                         </a>
-                        <a class="dropdown-item" href="{{ route('logout') }}"
-                            onclick="event.preventDefault();
-                                document.getElementById('logout-form').submit();">
+                        <a class="dropdown-item" href="{{ route('petpage', ['pet_type' => 'small_pet']) }}">
                             {{ __('Small Pet') }}
                         </a>
                     </div>
                 </div>
     </div>
+@if(request('pet_type') === 'cat')
+<div class="hero-section">
+    <img src="{{ asset('assets/shop-by-cat.png') }}" alt="Shop for Cat" style="max-width:100%; height:auto; border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,0.1);">
+</div>
+@elseif(request('pet_type') === 'dog')
+<div class="hero-section">
+    <img src="{{ asset('assets/shop-by-dog.png') }}" alt="Shop for Dog" style="max-width:100%; height:auto; border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,0.1);">
+</div>
+@elseif(request('pet_type') === 'small_pet')
+<div class="hero-section">
+    <img src="{{ asset('assets/shop-by-smallpet.png') }}" alt="Shop for Small Pet" style="max-width:100%; height:auto; border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,0.1);">
+</div>
+@else
+@endif
         <section class="hero-section">
             <div class="hero-text">
                 <div class="solipet-logo-container">
@@ -562,7 +584,7 @@ h6 {
                 </div>
                 <div class="solipet-tagline-container">
                     <div class="solipet-tagline">
-                        <h5>YOUR PET’S NECESSITIES</h5>
+                        <h5>YOUR PET'S NECESSITIES</h5>
                         <h3>RIGHT INTO YOUR MAILBOX!</h3>
                     </div>
                 </div>
@@ -622,7 +644,7 @@ h6 {
                 $items = $query->get()->map(function($product) {
                     return [
                         'id' => $product->id,
-                        'title' => $product->title,
+                        'title' => $product->name,
                         'price' => $product->price,
                         'savings' => $product->savings ?? null,
                         'ratings' => $product->ratings ?? 0,
@@ -648,7 +670,7 @@ h6 {
                                     <div class="item-details">
                                         <span class="discount">
                                             @if(isset($item['savings']))
-                                                {{ Str::before($item['savings'], 'P') }}
+                                                {{ Str::before($item['savings'], 'P') . ' Off!' }}
                                             @endif
                                         </span>
                                         <div class="rating">

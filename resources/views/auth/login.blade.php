@@ -84,10 +84,39 @@
             padding: 0 0 5% 0;
         }
 
-        #agreement {
+        #remember {
             box-shadow: none;
             margin: 0 2% 0 0;
-            height: 1em;
+            height: 1.2em;
+            width: 1.2em;
+            cursor: pointer;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            border: 2px solid #E8C7AA;
+            border-radius: 3px;
+            background-color: transparent;
+            position: relative;
+        }
+
+        #remember:checked {
+            background-color: #77401E;
+            border-color: #77401E;
+        }
+
+        #remember:checked::after {
+            content: '✓';
+            position: absolute;
+            top: -2px;
+            left: 2px;
+            color: white;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .form-check-label {
+            cursor: pointer;
+            user-select: none;
         }
 
         .auth-btn-container {
@@ -216,7 +245,7 @@
 <div class="container login-container">
     <div class="solipet-tagline-container">
         <div class="solipet-tagline">
-            <h5>YOUR PET’S NECESSITIES</h5>
+            <h5>YOUR PET'S NECESSITIES</h5>
             <h3>RIGHT INTO YOUR MAILBOX!</h3>
         </div>
     </div>
@@ -224,7 +253,7 @@
             <div class="card auth-card">
                 <div class="card-body auth-card-body">
                     <h2 class="auth-card-header">{{ __('LOGIN') }}</h2>
-                    <form method="POST" action="{{ route('login') }}">
+                    <form method="POST" action="{{ route('login') }}" id="loginForm">
                         @csrf
 
                         <div>
@@ -258,7 +287,7 @@
                         <div>
                             <div>
                                 <div class="form-check confirmation-container">
-                                    <input class="form-check-input" id="agreement" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
+                                    <input class="form-check-input" id="remember" type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}>
 
                                     <label class="form-check-label" for="remember">
                                         {{ __('Remember Me') }}
@@ -287,4 +316,83 @@
             </div>
         </div>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const emailInput = document.getElementById('email');
+    const passwordInput = document.getElementById('password');
+    const rememberCheckbox = document.getElementById('remember');
+    const loginForm = document.getElementById('loginForm');
+
+    // Check if we have remembered credentials from the backend
+    @if(isset($rememberedCredentials) && $rememberedCredentials)
+        const rememberedEmail = '{{ $rememberedCredentials['email'] }}';
+        const rememberedPassword = '{{ $rememberedCredentials['password'] }}';
+        
+        if (rememberedEmail && rememberedPassword) {
+            emailInput.value = rememberedEmail;
+            passwordInput.value = rememberedPassword;
+            rememberCheckbox.checked = true;
+        }
+    @endif
+
+    // Handle remember me checkbox change
+    rememberCheckbox.addEventListener('change', function() {
+        if (!this.checked) {
+            // If unchecked, clear any stored credentials
+            clearStoredCredentials();
+        }
+    });
+
+    // Handle form submission
+    loginForm.addEventListener('submit', function(e) {
+        if (rememberCheckbox.checked) {
+            // Store credentials in localStorage as backup (optional)
+            storeCredentialsLocally();
+        } else {
+            // Clear stored credentials if remember me is unchecked
+            clearStoredCredentials();
+        }
+    });
+
+    // Function to store credentials locally (optional backup)
+    function storeCredentialsLocally() {
+        try {
+            const credentials = {
+                email: emailInput.value,
+                password: passwordInput.value
+            };
+            localStorage.setItem('rememberedCredentials', JSON.stringify(credentials));
+        } catch (e) {
+            console.log('Could not store credentials locally');
+        }
+    }
+
+    // Function to clear stored credentials
+    function clearStoredCredentials() {
+        try {
+            localStorage.removeItem('rememberedCredentials');
+        } catch (e) {
+            console.log('Could not clear local credentials');
+        }
+    }
+
+    // Auto-fill from localStorage if no backend credentials (fallback)
+    if (!emailInput.value && !passwordInput.value) {
+        try {
+            const storedCredentials = localStorage.getItem('rememberedCredentials');
+            if (storedCredentials) {
+                const credentials = JSON.parse(storedCredentials);
+                emailInput.value = credentials.email || '';
+                passwordInput.value = credentials.password || '';
+                if (credentials.email && credentials.password) {
+                    rememberCheckbox.checked = true;
+                }
+            }
+        } catch (e) {
+            console.log('Could not retrieve local credentials');
+        }
+    }
+});
+</script>
 @endsection

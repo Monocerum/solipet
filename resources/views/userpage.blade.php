@@ -1,5 +1,5 @@
 @extends('layouts.header')
-
+@section('title', 'User Profile | Solipet')
 @section('content')
 <div class="userpage-wrapper">
     <style>
@@ -140,6 +140,7 @@
     .userpage-wrapper .status { padding: 3px 8px; border-radius: 12px; font-size: 12px; font-weight: 600; text-transform: uppercase; }
     .userpage-wrapper .status.completed { background: #d4edda; color: #155724; }
     .userpage-wrapper .status.pending { background: #fff3cd; color: #856404; }
+    .userpage-wrapper .status.returned { background: #6f42c1; color: #fff; }
     .userpage-wrapper .purchase-amount { font-size: 18px; font-weight: 600; color: #d4af37; }
     .userpage-wrapper .view-details-btn { background: linear-gradient(135deg,rgb(168, 152, 122),rgb(186, 146, 72)); color: white; border: none; padding: 8px 16px; border-radius: 20px; cursor: pointer; font-size: 12px; transition: all 0.3s ease; }
     .userpage-wrapper .view-details-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 15px rgba(78, 205, 196, 0.3); }
@@ -162,7 +163,7 @@
     .userpage-wrapper .order-status.to-receive { background: rgb(126, 93, 47); }
     .userpage-wrapper .order-status.completed { background: #28a745; }
     .userpage-wrapper .order-status.cancelled { background: #dc3545; }
-
+    .userpage-wrapper .order-status.returned { background: #6f42c1; }
     .userpage-wrapper .order-date { font-size: 14px; color: #777; }
     .userpage-wrapper .order-item { display: flex; align-items: center; gap: 15px; padding: 15px 20px; border-bottom: 1px solid #eee; }
     .userpage-wrapper .order-item:last-child { border-bottom: none; }
@@ -571,10 +572,11 @@
             <div class="content-section" id="purchase-section">
                 <div class="purchase-tabs nav nav-tabs" id="purchase-tabs-nav" role="tablist">
                     <button class="purchase-tab nav-link active" id="to-pay-tab" data-bs-toggle="tab" data-bs-target="#to-pay" type="button" role="tab" aria-controls="to-pay" aria-selected="true">To Pay</button>
+                    <button class="purchase-tab nav-link" id="to-prepare-tab" data-bs-toggle="tab" data-bs-target="#to-prepare" type="button" role="tab" aria-controls="to-prepapre" aria-selected="false">Preparing</button>
                     <button class="purchase-tab nav-link" id="to-ship-tab" data-bs-toggle="tab" data-bs-target="#to-ship" type="button" role="tab" aria-controls="to-ship" aria-selected="false">To Ship</button>
                     <button class="purchase-tab nav-link" id="completed-tab" data-bs-toggle="tab" data-bs-target="#completed" type="button" role="tab" aria-controls="completed" aria-selected="false">Completed</button>
                     <button class="purchase-tab nav-link" id="cancelled-tab" data-bs-toggle="tab" data-bs-target="#cancelled" type="button" role="tab" aria-controls="cancelled" aria-selected="false">Cancelled</button>
-                    <div class="purchase-tab nav-link disabled">Return</div>
+                    <button class="purchase-tab nav-link" id="returned-tab" data-bs-toggle="tab" data-bs-target="#returned" type="button" role="tab" aria-controls="returned" aria-selected="false">Return</button>
                 </div>
                 <div class="tab-content" id="my-purchases-content">
                     <div class="tab-pane fade show active" id="to-pay" role="tabpanel" aria-labelledby="to-pay-tab">
@@ -590,9 +592,9 @@
                                     </div>
                                     @foreach($order->items as $item)
                                         <div class="order-item">
-                                            <img src="{{ asset($item->product->image ?? 'assets/dog-img.png') }}" alt="{{ $item->product->title ?? '' }}">
+                                            <img src="{{ asset($item->product->image ?? 'assets/dog-img.png') }}" alt="{{ $item->product->name ?? '' }}">
                                             <div class="item-details">
-                                                <div>{{ $item->product->title ?? 'Product not found' }}</div>
+                                                <div>{{ $item->product->name ?? 'Product not found' }}</div>
                                                 <small>x{{ $item->quantity }}</small>
                                             </div>
                                             <div class="item-price">₱{{ number_format($item->price, 2) }}</div>
@@ -614,6 +616,48 @@
                             </div>
                         @endif
                     </div>
+                    <div class="tab-pane fade" id="to-prepare" role="tabpanel">
+                        @php
+                            $toShipOrders = $orders->filter(function($order) {
+                                return in_array($order->status, ['preparing', 'placed']);
+                            });
+                        @endphp
+                        @if($toShipOrders->count())
+                            @foreach($toShipOrders as $order)
+                                <div class="order-card">
+                                    <div class="order-header">
+                                        <div>
+                                            <span class="order-id">Order #{{ $order->id }}</span>
+                                            <span class="order-status to-ship">{{ ucfirst($order->status) }}</span>
+                                        </div>
+                                        <div class="order-date">{{ $order->created_at->format('M d, Y') }}</div>
+                                    </div>
+                                    @foreach($order->items as $item)
+                                        <div class="order-item">
+                                            <img src="{{ asset($item->product->image ?? 'assets/dog-img.png') }}" alt="{{ $item->product->name ?? '' }}">
+                                            <div class="item-details">
+                                                <div>{{ $item->product->name ?? 'Product not found' }}</div>
+                                                <small>x{{ $item->quantity }}</small>
+                                            </div>
+                                            <div class="item-price">₱{{ number_format($item->price, 2) }}</div>
+                                        </div>
+                                    @endforeach
+                                    <div class="order-footer">
+                                        <div class="total-price">
+                                            Order Total: <span>₱{{ number_format($order->total_amount, 2) }}</span>
+                                        </div>
+                                        <div>
+                                            <span class="paid-indicator">Paid via {{ $order->payment_method }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        @else
+                            <div class="empty-state">
+                                <p>No orders to ship.</p>
+                            </div>
+                        @endif
+                    </div>
                     <div class="tab-pane fade" id="to-ship" role="tabpanel">
                         @if($orders->where('status', 'shipping')->count())
                             @foreach($orders->where('status', 'shipping') as $order)
@@ -627,9 +671,9 @@
                                     </div>
                                     @foreach($order->items as $item)
                                         <div class="order-item">
-                                            <img src="{{ asset($item->product->image ?? 'assets/dog-img.png') }}" alt="{{ $item->product->title ?? '' }}">
+                                            <img src="{{ asset($item->product->image ?? 'assets/dog-img.png') }}" alt="{{ $item->product->name ?? '' }}">
                                             <div class="item-details">
-                                                <div>{{ $item->product->title ?? 'Product not found' }}</div>
+                                                <div>{{ $item->product->name ?? 'Product not found' }}</div>
                                                 <small>x{{ $item->quantity }}</small>
                                             </div>
                                             <div class="item-price">₱{{ number_format($item->price, 2) }}</div>
@@ -639,7 +683,10 @@
                                         <div class="total-price">
                                             Order Total: <span>₱{{ number_format($order->total_amount, 2) }}</span>
                                         </div>
-                                        <button class="btn-primary">Track</button>
+                                        <div>
+                                            <span class="paid-indicator">Paid via {{ $order->payment_method }}</span>
+                                        </div>
+                                        
                                     </div>
                                 </div>
                             @endforeach
@@ -662,9 +709,9 @@
                                     </div>
                                     @foreach($order->items as $item)
                                         <div class="order-item">
-                                            <img src="{{ asset($item->product->image ?? 'assets/dog-img.png') }}" alt="{{ $item->product->title ?? '' }}">
+                                            <img src="{{ asset($item->product->image ?? 'assets/dog-img.png') }}" alt="{{ $item->product->name ?? '' }}">
                                             <div class="item-details">
-                                                <div>{{ $item->product->title ?? 'Product not found' }}</div>
+                                                <div>{{ $item->product->name ?? 'Product not found' }}</div>
                                                 <small>x{{ $item->quantity }}</small>
                                             </div>
                                             <div class="item-price">₱{{ number_format($item->price, 2) }}</div>
@@ -697,9 +744,9 @@
                                     </div>
                                     @foreach($order->items as $item)
                                         <div class="order-item">
-                                            <img src="{{ asset($item->product->image ?? 'assets/dog-img.png') }}" alt="{{ $item->product->title ?? '' }}">
+                                            <img src="{{ asset($item->product->image ?? 'assets/dog-img.png') }}" alt="{{ $item->product->name ?? '' }}">
                                             <div class="item-details">
-                                                <div>{{ $item->product->title ?? 'Product not found' }}</div>
+                                                <div>{{ $item->product->name ?? 'Product not found' }}</div>
                                                 <small>x{{ $item->quantity }}</small>
                                             </div>
                                             <div class="item-price">₱{{ number_format($item->price, 2) }}</div>
@@ -716,6 +763,41 @@
                         @else
                             <div class="empty-state">
                                 <p>No cancelled orders.</p>
+                            </div>
+                        @endif
+                    </div>
+                    <div class="tab-pane fade" id="returned" role="tabpanel">
+                        @if($orders->where('status', 'returned')->count())
+                            @foreach($orders->where('status', 'returned') as $order)
+                                <div class="order-card">
+                                    <div class="order-header">
+                                        <div>
+                                            <span class="order-id">Order #{{ $order->id }}</span>
+                                            <span class="order-status returned">{{ ucfirst($order->status) }}</span>
+                                        </div>
+                                        <div class="order-date">{{ $order->created_at->format('M d, Y') }}</div>
+                                    </div>
+                                    @foreach($order->items as $item)
+                                        <div class="order-item">
+                                            <img src="{{ asset($item->product->image ?? 'assets/dog-img.png') }}" alt="{{ $item->product->name ?? '' }}">
+                                            <div class="item-details">
+                                                <div>{{ $item->product->name ?? 'Product not found' }}</div>
+                                                <small>x{{ $item->quantity }}</small>
+                                            </div>
+                                            <div class="item-price">₱{{ number_format($item->price, 2) }}</div>
+                                        </div>
+                                    @endforeach
+                                    <div class="order-footer">
+                                        <div class="total-price">
+                                            Order Total: <span>₱{{ number_format($order->total_amount, 2) }}</span>
+                                        </div>
+                                        <button class="btn-primary">View</button>
+                                    </div>
+                                </div>
+                            @endforeach
+                        @else
+                            <div class="empty-state">
+                                <p>No returned orders.</p>
                             </div>
                         @endif
                     </div>

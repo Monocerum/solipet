@@ -210,6 +210,8 @@
         }
     }
 </style>
+@section('title', 'Shop | Solipet')
+
 <div class="dropdown-bar">
                 <div class="nav-item dropdown-pet">
                     <a id="petTypeDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -353,7 +355,7 @@
         $items = $query->get()->map(function($product) {
             return [
                 'id' => $product->id,
-                'title' => $product->title,
+                'title' => $product->name,
                 'price' => $product->price,
                 'savings' => $product->savings ?? null,
                 'ratings' => $product->ratings ?? 0,
@@ -383,7 +385,7 @@
         $items = $query->get()->map(function($product) {
             return [
                 'id' => $product->id,
-                'title' => $product->title,
+                'title' => $product->name,
                 'price' => $product->price,
                 'savings' => $product->savings ?? null,
                 'ratings' => $product->ratings ?? 0,
@@ -416,7 +418,7 @@
                             <div class="item-details">
                                 <span class="discount">
                                     @if(isset($item['savings']))
-                                        {{ Str::before($item['savings'], 'P') }}
+                                        {{ Str::before($item['savings'], 'P') . ' Off!' }}
                                     @endif
                                 </span>
                                 <div class="rating">

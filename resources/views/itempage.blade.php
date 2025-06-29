@@ -1,6 +1,8 @@
 @extends('layouts.header') 
 
 @section('content')
+@section('title', $product->name . ' | Solipet')
+
 <style>
 .dropdown-bar {
     margin-bottom: 20px;
@@ -264,6 +266,20 @@
             margin-bottom: 15px;
         }
 
+        .stock-indicator {
+            margin-bottom: 15px;
+        }
+
+        .stock-available {
+            color: #008000;
+            font-weight: bold;
+        }
+
+        .stock-unavailable {
+            color: #ff0000;
+            font-weight: bold;
+        }
+
         .features {
             list-style: none;
             margin-bottom: 30px;
@@ -329,6 +345,36 @@
             margin-top: 0;
         }
 
+        /* Out of Stock Styles */
+        .item-btn-disabled {
+            background-color: #cccccc !important;
+            color:rgb(79, 57, 30) !important;
+            border: 4px solid rgb(79, 57, 30) !important;
+            cursor: not-allowed !important;
+        }
+
+        .item-btn-disabled:hover {
+            background-color: #cccccc !important;
+            color: rgb(79, 57, 30) !important;
+            border: 4px solid rgb(79, 57, 30) !important;
+        }
+
+        .out-of-stock-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+        }
+
+        .stock-status {
+            color: #ff0000;
+            font-weight: bold;
+            font-size: 14px;
+            margin: 0;
+            text-align: center;
+        }
+
         /* Tab Navigation */
         .tab-nav {
             display: flex;
@@ -376,6 +422,176 @@
             font-weight: bold;
             margin-bottom: 8px;
             color: #ffffff;
+        }
+
+        /* Review Form Styles */
+        .review-form {
+            background-color: #4A2C17;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            border: 2px solid #8B4513;
+        }
+
+        .review-form h4 {
+            color: #F5E6D3;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            color: #F5E6D3;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #8B4513;
+            border-radius: 6px;
+            background-color: #F5E6D3;
+            color: #2E160C;
+            font-family: 'Manrope', sans-serif;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #DCB47C;
+            box-shadow: 0 0 5px rgba(220, 180, 124, 0.5);
+        }
+
+        .submit-review-btn {
+            background-color: #DCB47C;
+            color: #2E160C;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .submit-review-btn:hover {
+            background-color: #8B4513;
+            color: #F5E6D3;
+        }
+
+        .success-message {
+            background-color: #4A2C17;
+            color: #90EE90;
+            padding: 10px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            border: 1px solid #90EE90;
+        }
+
+        .error-message {
+            background-color: #4A2C17;
+            color: #FFB6C1;
+            padding: 10px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            border: 1px solid #FFB6C1;
+        }
+
+        /* Stock Error Popup Modal */
+        .stock-error-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .stock-error-modal.show {
+            display: flex;
+        }
+
+        .stock-error-content {
+            background: linear-gradient(135deg, #F2D5BC, #E8C4A0);
+            border: 4px solid #8B4513;
+            border-radius: 15px;
+            padding: 30px;
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            position: relative;
+            animation: modalSlideIn 0.3s ease-out;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-50px) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .stock-error-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+            color: #8B4513;
+        }
+
+        .stock-error-title {
+            color: #8B4513;
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-family: 'Manrope', sans-serif;
+        }
+
+        .stock-error-message {
+            color: #4A2C17;
+            font-size: 16px;
+            line-height: 1.4;
+            margin-bottom: 20px;
+            font-family: 'Manrope', sans-serif;
+        }
+
+        .stock-error-close {
+            background: linear-gradient(135deg, #8B4513, #A0522D);
+            color: #F2D5BC;
+            border: none;
+            border-radius: 25px;
+            padding: 12px 30px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Manrope', sans-serif;
+        }
+
+        .stock-error-close:hover {
+            background: linear-gradient(135deg, #A0522D, #CD853F);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(139, 69, 19, 0.3);
+        }
+
+        .stock-error-close:active {
+            transform: translateY(0);
         }
 
 @media (max-width: 1024px) {
@@ -485,6 +701,21 @@
         padding: 15px;
         font-size: 14px;
     }
+    .review-form {
+        padding: 15px;
+    }
+    .review-form h4 {
+        font-size: 16px;
+    }
+    .form-group input,
+    .form-group textarea {
+        padding: 8px;
+        font-size: 14px;
+    }
+    .submit-review-btn {
+        padding: 10px 20px;
+        font-size: 14px;
+    }
 }
 @media (max-width: 480px) {
     .main-content {
@@ -522,6 +753,21 @@
         font-size: 12px;
         padding: 8px;
     }
+    .review-form {
+        padding: 10px;
+    }
+    .review-form h4 {
+        font-size: 14px;
+    }
+    .form-group input,
+    .form-group textarea {
+        padding: 6px;
+        font-size: 12px;
+    }
+    .submit-review-btn {
+        padding: 8px 16px;
+        font-size: 12px;
+    }
 }
 
 </style>
@@ -552,13 +798,13 @@
         <div class="product-container">
             <div class="product-image"> 
                 @if($product->image)
-                    <img src="{{ asset($product->image) }}" alt="{{ $product->title }}" style="width:100%;height:100%;object-fit:cover;border: 10px solid #2E160C; border-radius: 8px;" />
+                    <img src="{{ asset($product->image) }}" alt="{{ $product->name }}" style="width:100%;height:100%;object-fit:cover;border: 10px solid #2E160C; border-radius: 8px;" />
                 @else
                     <img src="{{ asset('assets/cat-img.png') }}" alt="No Image" style="width:100%;height:100%;object-fit:cover;border: 10px solid #2E160C; border-radius: 8px;" />
                 @endif
             </div>   
             <div class="product-info">
-                <h1 class="product-title">{{ $product->title }}</h1>
+                <h1 class="product-name">{{ $product->name }}</h1>
                  <div class="price-rating-row">
                     <div class="price-container">PHP {{ number_format($product->price, 2) }}</div>
                     <div class="rating">
@@ -578,6 +824,14 @@
                 </div>
                 <div class="savings">{{ $product->savings }}</div>
                 
+                <div class="stock-indicator">
+                    @if($product->stock > 0)
+                        <span class="stock-available">In Stock: {{ $product->stock }} available</span>
+                    @else
+                        <span class="stock-unavailable">Out of Stock</span>
+                    @endif
+                </div>
+                
                 <ul class="features">
                     @foreach($product->features ?? [] as $feature)
                         <li>{{ $feature }}</li>
@@ -585,16 +839,23 @@
                 </ul>
                 
                 <div class="action-buttons">
-                     <form method="POST" action="{{ route('buy.now') }}">
-                        @csrf
-                        <input type="hidden" name="product_id" value="{{ $product->id }}">
-                         <button class="item-btn item-btn-primary">BUY NOW</button>
-                    </form>
-                    <form method="POST" action="{{ route('add.to.cart') }}">
-                        @csrf
-                        <input type="hidden" name="product_id" value="{{ $product->id }}">
-                        <button type="submit" class="item-btn item-btn-secondary">ADD TO CART</button>
-                    </form>
+                    @if($product->stock > 0)
+                        <form method="POST" action="{{ route('buy.now') }}">
+                            @csrf
+                            <input type="hidden" name="product_id" value="{{ $product->id }}">
+                            <button class="item-btn item-btn-primary">BUY NOW</button>
+                        </form>
+                        <form method="POST" action="{{ route('add.to.cart') }}">
+                            @csrf
+                            <input type="hidden" name="product_id" value="{{ $product->id }}">
+                            <button type="submit" class="item-btn item-btn-secondary">ADD TO CART</button>
+                        </form>
+                    @else
+                        <div class="out-of-stock-container">
+                            <button class="item-btn item-btn-disabled" disabled>OUT OF STOCK</button>
+                            <p class="stock-status">This item is currently unavailable</p>
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>
@@ -623,6 +884,45 @@
         </div>
         <div id="reviews-section" class="product-details" style="display:none;">
             <h3>Reviews</h3>
+            
+            @if(session('success'))
+                <div class="success-message">
+                    {{ session('success') }}
+                </div>
+            @endif
+
+            @if($errors->any())
+                <div class="error-message">
+                    <ul>
+                        @foreach($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
+            <!-- Review Submission Form -->
+            <div class="review-form">
+                <h4>Write a Review</h4>
+                <form method="POST" action="{{ route('submit.review') }}">
+                    @csrf
+                    <input type="hidden" name="product_id" value="{{ $product->id }}">
+                    
+                    <div class="form-group">
+                        <label for="reviewer_name">Your Name:</label>
+                        <input type="text" id="reviewer_name" name="reviewer_name" value="{{ old('reviewer_name') }}" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="review_text">Your Review:</label>
+                        <textarea id="review_text" name="review_text" placeholder="Share your experience with this product..." required>{{ old('review_text') }}</textarea>
+                    </div>
+                    
+                    <button type="submit" class="submit-review-btn">Submit Review</button>
+                </form>
+            </div>
+
+            <!-- Existing Reviews -->
             @if(isset($reviews) && $reviews && count($reviews))
                 @foreach($reviews as $review)
                     <div class="detail-section">
@@ -635,6 +935,19 @@
             @endif
         </div>
     </main>
+
+    <!-- Stock Error Popup Modal -->
+    <div class="stock-error-modal" id="stockErrorModal">
+        <div class="stock-error-content">
+            <div class="stock-error-icon">⚠️</div>
+            <div class="stock-error-title">Stock Limit Exceeded</div>
+            <div class="stock-error-message" id="stockErrorMessage">
+                Requested quantity exceeds available stock. Only <span id="availableStock">0</span> items available.
+            </div>
+            <button class="stock-error-close" onclick="closeStockErrorModal()">Got it!</button>
+        </div>
+    </div>
+
     @include('components.footer')
 @endsection
 <script>
@@ -645,4 +958,60 @@ function showTab(tab) {
     document.getElementById('reviews-tab').classList.toggle('active', tab === 'reviews');
 }
 
+// Stock Error Modal Functions
+function showStockErrorModal(message, availableStock) {
+    const modal = document.getElementById('stockErrorModal');
+    const messageElement = document.getElementById('stockErrorMessage');
+    const stockElement = document.getElementById('availableStock');
+    
+    if (message) {
+        messageElement.innerHTML = message;
+    }
+    
+    if (availableStock !== undefined) {
+        stockElement.textContent = availableStock;
+    }
+    
+    modal.classList.add('show');
+    
+    // Auto-hide after 5 seconds
+    setTimeout(() => {
+        closeStockErrorModal();
+    }, 5000);
+}
+
+function closeStockErrorModal() {
+    const modal = document.getElementById('stockErrorModal');
+    modal.classList.remove('show');
+}
+
+// Close modal when clicking outside
+document.addEventListener('DOMContentLoaded', function() {
+    const modal = document.getElementById('stockErrorModal');
+    modal.addEventListener('click', function(e) {
+        if (e.target === modal) {
+            closeStockErrorModal();
+        }
+    });
+    
+    // Close modal with Escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && modal.classList.contains('show')) {
+            closeStockErrorModal();
+        }
+    });
+});
+
+// Check for stock error messages on page load
+document.addEventListener('DOMContentLoaded', function() {
+    @if(session('error'))
+        const errorMessage = "{{ session('error') }}";
+        if (errorMessage.includes('stock') || errorMessage.includes('Stock')) {
+            // Extract stock number if available
+            const stockMatch = errorMessage.match(/(\d+)/);
+            const availableStock = stockMatch ? stockMatch[1] : '0';
+            showStockErrorModal(errorMessage, availableStock);
+        }
+    @endif
+});
 </script>

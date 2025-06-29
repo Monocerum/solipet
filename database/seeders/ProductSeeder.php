@@ -17,7 +17,7 @@ class ProductSeeder extends Seeder
     {
         DB::table('products')->insert([
             'image' => 'assets/sample-product.jpg',
-            'title' => 'PetFace Buddies Noodle Cow Plush Dog Toy',
+            'name' => 'PetFace Buddies Noodle Cow Plush Dog Toy',
             'price' => 499.99,
             'ratings' => 4.8,
             'rating_text' => '1,234 SOLD',
@@ -41,7 +41,7 @@ class ProductSeeder extends Seeder
 
         DB::table('products')->insert([
             'image' => 'assets/sample-product2.jpg',
-            'title' => 'Catnip Mouse Toy',
+            'name' => 'Catnip Mouse Toy',
             'price' => 199.99,
             'ratings' => 4.5,
             'rating_text' => '800 SOLD',
@@ -65,7 +65,7 @@ class ProductSeeder extends Seeder
 
         DB::table('products')->insert([
             'image' => 'assets/sample-product3.jpg',
-            'title' => 'Adjustable Dog Harness',
+            'name' => 'Adjustable Dog Harness',
             'price' => 349.99,
             'ratings' => 4.7,
             'rating_text' => '950 SOLD',
@@ -89,7 +89,7 @@ class ProductSeeder extends Seeder
 
         DB::table('products')->insert([
             'image' => 'assets/sample-product4.jpg',
-            'title' => 'Interactive Cat Feather Wand',
+            'name' => 'Interactive Cat Feather Wand',
             'price' => 129.99,
             'ratings' => 4.6,
             'rating_text' => '1,100 SOLD',
@@ -113,7 +113,7 @@ class ProductSeeder extends Seeder
 
         DB::table('products')->insert([
             'image' => 'assets/sample-product5.jpg',
-            'title' => 'Pet Stainless Steel Food Bowl',
+            'name' => 'Pet Stainless Steel Food Bowl',
             'price' => 159.99,
             'ratings' => 4.9,
             'rating_text' => '2,000 SOLD',

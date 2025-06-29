@@ -11,21 +11,27 @@ class Product extends Model
 
     protected $fillable = [
         'image',
-        'title',
+        'name',
         'price',
+        'brand',
         'ratings',
         'rating_text',
         'savings',
         'features',
         'description',
+        'material',
+        'dimensions',
         'care_instructions',
         'category',
+        'pet_type',
         'sold_count',
+        'stock', 
     ];
 
     protected $casts = [
         'features' => 'array',
         'price' => 'decimal:2',
+        'ratings' => 'float'
     ];
 
     public function reviews()
