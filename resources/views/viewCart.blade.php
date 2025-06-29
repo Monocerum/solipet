@@ -582,6 +582,30 @@
                     </div>
                 </div>
     </div>
+    
+    <!-- Error and Success Messages -->
+    @if(session('error'))
+        <div class="alert alert-error" style="max-width: 1200px; margin: 20px auto; background: #ffebee; color: #c62828; padding: 15px; border-radius: 8px; border: 1px solid #ffcdd2;">
+            {{ session('error') }}
+        </div>
+    @endif
+
+    @if(session('success'))
+        <div class="alert alert-success" style="max-width: 1200px; margin: 20px auto; background: #e8f5e8; color: #2e7d32; padding: 15px; border-radius: 8px; border: 1px solid #c8e6c9;">
+            {{ session('success') }}
+        </div>
+    @endif
+    
+    @if($errors->any())
+        <div class="alert alert-error" style="max-width: 1200px; margin: 20px auto; background: #ffebee; color: #c62828; padding: 15px; border-radius: 8px; border: 1px solid #ffcdd2;">
+            <ul style="margin: 0; padding-left: 20px;">
+                @foreach($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+    
       <div class="checkout-container">
         <div class="product-section">
             <div class="product-header">
@@ -746,7 +770,14 @@
                 },
                 body: JSON.stringify({ quantity: newQuantity })
             })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    return response.json().then(data => {
+                        throw new Error(data.error || 'Failed to update quantity');
+                    });
+                }
+                return response.json();
+            })
             .then(data => {
                 if (data.success) {
                     quantityElement.textContent = newQuantity;
@@ -754,11 +785,11 @@
                     updateItemTotal(itemId);
                     updateCartTotal();
                 } else {
-                    alert('Failed to update quantity.');
+                    alert(data.error || 'Failed to update quantity.');
                 }
             })
-            .catch(() => {
-                alert('Error updating quantity.');
+            .catch((error) => {
+                alert(error.message || 'Error updating quantity.');
             });
         }
 
