@@ -10,6 +10,7 @@
     <title>@yield('title', config('app.name', 'Solipet'))</title>
 
     <!-- Fonts -->
+    <link rel="icon" type="image/x-icon" href="/assets/logo.ico">
     <link rel="dns-prefetch" href="//fonts.bunny.net">
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700&display=swap" rel="stylesheet">
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
@@ -348,6 +349,12 @@
                                     <a class="dropdown-item dropdown-item-custom" href="{{ route('userpage') }}">
                                         {{ __('My Profile') }}
                                     </a>
+
+                                    @if(Auth::user()->is_admin)
+                                        <a class="dropdown-item dropdown-item-custom" href="{{ route('admin.dashboard') }}">
+                                            {{ __('Admin Dashboard') }}
+                                        </a>
+                                    @endif
 
                                     <a class="dropdown-item dropdown-item-custom" href="{{ route('logout') }}"
                                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">

@@ -9,13 +9,35 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AdminOrderController;
 use App\Http\Controllers\Admin\PaymentController;
+use App\Http\Controllers\LegalController;
 use App\Http\Controllers\Admin\ProductController as AdminProductController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\Auth\ResetPasswordController;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes();
+// Legal pages
+Route::get('/terms', [LegalController::class, 'terms'])->name('terms');
+Route::get('/privacy', [LegalController::class, 'privacy'])->name('privacy');
+
+// Custom authentication routes
+Route::get('login', [LoginController::class, 'showLoginForm'])->name('login');
+Route::post('login', [LoginController::class, 'login']);
+Route::post('logout', [LoginController::class, 'logout'])->name('logout');
+
+// Registration Routes
+Route::get('register', [RegisterController::class, 'showRegistrationForm'])->name('register');
+Route::post('register', [RegisterController::class, 'register']);
+
+// Password Reset Routes
+Route::get('password/reset', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
+Route::post('password/email', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
+Route::get('password/reset/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
+Route::post('password/reset', [ResetPasswordController::class, 'reset'])->name('password.update');
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
@@ -39,9 +61,7 @@ Route::get('/itempage', function () {
     return view('itempage'); // corresponds to resources/views/itempage.blade.php
 })->name('itempage');
 
-Route::get('/admin', [AdminController::class, 'index'])->name('admin');
-
-Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
+Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/', [AdminController::class, 'index'])->name('dashboard');
     Route::get('/orders', [AdminController::class, 'orders'])->name('orders');
     Route::get('/products', [AdminController::class, 'products'])->name('products');
@@ -52,7 +72,7 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
 });
 
 // For CRUD functions.
-Route::middleware(['auth'])->prefix('admin')->group(function () {
+Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
     Route::get('/products', [AdminController::class, 'products'])->name('admin.products');
     Route::get('/products/create', [AdminController::class, 'createProduct'])->name('admin.products.create'); // Same na nare-read si Inventory and automatically nags-separate.
     Route::post('/products', [AdminController::class, 'storeProduct'])->name('admin.products.store');
@@ -62,7 +82,7 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
     Route::delete('/customers/{id}', [AdminController::class, 'deleteCustomer'])->name('admin.customers.delete');
 });
 
-Route::prefix('admin')->name('admin.')->group(function () {
+Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(function () {
     // Payment Management Routes
     Route::get('/payments', [App\Http\Controllers\Admin\PaymentController::class, 'index'])->name('payments');
     Route::get('/payments/{payment}', [App\Http\Controllers\Admin\PaymentController::class, 'show'])->name('payments.show');
@@ -75,7 +95,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::patch('/promotions/{promotion}/toggle', [App\Http\Controllers\Admin\PaymentController::class, 'togglePromotionStatus'])->name('promotions.toggle');
 });
 
-Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
+Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(function () {
     Route::get('/products', [AdminProductController::class, 'index'])->name('products');
     Route::get('/products/create', [AdminProductController::class, 'create'])->name('products.create');
     Route::post('/products', [AdminProductController::class, 'store'])->name('products.store');
@@ -94,6 +114,8 @@ Route::get('/viewCart', [CartController::class, 'viewCart'])->name('viewCart');
 
 Route::post('/add-to-cart', [CartController::class, 'addToCart'])->name('add.to.cart')->middleware('auth');
 Route::post('/buy-now', [CartController::class, 'buyNow'])->name('buy.now')->middleware('auth');
+
+Route::post('/submit-review', [App\Http\Controllers\HomeController::class, 'submitReview'])->name('submit.review')->middleware('auth');
 
 Route::post('/cart/item/{itemId}/quantity', [CartController::class, 'updateQuantity'])->name('cart.item.updateQuantity')->middleware('auth');
 

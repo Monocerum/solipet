@@ -1,4 +1,5 @@
 @extends('layouts.header')
+@section('title', 'Search: "' . e($query) . '" | Solipet')
 
 @section('content')
 <style>

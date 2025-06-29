@@ -53,6 +53,10 @@ class RegisterController extends Controller
             'username' => ['required', 'string', 'max:255', 'unique:users'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'terms_agreement' => ['required', 'accepted'],
+        ], [
+            'terms_agreement.required' => 'You must agree to the Terms of Service and Privacy Policy to register.',
+            'terms_agreement.accepted' => 'You must agree to the Terms of Service and Privacy Policy to register.',
         ]);
     }
 

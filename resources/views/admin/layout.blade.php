@@ -41,6 +41,14 @@
                 <img src="{{ asset('assets/company_logo.svg') }}" alt="Company Logo" style="height: 40px; margin-left: 10px;">
             </div>
             
+            <!-- Back to Home Button -->
+            <div class="mb-6">
+                <a href="{{ route('home') }}" class="flex items-center p-3 rounded-lg hover:bg-[#572215] transition-colors duration-200" style="background-color: #8B4513; color: white;">
+                    <i class="fas fa-home mr-3"></i>
+                    BACK TO HOME
+                </a>
+            </div>
+            
             <h2 class="text-lg font-semibold mb-6">ORDER MANAGEMENT</h2>
             
             <nav class="space-y-2">

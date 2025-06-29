@@ -8,6 +8,12 @@ use Illuminate\Http\Request;
 
 class PaymentController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('admin');
+    }
+
     public function index(Request $request)
     {
         $status = $request->query('status', 'all');
