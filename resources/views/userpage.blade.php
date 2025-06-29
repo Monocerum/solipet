@@ -172,11 +172,15 @@
     .userpage-wrapper .item-details div { font-weight: 500; color: #333; }
     .userpage-wrapper .item-details small { color: #888; }
     .userpage-wrapper .item-price { font-weight: bold; color: #333; }
-    .userpage-wrapper .order-footer { display: flex; justify-content: flex-end; align-items: center; gap: 20px; padding: 15px 20px; background: #f9f9f9; border-top: 1px solid #eee; border-radius: 0 0 12px 12px; }
+    .userpage-wrapper .order-footer { display: flex; justify-content: space-between; align-items: center; gap: 20px; padding: 15px 20px; background: #f9f9f9; border-top: 1px solid #eee; border-radius: 0 0 12px 12px; }
+    .userpage-wrapper .order-footer .order-info { display: flex; flex-direction: column; gap: 5px; }
+    .userpage-wrapper .order-footer .order-actions { display: flex; gap: 10px; align-items: center; }
     .userpage-wrapper .total-price { font-size: 16px; font-weight: bold; color: #333; }
     .userpage-wrapper .total-price span { color:rgb(108, 82, 58); }
     .userpage-wrapper .btn-primary { background: #C49F7E; color: rgb(0, 0, 0); border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; transition: background 0.3s ease; }
     .userpage-wrapper .btn-primary:hover { background:rgb(98, 70, 45); color: white; }
+    .userpage-wrapper .btn-cancel-order { background: #dc3545; color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; transition: all 0.3s ease; font-size: 12px; font-weight: 600; }
+    .userpage-wrapper .btn-cancel-order:hover { background: #c82333; transform: translateY(-1px); box-shadow: 0 4px 15px rgba(220, 53, 69, 0.3); }
     .userpage-wrapper .empty-state { text-align: center; padding: 40px; color: #888; }
 
     /* Modal Styles */
@@ -361,6 +365,15 @@
             align-items: flex-start;
             gap: 8px;
             padding: 8px 2px;
+        }
+        .userpage-wrapper .order-footer .order-info,
+        .userpage-wrapper .order-footer .order-actions {
+            width: 100%;
+        }
+        .userpage-wrapper .btn-cancel-order {
+            width: 100%;
+            padding: 10px;
+            font-size: 14px;
         }
         .userpage-wrapper .order-item {
             flex-direction: column;
@@ -601,11 +614,21 @@
                                         </div>
                                     @endforeach
                                     <div class="order-footer">
-                                        <div class="total-price">
-                                            Order Total: <span>₱{{ number_format($order->total_amount, 2) }}</span>
+                                        <div class="order-info">
+                                            <div class="total-price">
+                                                Order Total: <span>₱{{ number_format($order->total_amount, 2) }}</span>
+                                            </div>
+                                            <div>
+                                                <span class="paid-indicator">Paid via {{ $order->payment_method }}</span>
+                                            </div>
                                         </div>
-                                        <div>
-                                            <span class="paid-indicator">Paid via {{ $order->payment_method }}</span>
+                                        <div class="order-actions">
+                                            <form method="POST" action="{{ route('order.cancel', $order->id) }}" style="display: inline;">
+                                                @csrf
+                                                <button type="submit" class="btn-cancel-order" onclick="return confirmCancelOrder('{{ $order->payment_method }}', '{{ $order->id }}')">
+                                                    Cancel Order
+                                                </button>
+                                            </form>
                                         </div>
                                     </div>
                                 </div>
@@ -643,11 +666,21 @@
                                         </div>
                                     @endforeach
                                     <div class="order-footer">
-                                        <div class="total-price">
-                                            Order Total: <span>₱{{ number_format($order->total_amount, 2) }}</span>
+                                        <div class="order-info">
+                                            <div class="total-price">
+                                                Order Total: <span>₱{{ number_format($order->total_amount, 2) }}</span>
+                                            </div>
+                                            <div>
+                                                <span class="paid-indicator">Paid via {{ $order->payment_method }}</span>
+                                            </div>
                                         </div>
-                                        <div>
-                                            <span class="paid-indicator">Paid via {{ $order->payment_method }}</span>
+                                        <div class="order-actions">
+                                            <form method="POST" action="{{ route('order.cancel', $order->id) }}" style="display: inline;">
+                                                @csrf
+                                                <button type="submit" class="btn-cancel-order" onclick="return confirmCancelOrder('{{ $order->payment_method }}', '{{ $order->id }}')">
+                                                    Cancel Order
+                                                </button>
+                                            </form>
                                         </div>
                                     </div>
                                 </div>
@@ -680,13 +713,22 @@
                                         </div>
                                     @endforeach
                                     <div class="order-footer">
-                                        <div class="total-price">
-                                            Order Total: <span>₱{{ number_format($order->total_amount, 2) }}</span>
+                                        <div class="order-info">
+                                            <div class="total-price">
+                                                Order Total: <span>₱{{ number_format($order->total_amount, 2) }}</span>
+                                            </div>
+                                            <div>
+                                                <span class="paid-indicator">Paid via {{ $order->payment_method }}</span>
+                                            </div>
                                         </div>
-                                        <div>
-                                            <span class="paid-indicator">Paid via {{ $order->payment_method }}</span>
+                                        <div class="order-actions">
+                                            <form method="POST" action="{{ route('order.cancel', $order->id) }}" style="display: inline;">
+                                                @csrf
+                                                <button type="submit" class="btn-cancel-order" onclick="return confirmCancelOrder('{{ $order->payment_method }}', '{{ $order->id }}')">
+                                                    Cancel Order
+                                                </button>
+                                            </form>
                                         </div>
-                                        
                                     </div>
                                 </div>
                             @endforeach
@@ -718,10 +760,14 @@
                                         </div>
                                     @endforeach
                                     <div class="order-footer">
-                                        <div class="total-price">
-                                            Order Total: <span>₱{{ number_format($order->total_amount, 2) }}</span>
+                                        <div class="order-info">
+                                            <div class="total-price">
+                                                Order Total: <span>₱{{ number_format($order->total_amount, 2) }}</span>
+                                            </div>
                                         </div>
-                                        <button class="btn-primary">View</button>
+                                        <div class="order-actions">
+                                            <button class="btn-primary">View</button>
+                                        </div>
                                     </div>
                                 </div>
                             @endforeach
@@ -753,10 +799,14 @@
                                         </div>
                                     @endforeach
                                     <div class="order-footer">
-                                        <div class="total-price">
-                                            Order Total: <span>₱{{ number_format($order->total_amount, 2) }}</span>
+                                        <div class="order-info">
+                                            <div class="total-price">
+                                                Order Total: <span>₱{{ number_format($order->total_amount, 2) }}</span>
+                                            </div>
                                         </div>
-                                        <button class="btn-primary">View</button>
+                                        <div class="order-actions">
+                                            <button class="btn-primary">View</button>
+                                        </div>
                                     </div>
                                 </div>
                             @endforeach
@@ -788,10 +838,14 @@
                                         </div>
                                     @endforeach
                                     <div class="order-footer">
-                                        <div class="total-price">
-                                            Order Total: <span>₱{{ number_format($order->total_amount, 2) }}</span>
+                                        <div class="order-info">
+                                            <div class="total-price">
+                                                Order Total: <span>₱{{ number_format($order->total_amount, 2) }}</span>
+                                            </div>
                                         </div>
-                                        <button class="btn-primary">View</button>
+                                        <div class="order-actions">
+                                            <button class="btn-primary">View</button>
+                                        </div>
                                     </div>
                                 </div>
                             @endforeach
@@ -1073,6 +1127,21 @@
             openPaymentModal(orderId);
         });
     });
+
+    function confirmCancelOrder(paymentMethod, orderId) {
+        let message = `Are you sure you want to cancel Order #${orderId}?\n\n`;
+        message += `Payment Method: ${paymentMethod}\n\n`;
+        
+        if (paymentMethod === 'Cash on Delivery') {
+            message += 'Payment status will be set to failed.';
+        } else if (paymentMethod === 'GCash') {
+            message += 'Payment will be refunded to your GCash account.';
+        }
+        
+        message += '\n\nThis action cannot be undone.';
+        
+        return confirm(message);
+    }
 </script>
   @include('components.footer')
 @endsection

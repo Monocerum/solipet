@@ -222,4 +222,58 @@ class UserController extends Controller
             ->with('active_section', 'purchase')
             ->with('active_purchase_tab', 'to-ship');
     }
+
+    public function cancelOrder(Request $request, \App\Models\Order $order)
+    {
+        if (auth()->user()->id !== $order->user_id) {
+            abort(403);
+        }
+
+        // Check if order can be cancelled (only pending, placed, or preparing orders)
+        if (!in_array($order->status, ['pending', 'placed', 'preparing'])) {
+            return redirect()->route('userpage')
+                ->with('error', 'This order cannot be cancelled at this stage.')
+                ->with('active_section', 'purchase');
+        }
+
+        try {
+            return \DB::transaction(function () use ($order) {
+                // Update order status to cancelled
+                $order->status = 'cancelled';
+                $order->save();
+
+                // Update payment status based on payment method
+                $payment = $order->payment;
+                if ($payment) {
+                    if ($order->payment_method === 'Cash on Delivery') {
+                        $payment->payment_status = 'failed';
+                    } elseif ($order->payment_method === 'GCash') {
+                        $payment->payment_status = 'refunded';
+                    }
+                    $payment->save();
+                }
+
+                // Restore product stock
+                foreach ($order->items as $item) {
+                    if ($item->product) {
+                        $item->product->stock += $item->quantity;
+                        $item->product->save();
+                    }
+                }
+
+                $paymentStatusMessage = $order->payment_method === 'Cash on Delivery' 
+                    ? 'Payment status set to failed.' 
+                    : 'Payment will be refunded to your GCash account.';
+
+                return redirect()->route('userpage')
+                    ->with('success', "Order #{$order->id} has been cancelled successfully. {$paymentStatusMessage}")
+                    ->with('active_section', 'purchase')
+                    ->with('active_purchase_tab', 'cancelled');
+            });
+        } catch (\Exception $e) {
+            return redirect()->route('userpage')
+                ->with('error', 'Failed to cancel order: ' . $e->getMessage())
+                ->with('active_section', 'purchase');
+        }
+    }
 }

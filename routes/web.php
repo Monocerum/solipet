@@ -138,6 +138,8 @@ Route::post('/checkout', [UserController::class, 'checkout'])->name('checkout')-
 
 Route::post('/order/{order}/pay', [UserController::class, 'payOrder'])->name('order.pay')->middleware('auth');
 
+Route::post('/order/{order}/cancel', [UserController::class, 'cancelOrder'])->name('order.cancel')->middleware('auth');
+
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/orders', [AdminOrderController::class, 'index'])->name('orders');
     Route::patch('/orders/{order}/status', [AdminOrderController::class, 'updateStatus'])->name('orders.update-status');
