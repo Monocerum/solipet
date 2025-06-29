@@ -42,7 +42,7 @@ class Order extends Model
 
     public function shippingInfo()
     {
-        return $this->hasOne(ShippingInfo::class);
+        return $this->hasOne(\App\Models\ShippingInfo::class);
     }
 
     public function items()

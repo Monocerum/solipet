@@ -8,6 +8,7 @@ use App\Http\Controllers\PetController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AdminOrderController;
+use App\Http\Controllers\Admin\PaymentController;
 use App\Http\Controllers\Admin\ProductController as AdminProductController;
 
 Route::get('/', function () {
@@ -112,3 +113,5 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::delete('/orders/{order}', [AdminOrderController::class, 'destroy'])->name('orders.destroy');
 });
 
+Route::patch('/admin/payments/{payment}/update-status', [PaymentController::class, 'updateStatus'])
+    ->name('admin.payments.update-status');
