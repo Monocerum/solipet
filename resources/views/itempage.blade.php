@@ -266,6 +266,20 @@
             margin-bottom: 15px;
         }
 
+        .stock-indicator {
+            margin-bottom: 15px;
+        }
+
+        .stock-available {
+            color: #008000;
+            font-weight: bold;
+        }
+
+        .stock-unavailable {
+            color: #ff0000;
+            font-weight: bold;
+        }
+
         .features {
             list-style: none;
             margin-bottom: 30px;
@@ -329,6 +343,36 @@
             color: #341B10;
             border: 4px solid #341B10;
             margin-top: 0;
+        }
+
+        /* Out of Stock Styles */
+        .item-btn-disabled {
+            background-color: #cccccc !important;
+            color:rgb(79, 57, 30) !important;
+            border: 4px solid rgb(79, 57, 30) !important;
+            cursor: not-allowed !important;
+        }
+
+        .item-btn-disabled:hover {
+            background-color: #cccccc !important;
+            color: rgb(79, 57, 30) !important;
+            border: 4px solid rgb(79, 57, 30) !important;
+        }
+
+        .out-of-stock-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+        }
+
+        .stock-status {
+            color: #ff0000;
+            font-weight: bold;
+            font-size: 14px;
+            margin: 0;
+            text-align: center;
         }
 
         /* Tab Navigation */
@@ -693,6 +737,14 @@
                 </div>
                 <div class="savings">{{ $product->savings }}</div>
                 
+                <div class="stock-indicator">
+                    @if($product->stock > 0)
+                        <span class="stock-available">In Stock: {{ $product->stock }} available</span>
+                    @else
+                        <span class="stock-unavailable">Out of Stock</span>
+                    @endif
+                </div>
+                
                 <ul class="features">
                     @foreach($product->features ?? [] as $feature)
                         <li>{{ $feature }}</li>
@@ -700,16 +752,23 @@
                 </ul>
                 
                 <div class="action-buttons">
-                     <form method="POST" action="{{ route('buy.now') }}">
-                        @csrf
-                        <input type="hidden" name="product_id" value="{{ $product->id }}">
-                         <button class="item-btn item-btn-primary">BUY NOW</button>
-                    </form>
-                    <form method="POST" action="{{ route('add.to.cart') }}">
-                        @csrf
-                        <input type="hidden" name="product_id" value="{{ $product->id }}">
-                        <button type="submit" class="item-btn item-btn-secondary">ADD TO CART</button>
-                    </form>
+                    @if($product->stock > 0)
+                        <form method="POST" action="{{ route('buy.now') }}">
+                            @csrf
+                            <input type="hidden" name="product_id" value="{{ $product->id }}">
+                            <button class="item-btn item-btn-primary">BUY NOW</button>
+                        </form>
+                        <form method="POST" action="{{ route('add.to.cart') }}">
+                            @csrf
+                            <input type="hidden" name="product_id" value="{{ $product->id }}">
+                            <button type="submit" class="item-btn item-btn-secondary">ADD TO CART</button>
+                        </form>
+                    @else
+                        <div class="out-of-stock-container">
+                            <button class="item-btn item-btn-disabled" disabled>OUT OF STOCK</button>
+                            <p class="stock-status">This item is currently unavailable</p>
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>

@@ -18,11 +18,27 @@ class CartController extends Controller
         ]);
 
         $user = Auth::user();
-        $cart = Cart::firstOrCreate(['user_id' => $user->id]);
+        $product = Product::findOrFail($request->product_id);
         $quantity = $request->input('quantity', 1);
+
+        // Check if product is in stock
+        if ($product->stock <= 0) {
+            return redirect()->back()->with('error', 'This product is out of stock.');
+        }
+
+        // Check if requested quantity is available
+        if ($quantity > $product->stock) {
+            return redirect()->back()->with('error', 'Requested quantity exceeds available stock. Only ' . $product->stock . ' items available.');
+        }
+
+        $cart = Cart::firstOrCreate(['user_id' => $user->id]);
 
         $cartItem = $cart->items()->where('product_id', $request->product_id)->first();
         if ($cartItem) {
+            // Check if adding the new quantity would exceed stock
+            if (($cartItem->quantity + $quantity) > $product->stock) {
+                return redirect()->back()->with('error', 'Cannot add more items. Only ' . $product->stock . ' items available in total.');
+            }
             $cartItem->quantity += $quantity;
             $cartItem->save();
         } else {
@@ -48,13 +64,26 @@ class CartController extends Controller
         $request->validate([
             'quantity' => 'required|integer|min:1',
         ]);
+        
         $item = \App\Models\CartItem::findOrFail($itemId);
+        
         // Ensure the item belongs to the current user's cart
         if ($item->cart->user_id !== auth()->id()) {
             abort(403);
         }
+
+        // Check if requested quantity exceeds available stock
+        $product = $item->product;
+        if ($request->quantity > $product->stock) {
+            if ($request->wantsJson()) {
+                return response()->json(['error' => 'Requested quantity exceeds available stock. Only ' . $product->stock . ' items available.'], 422);
+            }
+            return redirect()->route('viewCart')->with('error', 'Requested quantity exceeds available stock. Only ' . $product->stock . ' items available.');
+        }
+
         $item->quantity = $request->quantity;
         $item->save();
+        
         if ($request->wantsJson()) {
             return response()->json(['success' => true, 'quantity' => $item->quantity]);
         }
@@ -94,11 +123,27 @@ class CartController extends Controller
         ]);
 
         $user = Auth::user();
-        $cart = Cart::firstOrCreate(['user_id' => $user->id]);
+        $product = Product::findOrFail($request->product_id);
         $quantity = $request->input('quantity', 1);
+
+        // Check if product is in stock
+        if ($product->stock <= 0) {
+            return redirect()->back()->with('error', 'This product is out of stock.');
+        }
+
+        // Check if requested quantity is available
+        if ($quantity > $product->stock) {
+            return redirect()->back()->with('error', 'Requested quantity exceeds available stock. Only ' . $product->stock . ' items available.');
+        }
+
+        $cart = Cart::firstOrCreate(['user_id' => $user->id]);
 
         $cartItem = $cart->items()->where('product_id', $request->product_id)->first();
         if ($cartItem) {
+            // Check if adding the new quantity would exceed stock
+            if (($cartItem->quantity + $quantity) > $product->stock) {
+                return redirect()->back()->with('error', 'Cannot add more items. Only ' . $product->stock . ' items available in total.');
+            }
             $cartItem->quantity += $quantity;
             $cartItem->save();
         } else {
