@@ -130,21 +130,27 @@
                     </td>
                     <td class="px-6 py-4">{{ $product->reserved_quantity ?? 0 }}</td>
                     <td class="px-6 py-4 space-x-2">
-                        <a href="{{ route('admin.products.edit', $product->id) }}"
-                               class="btn-edit"
-                               title="Edit Product">
-                                <i class="fas fa-edit"></i> Edit
+                        <div class="flex justify-center gap-2">   
+                            <a href="{{ route('admin.products.inventoryshow', $product->id) }}" 
+                                    class="btn-edit btn-view">
+                                        <i class="fas fa-eye"></i> View
                             </a>
-                            <form action="{{ route('admin.products.destroy', $product->id) }}"
-                                  method="POST"
-                                  onsubmit="return confirm('Are you sure you want to delete this product?');"
-                                  class="inline">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn-delete" title="Delete Product">
-                                    <i class="fas fa-trash-alt"></i> Delete
-                                </button>
-                            </form>
+                            <a href="{{ route('admin.products.edit', $product->id) }}"
+                                class="btn-edit"
+                                title="Edit Product">
+                                    <i class="fas fa-edit"></i> Edit
+                                </a>
+                                <form action="{{ route('admin.products.destroy', $product->id) }}"
+                                    method="POST"
+                                    onsubmit="return confirm('Are you sure you want to delete this product?');"
+                                    class="inline">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn-delete" title="Delete Product">
+                                        <i class="fas fa-trash-alt"></i> Delete
+                                    </button>
+                                </form>
+                        </div>
                     </td>
                 </tr>
                 @empty

@@ -23,6 +23,13 @@ class ProductController extends Controller
         return view('admin.products.show', compact('product'));
     }
 
+    public function invshow($id)
+    {
+        $product = Product::findOrFail($id);
+
+        return view('admin.products.inventoryshow', compact('product'));
+    }
+
     public function index()
     {
         $products = Product::all();

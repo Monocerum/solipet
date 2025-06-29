@@ -147,3 +147,5 @@ Route::patch('/admin/payments/{payment}/update-status', [PaymentController::clas
     ->name('admin.payments.update-status');
 
 Route::get('/admin/products/{id}', [AdminProductController::class, 'show'])->name('admin.products.show');
+
+Route::get('/admin/inventory/{id}', [AdminProductController::class, 'invshow'])->name('admin.products.inventoryshow');
