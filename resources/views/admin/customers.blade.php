@@ -22,12 +22,38 @@
     thead {
         color: black;
     }
+
+    .scrollable-table-wrapper {
+        overflow-x: auto;
+        overflow-y: auto;
+        max-height: 70vh;
+    }
+
+    .scrollable-table-wrapper::-webkit-scrollbar {
+        width: 10px;
+        height: 10px;
+    }
+
+    .scrollable-table-wrapper::-webkit-scrollbar-track {
+        background: #FAE3C2;
+        border-radius: 6px;
+    }
+
+    .scrollable-table-wrapper::-webkit-scrollbar-thumb {
+        background-color: #F59E0B;
+        border-radius: 6px;
+        border: 2px solid #FAE3C2;
+    }
+
+    .scrollable-table-wrapper::-webkit-scrollbar-thumb:hover {
+        background-color: #B45309;
+    }
 </style>
 @section('content')
 <div class="table-container rounded-lg p-6">
     <h1 class="text-2xl font-bold mb-6">CUSTOMERS</h1>
 
-    <div class="bg-orange-100 rounded-lg overflow-hidden">
+    <div class="bg-orange-100 rounded-lg  scrollable-table-wrapper">
         <table class="w-full">
             <thead class="bg-[#FEB87A]">
                 <tr>
