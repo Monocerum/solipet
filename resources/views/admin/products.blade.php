@@ -67,6 +67,32 @@
     .no-products {
         color: #4B5563;
     }
+
+    .scrollable-table-wrapper {
+        overflow-x: auto;
+        overflow-y: auto;
+        max-height: 80vh;
+    }
+
+    .scrollable-table-wrapper::-webkit-scrollbar {
+        width: 10px;
+        height: 10px;
+    }
+
+    .scrollable-table-wrapper::-webkit-scrollbar-track {
+        background: #FAE3C2;
+        border-radius: 6px;
+    }
+
+    .scrollable-table-wrapper::-webkit-scrollbar-thumb {
+        background-color: #F59E0B;
+        border-radius: 6px;
+        border: 2px solid #FAE3C2;
+    }
+
+    .scrollable-table-wrapper::-webkit-scrollbar-thumb:hover {
+        background-color: #B45309;
+    }
 </style>
 
 @section('content')
@@ -80,7 +106,7 @@
         </a>
     </div>
 
-    <div class="rounded-lg overflow-hidden">
+    <div class="scrollable-table-wrapper rounded-lg">
         <table class="w-full">
             <thead>
                 <tr>
