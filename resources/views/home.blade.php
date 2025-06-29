@@ -530,6 +530,21 @@ h6 {
 
 @section('content')
 <div class="home-container">
+    <!-- Flash Messages -->
+    @if (session('error'))
+        <div class="alert alert-danger alert-dismissible fade show" role="alert" style="margin: 20px; border-radius: 10px; background-color: #f8d7da; border-color: #f5c6cb; color: #721c24;">
+            <strong>Error!</strong> {{ session('error') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
+
+    @if (session('success'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert" style="margin: 20px; border-radius: 10px; background-color: #d4edda; border-color: #c3e6cb; color: #155724;">
+            <strong>Success!</strong> {{ session('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
+
     <div class="dropdown-bar">
                 <div class="nav-item dropdown-pet">
                     <a id="petTypeDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -569,7 +584,7 @@ h6 {
                 </div>
                 <div class="solipet-tagline-container">
                     <div class="solipet-tagline">
-                        <h5>YOUR PET’S NECESSITIES</h5>
+                        <h5>YOUR PET'S NECESSITIES</h5>
                         <h3>RIGHT INTO YOUR MAILBOX!</h3>
                     </div>
                 </div>

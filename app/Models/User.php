@@ -27,6 +27,7 @@ class User extends Authenticatable
         'gender',
         'dob',
         'profile_image',
+        'is_admin',
     ];
 
     /**

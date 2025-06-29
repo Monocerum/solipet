@@ -13,6 +13,7 @@ class AdminMiddleware
             return $next($request);
         }
 
-        abort(403, 'Unauthorized');
+        // Redirect non-admin users to home page with error message
+        return redirect()->route('home')->with('error', 'Access denied. Admin privileges required.');
     }
 }
