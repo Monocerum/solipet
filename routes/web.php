@@ -7,6 +7,7 @@ use App\Http\Controllers\SearchController;
 use App\Http\Controllers\PetController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AdminOrderController;
 use App\Http\Controllers\Admin\ProductController as AdminProductController;
 
 Route::get('/', function () {
@@ -104,3 +105,10 @@ Route::post('/pay', [UserController::class, 'pay'])->name('pay')->middleware('au
 Route::post('/checkout', [UserController::class, 'checkout'])->name('checkout')->middleware('auth');
 
 Route::post('/order/{order}/pay', [UserController::class, 'payOrder'])->name('order.pay')->middleware('auth');
+
+Route::prefix('admin')->name('admin.')->group(function () {
+    Route::get('/orders', [AdminOrderController::class, 'index'])->name('orders');
+    Route::patch('/orders/{order}/status', [AdminOrderController::class, 'updateStatus'])->name('orders.update-status');
+    Route::delete('/orders/{order}', [AdminOrderController::class, 'destroy'])->name('orders.destroy');
+});
+

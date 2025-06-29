@@ -63,10 +63,6 @@
 <div class="table-container rounded-lg p-6">
     <div class="flex justify-between items-center mb-6">
         <h1 class="text-2xl font-bold">PAYMENT MANAGEMENT</h1>
-        <a href="{{ route('admin.payments.promotions') }}" 
-           class="px-4 py-2 bg-[#FEB87A] rounded-lg font-semibold hover:bg-orange-300 transition-colors">
-            Manage Promotions
-        </a>
     </div>
 
     <div class="inner-container flex space-x-5 mb-6">
@@ -102,7 +98,7 @@
                     <th class="px-6 py-3 text-left font-semibold">Total Cost</th>
                     <th class="px-6 py-3 text-left font-semibold">Status</th>
                     <th class="px-6 py-3 text-left font-semibold">Shipping Info</th>
-                    <th class="px-6 py-3 text-left font-semibold">Promotion</th>
+                    <th class="px-6 py-3 text-left font-semibold">Payment Info</th>
                     <th class="px-6 py-3 text-left font-semibold">Actions</th>
                 </tr>
             </thead>

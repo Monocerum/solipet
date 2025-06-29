@@ -655,7 +655,7 @@ h6 {
                                     <div class="item-details">
                                         <span class="discount">
                                             @if(isset($item['savings']))
-                                                {{ Str::before($item['savings'], 'P') }}
+                                                {{ Str::before($item['savings'], 'P') . ' Off!' }}
                                             @endif
                                         </span>
                                         <div class="rating">
