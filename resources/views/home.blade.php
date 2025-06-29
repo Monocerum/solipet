@@ -634,7 +634,7 @@ h6 {
         <h6>WHICH PET DO YOU WANT TO SHOP FOR?</h6> 
         <br> <br> <br>
         <section class="promos">
-            <h2>SOLIPET PROMOS</h2>
+            <h2>FEATURED ITEMS</h2>
             @php
                 $query = DB::table('products');
                 $title = "All Items";
