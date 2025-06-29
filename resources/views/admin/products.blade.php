@@ -1,80 +1,133 @@
 @extends('admin.layout')
 
-@section('name', 'Products Management')
+@section('title', 'Products Management')
 
 <style>
     .table-container {
         width: 100%;
         min-height: 80vh;
-        background-color: #E8C7AA;
+        background-color: #DAB08A;
         color: black;
-
-        th, td {
-            color: black;
-        }
-    }
-
-    .inner-container {
-        a {
-            color: black;
-        }
     }
 
     thead {
-        color: black;
+        background-color: #FEB87A;
+    }
+
+    th, td {
+        padding: 1rem 1.25rem;
+        word-wrap: break-word;
+        max-width: 200px;
+        color: #2B1500;
+    }
+
+    tbody td {
+        background-color: #FAE3C2;
+    }
+
+    tbody tr:nth-child(even) td {
+        background-color: #F7D7AE;
+    }
+
+    .btn-primary {
+        background-color: #F59E0B;
+        color: white;
+        border: none;
+        transition: all 0.3s ease;
+    }
+
+    .btn-primary:hover {
+        background-color: #B45309;
+        transform: translateY(-1px);
+    }
+
+    .btn-edit,
+    .btn-delete {
+        width: 100px;
+        height: 36px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        padding: 0 12px;
+        font-size: 0.875rem;
+        font-weight: 600;
+        border: none;
+        transition: all 0.3s ease;
+        border-radius: 6px;
+        color: white;
+        background-color: #F59E0B;
+    }
+
+    .btn-edit:hover,
+    .btn-delete:hover {
+        background-color: #B45309;
+    }
+
+    .no-products {
+        color: #4B5563;
     }
 </style>
 
 @section('content')
 <div class="table-container rounded-lg p-6">
-    <h1 class="text-2xl font-bold mb-6">PRODUCTS</h1>
-
-    <div class="mb-4">
-        <a href="{{ route('admin.products.create') }}" class="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded">
-            + Add Product
+    <div class="flex justify-between items-center mb-6">
+        <h1 class="text-2xl font-bold text-black">PRODUCTS</h1>
+        <a href="{{ route('admin.products.create') }}"
+           class="btn-primary px-4 py-2 rounded-lg font-semibold inline-flex items-center gap-2 hover:shadow-lg">
+            <i class="fas fa-plus"></i>
+            Add Product
         </a>
     </div>
 
-    <div class="bg-orange-100 rounded-lg overflow-hidden">
+    <div class="rounded-lg overflow-hidden">
         <table class="w-full">
-            <thead class="bg-[#FEB87A]">
+            <thead>
                 <tr>
-                    <th class="px-6 py-3 text-left font-semibold">Product ID</th>
-                    <th class="px-6 py-3 text-left font-semibold">Product Name</th>
-                    <th class="px-6 py-3 text-left font-semibold">Category</th>
-                    <th class="px-6 py-3 text-left font-semibold">Brand</th>
-                    <th class="px-6 py-3 text-left font-semibold">Actions</th>
+                    <th class="text-left font-semibold">Product ID</th>
+                    <th class="text-left font-semibold">Product Name</th>
+                    <th class="text-left font-semibold">Category</th>
+                    <th class="text-left font-semibold">Brand</th>
+                    <th class="text-center font-semibold">Actions</th>
                 </tr>
             </thead>
             <tbody>
                 @forelse($products as $product)
-                <tr class="border-b border-orange-200 hover:bg-orange-50 odd:bg-orange-100 even:bg-[#E8C7AA]">
-                    <td class="px-6 py-4">{{ $product->id }}</td>
-                    <td class="px-6 py-4">{{ $product->name }}</td>
-                    <td class="px-6 py-4">{{ $product->category ?? 'N/A' }}</td>
-                    <td class="px-6 py-4">{{ $product->brand ?? 'N/A' }}</td>
-                    <td class="px-6 py-4 space-x-2">
-                        <a href="{{ route('admin.products.edit', $product->id) }}"
-                           class="bg-yellow-400 hover:bg-yellow-500 text-white px-3 py-1 rounded">
-                            Edit
-                        </a>
-                        <form action="{{ route('admin.products.delete', $product->id) }}"
-                              method="POST"
-                              style="display:inline;"
-                              onsubmit="return confirm('Are you sure you want to delete this product?');">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded">
-                                Delete
-                            </button>
-                        </form>
+                <tr class="border-b border-orange-200 hover:bg-orange-50">
+                    <td>{{ $product->id }}</td>
+                    <td>{{ $product->name ?? $product->title ?? 'N/A' }}</td>
+                    <td>{{ $product->category ?? 'N/A' }}</td>
+                    <td>{{ $product->brand ?? 'N/A' }}</td>
+                    <td class="text-center">
+                        <div class="flex justify-center gap-2">
+                            <a href="{{ route('admin.products.edit', $product->id) }}"
+                               class="btn-edit"
+                               title="Edit Product">
+                                <i class="fas fa-edit"></i> Edit
+                            </a>
+                            <form action="{{ route('admin.products.destroy', $product->id) }}"
+                                  method="POST"
+                                  onsubmit="return confirm('Are you sure you want to delete this product?');"
+                                  class="inline">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn-delete" title="Delete Product">
+                                    <i class="fas fa-trash-alt"></i> Delete
+                                </button>
+                            </form>
+                        </div>
                     </td>
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="5" class="px-6 py-8 text-center text-gray-500">
+                    <td colspan="5" class="text-center py-8 no-products">
                         <i class="fas fa-box-open text-4xl mb-2"></i>
                         <p>No products found.</p>
+                        <a href="{{ route('admin.products.create') }}"
+                           class="btn-primary px-4 py-2 rounded-lg font-semibold inline-flex items-center gap-2 mt-4">
+                            <i class="fas fa-plus"></i>
+                            Add Your First Product
+                        </a>
                     </td>
                 </tr>
                 @endforelse
@@ -82,4 +135,28 @@
         </table>
     </div>
 </div>
+
+@if(session('success'))
+<div class="fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50" id="success-alert">
+    <div class="flex items-center gap-2">
+        <i class="fas fa-check-circle"></i>
+        {{ session('success') }}
+    </div>
+</div>
+<script>
+    setTimeout(() => document.getElementById('success-alert').style.display = 'none', 3000);
+</script>
+@endif
+
+@if(session('error'))
+<div class="fixed top-4 right-4 bg-red-500 text-white px-6 py-3 rounded-lg shadow-lg z-50" id="error-alert">
+    <div class="flex items-center gap-2">
+        <i class="fas fa-exclamation-circle"></i>
+        {{ session('error') }}
+    </div>
+</div>
+<script>
+    setTimeout(() => document.getElementById('error-alert').style.display = 'none', 3000);
+</script>
+@endif
 @endsection
