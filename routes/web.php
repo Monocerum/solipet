@@ -145,3 +145,5 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
 Route::patch('/admin/payments/{payment}/update-status', [PaymentController::class, 'updateStatus'])
     ->name('admin.payments.update-status');
+
+Route::get('/admin/products/{id}', [AdminProductController::class, 'show'])->name('admin.products.show');

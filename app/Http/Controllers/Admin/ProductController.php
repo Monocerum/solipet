@@ -15,6 +15,14 @@ class ProductController extends Controller
         $this->middleware('admin');
     }
 
+
+    public function show($id)
+    {
+        $product = Product::findOrFail($id);
+
+        return view('admin.products.show', compact('product'));
+    }
+
     public function index()
     {
         $products = Product::all();
