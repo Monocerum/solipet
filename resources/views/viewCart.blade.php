@@ -562,6 +562,93 @@
             padding: 2px;
         }
     }
+
+    /* Stock Error Popup Modal */
+    .stock-error-modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.6);
+        z-index: 1000;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .stock-error-modal.show {
+        display: flex;
+    }
+
+    .stock-error-content {
+        background: linear-gradient(135deg, #F5DEB3, #E8C4A0);
+        border: 4px solid #8B4513;
+        border-radius: 15px;
+        padding: 30px;
+        max-width: 400px;
+        width: 90%;
+        text-align: center;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        position: relative;
+        animation: modalSlideIn 0.3s ease-out;
+    }
+
+    @keyframes modalSlideIn {
+        from {
+            opacity: 0;
+            transform: translateY(-50px) scale(0.9);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    }
+
+    .stock-error-icon {
+        font-size: 48px;
+        margin-bottom: 15px;
+        color: #8B4513;
+    }
+
+    .stock-error-title {
+        color: #8B4513;
+        font-size: 20px;
+        font-weight: bold;
+        margin-bottom: 10px;
+        font-family: 'Manrope', sans-serif;
+    }
+
+    .stock-error-message {
+        color: #4A2C17;
+        font-size: 16px;
+        line-height: 1.4;
+        margin-bottom: 20px;
+        font-family: 'Manrope', sans-serif;
+    }
+
+    .stock-error-close {
+        background: linear-gradient(135deg, #8B4513, #A0522D);
+        color: #F5DEB3;
+        border: none;
+        border-radius: 25px;
+        padding: 12px 30px;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-family: 'Manrope', sans-serif;
+    }
+
+    .stock-error-close:hover {
+        background: linear-gradient(135deg, #A0522D, #CD853F);
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(139, 69, 19, 0.3);
+    }
+
+    .stock-error-close:active {
+        transform: translateY(0);
+    }
 </style>
 @section('title', 'Cart | Solipet')
  <div class="dropdown-bar">
@@ -740,6 +827,18 @@
         </div>
     </div>
 
+    <!-- Stock Error Popup Modal -->
+    <div class="stock-error-modal" id="stockErrorModal">
+        <div class="stock-error-content">
+            <div class="stock-error-icon">⚠️</div>
+            <div class="stock-error-title">Stock Limit Exceeded</div>
+            <div class="stock-error-message" id="stockErrorMessage">
+                Requested quantity exceeds available stock. Only <span id="availableStock">0</span> items available.
+            </div>
+            <button class="stock-error-close" onclick="closeStockErrorModal()">Got it!</button>
+        </div>
+    </div>
+
     <script>
         let selectedDelivery = 'shipping';
 
@@ -785,11 +884,18 @@
                     updateItemTotal(itemId);
                     updateCartTotal();
                 } else {
-                    alert(data.error || 'Failed to update quantity.');
+                    showStockErrorModal(data.error || 'Failed to update quantity.');
                 }
             })
             .catch((error) => {
-                alert(error.message || 'Error updating quantity.');
+                // Check if it's a stock-related error
+                if (error.message.includes('stock') || error.message.includes('Stock')) {
+                    const stockMatch = error.message.match(/(\d+)/);
+                    const availableStock = stockMatch ? stockMatch[1] : '0';
+                    showStockErrorModal(error.message, availableStock);
+                } else {
+                    showStockErrorModal(error.message || 'Error updating quantity.');
+                }
             });
         }
 
@@ -915,6 +1021,63 @@
         function closeAddressModal() {
             document.getElementById('addressModal').style.display = 'none';
         }
+
+        // Stock Error Modal Functions
+        function showStockErrorModal(message, availableStock) {
+            const modal = document.getElementById('stockErrorModal');
+            const messageElement = document.getElementById('stockErrorMessage');
+            const stockElement = document.getElementById('availableStock');
+            
+            if (message) {
+                messageElement.innerHTML = message;
+            }
+            
+            if (availableStock !== undefined) {
+                stockElement.textContent = availableStock;
+            }
+            
+            modal.classList.add('show');
+            
+            // Auto-hide after 5 seconds
+            setTimeout(() => {
+                closeStockErrorModal();
+            }, 5000);
+        }
+
+        function closeStockErrorModal() {
+            const modal = document.getElementById('stockErrorModal');
+            modal.classList.remove('show');
+        }
+
+        // Close modal when clicking outside
+        document.addEventListener('DOMContentLoaded', function() {
+            const modal = document.getElementById('stockErrorModal');
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    closeStockErrorModal();
+                }
+            });
+            
+            // Close modal with Escape key
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && modal.classList.contains('show')) {
+                    closeStockErrorModal();
+                }
+            });
+        });
+
+        // Check for stock error messages on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            @if(session('error'))
+                const errorMessage = "{{ session('error') }}";
+                if (errorMessage.includes('stock') || errorMessage.includes('Stock')) {
+                    // Extract stock number if available
+                    const stockMatch = errorMessage.match(/(\d+)/);
+                    const availableStock = stockMatch ? stockMatch[1] : '0';
+                    showStockErrorModal(errorMessage, availableStock);
+                }
+            @endif
+        });
     </script>
 
   
