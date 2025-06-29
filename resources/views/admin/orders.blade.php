@@ -61,8 +61,26 @@
         background-color: #F59E0B;
     }
 
+     .btn-view {
+        width: 70px;
+        height: 36px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        padding: 0 12px;
+        font-size: 0.875rem;
+        font-weight: 600;
+        border: none;
+        transition: all 0.3s ease;
+        border-radius: 6px;
+        color: white;
+        background-color: #F59E0B;
+    }
+
     .btn-edit:hover,
-    .btn-delete:hover {
+    .btn-delete:hover,
+    .btn-view:hover {
         background-color: #B45309;
     }
 
@@ -488,7 +506,7 @@
                                     </div>
 
                                     <a href="{{ route('admin.orders.show', $order->id) }}" 
-                                        class="btn-edit btn-view">
+                                        class="btn-view">
                                         <i class="fas fa-eye"></i> View
                                     </a>
                                 </div>
