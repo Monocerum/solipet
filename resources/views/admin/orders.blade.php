@@ -406,7 +406,7 @@
 <div class="table-container rounded-lg p-6">
     <h1 class="text-2xl font-bold mb-6">ORDERS</h1>
 
-    <div class="inner-container flex space-x-5 mb-6">
+    <div class="inner-container flex flex-wrap flex-col sm:flex-row sm:space-x-5 sm:space-y-0 space-y-3 mb-6 w-full">
         <a href="{{ route('admin.orders', ['status' => 'pending']) }}" 
            class="px-4 py-2 rounded-lg {{ $status === 'pending' ? 'bg-[#FEB87A] font-semibold' : 'bg-orange-100 hover:bg-orange-200' }}">
             Pending

@@ -93,12 +93,19 @@
     .scrollable-table-wrapper::-webkit-scrollbar-thumb:hover {
         background-color: #B45309;
     }
+
+    @media screen and (max-width: 500px) {
+        .responsive {
+            display: flex;
+            flex-direction: column;
+        }
+    }
 </style>
 
 @section('content')
 <div class="table-container rounded-lg p-6">
 
-    <div class="flex justify-between items-center mb-6">
+    <div class="flex justify-between items-center mb-6 responsive">
         <h1 class="text-2xl font-bold text-black">INVENTORY</h1>
         <a href="{{ route('admin.products.create') }}"
            class="btn-primary px-4 py-2 rounded-lg font-semibold inline-flex items-center gap-2 hover:shadow-lg">
