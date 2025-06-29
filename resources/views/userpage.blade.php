@@ -1,5 +1,5 @@
 @extends('layouts.header')
-
+@section('title', 'User Profile | Solipet')
 @section('content')
 <div class="userpage-wrapper">
     <style>

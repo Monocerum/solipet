@@ -527,7 +527,7 @@ h6 {
 
 
 </style>
-
+@section('title', 'Home | Solipet')
 @section('content')
 <div class="home-container">
     <!-- Flash Messages -->

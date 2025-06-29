@@ -210,6 +210,8 @@
         }
     }
 </style>
+@section('title', 'Shop | Solipet')
+
 <div class="dropdown-bar">
                 <div class="nav-item dropdown-pet">
                     <a id="petTypeDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

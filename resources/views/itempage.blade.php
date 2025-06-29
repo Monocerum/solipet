@@ -1,6 +1,8 @@
 @extends('layouts.header') 
 
 @section('content')
+@section('title', $product->name . ' | Solipet')
+
 <style>
 .dropdown-bar {
     margin-bottom: 20px;

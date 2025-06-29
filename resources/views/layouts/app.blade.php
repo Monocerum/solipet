@@ -10,6 +10,7 @@
     <title>{{ config('app.name', 'Solipet') }}</title>
 
     <!-- Fonts -->
+    <link rel="icon" type="image/x-icon" href="/assets/logo.ico">
     <link rel="dns-prefetch" href="//fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
