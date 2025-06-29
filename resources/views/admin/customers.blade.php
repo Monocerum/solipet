@@ -5,28 +5,72 @@
     .table-container {
         width: 100%;
         min-height: 80vh;
-        background-color: #E8C7AA;
+        background-color: #DAB08A;
         color: black;
-
-        th, td {
-            color: black;
-        }
-    }
-
-    .inner-container {
-        a {
-            color: black;
-        }
     }
 
     thead {
-        color: black;
+        background-color: #FEB87A;
+    }
+
+    th, td {
+        padding: 1rem 1.25rem;
+        word-wrap: break-word;
+        max-width: 200px;
+        color: #2B1500;
+    }
+
+    tbody td {
+        background-color: #FAE3C2;
+    }
+
+    tbody tr:nth-child(even) td {
+        background-color: #F7D7AE;
+    }
+
+    .btn-primary {
+        background-color: #F59E0B;
+        color: white;
+        border: none;
+        transition: all 0.3s ease;
+    }
+
+    .btn-primary:hover {
+        background-color: #B45309;
+        transform: translateY(-1px);
+    }
+
+    .btn-edit,
+    .btn-delete {
+        width: 100px;
+        height: 36px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        padding: 0 12px;
+        font-size: 0.875rem;
+        font-weight: 600;
+        border: none;
+        transition: all 0.3s ease;
+        border-radius: 6px;
+        color: white;
+        background-color: #F59E0B;
+    }
+
+    .btn-edit:hover,
+    .btn-delete:hover {
+        background-color: #B45309;
+    }
+
+    .no-products {
+        color: #4B5563;
     }
 
     .scrollable-table-wrapper {
         overflow-x: auto;
         overflow-y: auto;
-        max-height: 70vh;
+        max-height: 80vh;
     }
 
     .scrollable-table-wrapper::-webkit-scrollbar {
