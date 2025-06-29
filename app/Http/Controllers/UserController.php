@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 use App\Models\Payment;
 
 class UserController extends Controller
@@ -221,4 +222,4 @@ class UserController extends Controller
             ->with('active_section', 'purchase')
             ->with('active_purchase_tab', 'to-ship');
     }
-} 
+}

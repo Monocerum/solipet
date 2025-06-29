@@ -82,6 +82,14 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
     Route::delete('/customers/{id}', [AdminController::class, 'deleteCustomer'])->name('admin.customers.delete');
 });
 
+Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
+Route::get('/customers', [App\Http\Controllers\AdminController::class, 'customers'])->name('customers');
+    Route::get('/customers/{id}', [App\Http\Controllers\AdminController::class, 'showCustomer'])->name('customers.show');
+    Route::get('/customers/{id}/edit', [App\Http\Controllers\AdminController::class, 'editCustomer'])->name('customers.edit');
+    Route::put('/customers/{id}', [App\Http\Controllers\AdminController::class, 'updateCustomer'])->name('customers.update');
+    Route::delete('/customers/{id}', [App\Http\Controllers\AdminController::class, 'deleteCustomer'])->name('customers.delete');
+});
+
 Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(function () {
     // Payment Management Routes
     Route::get('/payments', [App\Http\Controllers\Admin\PaymentController::class, 'index'])->name('payments');
