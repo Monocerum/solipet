@@ -69,6 +69,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/customers', [AdminController::class, 'customers'])->name('customers');
     Route::get('/payments', [AdminController::class, 'payments'])->name('payments');
     Route::get('/promotions', [AdminController::class, 'promotions'])->name('promotions');
+    Route::get('/orders/{id}', [AdminOrderController::class, 'show'])->name('orders.show'); 
 });
 
 // For CRUD functions.
