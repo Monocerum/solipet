@@ -174,16 +174,9 @@
                             <i class="fas fa-edit"></i> Edit
                         </a>
                         
-                        <form action="{{ route('admin.customers.delete', $customer->id) }}"
-                              method="POST"
-                              style="display:inline;"
-                              onsubmit="return confirm('Are you sure you want to delete this customer? This action cannot be undone.');">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn-delete">
-                                <i class="fas fa-trash"></i> Delete
-                            </button>
-                        </form>
+                        <button onclick="openDeleteConfirm({{ $customer->id }}, '{{ $customer->name }}')" class="btn-delete" title="Delete Customer">
+                            <i class="fas fa-trash-alt"></i> Delete
+                        </button>
                     </td>
                 </tr>
                 @empty
@@ -198,4 +191,57 @@
         </table>
     </div>
 </div>
+<div id="deleteModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
+    <div class="bg-white rounded-lg p-6 shadow-lg w-full max-w-md">
+        <div class="flex items-center gap-3 mb-4">
+            <i class="fas fa-exclamation-triangle text-yellow-500 text-2xl"></i>
+            <h2 class="text-xl font-bold text-gray-800">Confirm Deletion</h2>
+        </div>
+        <p class="text-gray-700 mb-6">Are you sure you want to permanently delete customer <span id="deleteCustomerName" class="font-semibold"></span>? This action cannot be undone.</p>
+        <form id="deleteForm" method="POST">
+            @csrf
+            @method('DELETE')
+            <div class="flex justify-end gap-4">
+                <button type="button" onclick="closeDeleteConfirm()" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold px-4 py-2 rounded-lg">Cancel</button>
+                <button type="submit" class="bg-red-500 hover:bg-red-600 text-white font-semibold px-4 py-2 rounded-lg">Delete</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+function openDeleteConfirm(id, name) {
+    document.getElementById('deleteCustomerName').innerText = name;
+    document.getElementById('deleteForm').action = `/admin/customers/${id}`;
+    document.getElementById('deleteModal').classList.remove('hidden');
+}
+
+function closeDeleteConfirm() {
+    document.getElementById('deleteModal').classList.add('hidden');
+}
+</script>
+
+@if(session('success'))
+<div class="fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50" id="success-alert">
+    <div class="flex items-center gap-2">
+        <i class="fas fa-check-circle"></i>
+        {{ session('success') }}
+    </div>
+</div>
+<script>
+    setTimeout(() => document.getElementById('success-alert').style.display = 'none', 3000);
+</script>
+@endif
+
+@if(session('error'))
+<div class="fixed top-4 right-4 bg-red-500 text-white px-6 py-3 rounded-lg shadow-lg z-50" id="error-alert">
+    <div class="flex items-center gap-2">
+        <i class="fas fa-exclamation-circle"></i>
+        {{ session('error') }}
+    </div>
+</div>
+<script>
+    setTimeout(() => document.getElementById('error-alert').style.display = 'none', 3000);
+</script>
+@endif
 @endsection
