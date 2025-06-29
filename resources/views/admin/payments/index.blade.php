@@ -6,15 +6,29 @@
     .table-container {
         width: 100%;
         min-height: 80vh;
-        background-color: #E8C7AA;
+        background-color: #DAB08A; 
         color: black;
     }
 
-    .table-container th, .table-container td {
-        color: black;
+    thead {
+        background-color: #FEB87A; 
     }
 
-    /* Fixed Status Badge Styles */
+    th, td {
+        padding: 1rem 1.25rem;
+        word-wrap: break-word;
+        max-width: 200px;
+        color: #2B1500;
+    }
+
+    tbody td {
+        background-color: #FAE3C2; 
+    }
+
+    tbody tr:nth-child(even) td {
+        background-color: #F7D7AE; 
+    }
+
     .status-badge {
         display: inline-flex !important;
         align-items: center !important;
@@ -30,7 +44,6 @@
         white-space: nowrap !important;
     }
 
-    /* Payment Status Badge Variants */
     .status-badge.status-pending {
         background: #fef3c7 !important;
         color: #92400e !important;
@@ -55,7 +68,6 @@
         border: 1px solid #a78bfa !important;
     }
 
-    /* Order/Shipping Status Badge Variants */
     .status-badge.status-placed {
         background: #dbeafe !important;
         color: #1e40af !important;
@@ -92,7 +104,6 @@
         border: 1px solid #c084fc !important;
     }
 
-    /* Default/Unknown Status */
     .status-badge.status-unknown,
     .status-badge.status-na {
         background: #f3f4f6 !important;
@@ -100,7 +111,6 @@
         border: 1px solid #d1d5db !important;
     }
 
-    /* Status Dots */
     .status-dot {
         width: 8px !important;
         height: 8px !important;
@@ -109,7 +119,6 @@
         display: inline-block !important;
     }
 
-    /* Payment Status Dots */
     .status-badge.status-pending .status-dot { 
         background: #f59e0b !important; 
     }
@@ -123,7 +132,6 @@
         background: #8b5cf6 !important; 
     }
 
-    /* Order/Shipping Status Dots */
     .status-badge.status-placed .status-dot { 
         background: #3b82f6 !important; 
     }
@@ -368,14 +376,36 @@
             text-align: center;
         }
     }
+
+    .scrollable-table-wrapper {
+        overflow-x: auto;
+        overflow-y: auto;
+        max-height: 100vh;
+    }
+
+    @media screen and (max-width: 500px) {
+        .responsive {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .actions-row {
+            flex-direction: column;
+        }
+
+        .update-btn,
+        .filter-tab {
+            width: 100%;
+            text-align: center;
+        }
+    }
 </style>
 
 @section('content')
-    <h1 class="text-2xl font-bold mb-6">ALL PAYMENTS</h1>
+    <div class="flex justify-between items-center mb-6 responsive">
 
     <div class="bg-orange-100 rounded-lg overflow-x-auto">
-        <div class="table-container rounded-lg p-6">
-            <!-- Filter Tabs -->
+        <div class="table-container rounded-lg p-6 scrollable-table-wrapper">
             <div class="filter-tabs">
                 @foreach(['all', 'pending', 'paid', 'failed', 'refunded'] as $filter)
                     <a href="{{ route('admin.payments', ['status' => $filter]) }}"
