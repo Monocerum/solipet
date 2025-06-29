@@ -593,13 +593,13 @@
                     <div class="product-item" id="product-item-{{$item->id}}" data-price="{{ $item->product->price ?? 0 }}" data-quantity="{{ $item->quantity }}">
                         <div class="product-image">
                             @if($item->product && $item->product->image)
-                                <img src="{{ asset($item->product->image) }}" alt="{{ $item->product->title }}" style="width:60px;height:60px;object-fit:cover;border-radius:8px;">
+                                <img src="{{ asset($item->product->image) }}" alt="{{ $item->product->name }}" style="width:60px;height:60px;object-fit:cover;border-radius:8px;">
                             @else
                                 🐾
                             @endif
                         </div>
                         <div class="product-details">
-                            <div class="product-name">{{ $item->product->title ?? 'Unknown Product' }}</div>
+                            <div class="product-name">{{ $item->product->name ?? 'Unknown Product' }}</div>
                             <div class="product-price">₱ {{ number_format($item->product->price ?? 0, 2) }}</div>
                         </div>
                         <div class="quantity-controls">
