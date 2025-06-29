@@ -145,7 +145,7 @@
                     <label class="font-semibold mb-2 block">Category</label>
                     <select name="category" class="w-full border rounded-lg p-3">
                         <option value="">Select Category</option>
-                        @foreach(['Food','Toys','Accessories','Health','Grooming','Bedding','Training','Travel'] as $cat)
+                        @foreach(['Dry Food', 'Wet Food', 'Snack Treats', 'Toys Pet Supplies', 'Leashes Pet Supplies', 'Dental Treats', 'Beds Pet Supplies','Apparel Pet Supplies', 'SCT Pet Health', 'MS Pet Health'] as $cat)
                         <option value="{{ $cat }}" {{ old('category') == $cat ? 'selected' : '' }}>{{ $cat }}</option>
                         @endforeach
                     </select>
@@ -154,7 +154,7 @@
                     <label class="font-semibold mb-2 block">Pet Type</label>
                     <select name="pet_type" class="w-full border rounded-lg p-3">
                         <option value="">Select Pet Type</option>
-                        @foreach(['Dog','Cat','Bird','Fish','Small Pet','Reptile','All Pets'] as $type)
+                        @foreach(['Dog','Cat','Small Pet'] as $type)
                         <option value="{{ $type }}" {{ old('pet_type') == $type ? 'selected' : '' }}>{{ $type }}</option>
                         @endforeach
                     </select>
