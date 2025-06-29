@@ -487,7 +487,7 @@
                                         </button>
                                     </div>
 
-                                    <a href="{{ route('admin.orders.show', $customer->id) }}" 
+                                    <a href="{{ route('admin.orders.show', $order->id) }}" 
                                         class="btn-edit btn-view">
                                         <i class="fas fa-eye"></i> View
                                     </a>

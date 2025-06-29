@@ -245,7 +245,7 @@
     <!-- Header -->
     <div class="flex justify-between items-center mb-6">
         <div>
-            <h1 class="text-3xl font-bold mb-2">Order #{{ $order->order_number }}</h1>
+            <h1 class="text-3xl font-bold mb-2" style="color: #F59E0B;">Order No: {{ $order->order_number }}</h1>
             <div class="status-badge {{ $order->status }}">
                 <span class="w-2 h-2 bg-current rounded-full"></span>
                 {{ ucfirst($order->status) }}
@@ -330,7 +330,7 @@
                 <h3 class="text-xl font-semibold mb-4">Order Items</h3>
                 @forelse($order->items as $item)
                 <div class="product-item">
-                    <img src="{{ $item->product->image_url ?? '/images/placeholder.jpg' }}" 
+                    <img src="{{ $item->product->image ?? '/images/placeholder.jpg' }}" 
                          alt="{{ $item->product->name ?? 'Product' }}" 
                          class="product-image">
                     <div class="product-details">

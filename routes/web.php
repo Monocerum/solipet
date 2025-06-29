@@ -152,3 +152,9 @@ Route::patch('/admin/payments/{payment}/update-status', [PaymentController::clas
 Route::get('/admin/products/{id}', [AdminProductController::class, 'show'])->name('admin.products.show');
 
 Route::get('/admin/inventory/{id}', [AdminProductController::class, 'invshow'])->name('admin.products.inventoryshow');
+
+Route::prefix('admin')->name('admin.')->group(function () {
+    Route::get('/orders', [AdminOrderController::class, 'index'])->name('orders');
+    Route::get('/orders/{id}', [AdminOrderController::class, 'show'])->name('orders.show');
+});
+
