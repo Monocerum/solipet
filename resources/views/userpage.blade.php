@@ -765,9 +765,7 @@
                                                 Order Total: <span>₱{{ number_format($order->total_amount, 2) }}</span>
                                             </div>
                                         </div>
-                                        <div class="order-actions">
-                                            <button class="btn-primary">View</button>
-                                        </div>
+                                        
                                     </div>
                                 </div>
                             @endforeach
@@ -804,9 +802,7 @@
                                                 Order Total: <span>₱{{ number_format($order->total_amount, 2) }}</span>
                                             </div>
                                         </div>
-                                        <div class="order-actions">
-                                            <button class="btn-primary">View</button>
-                                        </div>
+                                        
                                     </div>
                                 </div>
                             @endforeach
@@ -843,9 +839,7 @@
                                                 Order Total: <span>₱{{ number_format($order->total_amount, 2) }}</span>
                                             </div>
                                         </div>
-                                        <div class="order-actions">
-                                            <button class="btn-primary">View</button>
-                                        </div>
+                                        
                                     </div>
                                 </div>
                             @endforeach
