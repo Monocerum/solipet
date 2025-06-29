@@ -349,6 +349,12 @@
                                         {{ __('My Profile') }}
                                     </a>
 
+                                    @if(Auth::user()->is_admin)
+                                        <a class="dropdown-item dropdown-item-custom" href="{{ route('admin.dashboard') }}">
+                                            {{ __('Admin Dashboard') }}
+                                        </a>
+                                    @endif
+
                                     <a class="dropdown-item dropdown-item-custom" href="{{ route('logout') }}"
                                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                         {{ __('Logout') }}
