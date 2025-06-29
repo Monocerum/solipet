@@ -59,13 +59,11 @@ class ProductController extends Controller
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
 
-        // Handle image upload
         if ($request->hasFile('image')) {
             $imagePath = $request->file('image')->store('products', 'public');
             $validated['image'] = $imagePath;
         }
 
-        // Handle features array
         if ($request->has('features')) {
             $validated['features'] = array_filter($request->features);
         }
@@ -99,9 +97,7 @@ class ProductController extends Controller
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
 
-        // Handle image upload
         if ($request->hasFile('image')) {
-            // Delete old image
             if ($product->image && Storage::disk('public')->exists($product->image)) {
                 Storage::disk('public')->delete($product->image);
             }
@@ -109,7 +105,6 @@ class ProductController extends Controller
             $validated['image'] = $imagePath;
         }
 
-        // Handle features array
         if ($request->has('features')) {
             $validated['features'] = array_filter($request->features);
         }
@@ -122,7 +117,6 @@ class ProductController extends Controller
 
     public function destroy(Product $product)
     {
-        // Delete image file
         if ($product->image && Storage::disk('public')->exists($product->image)) {
             Storage::disk('public')->delete($product->image);
         }

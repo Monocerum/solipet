@@ -1,4 +1,3 @@
-<!-- resources/views/cart.blade.php -->
 
 @extends('layouts.app')
 @section('title', 'Cart | Solipet')

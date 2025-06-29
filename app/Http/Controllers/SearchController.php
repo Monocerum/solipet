@@ -35,10 +35,9 @@ class SearchController extends Controller
                 $pet = 'small pet';
                 break;
             default:
-                // leave as is or handle unknown types
                 break;
         }
-        $results->where('pet_type', 'LIKE', "%$pet%"); // adjust column name as needed
+        $results->where('pet_type', 'LIKE', "%$pet%");
     }
 
     if ($sort) {

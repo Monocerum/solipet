@@ -3,7 +3,6 @@
 @section('content')
 <div class="userpage-wrapper">
     <style>
-    /* Move all userpage-specific styles here and scope them to .userpage-wrapper */
     .userpage-wrapper .dropdown-bar { margin-bottom: 20px; display: flex; padding-left: 5%; border-radius: 6px; }
     .userpage-wrapper .dropdown-bar > div { justify-content: flex-start; padding: 10px; display: flex; width: 100%; gap: 30px; height: 50px; }
     .userpage-wrapper .dropdown-pet { position: relative; width: 200px; }

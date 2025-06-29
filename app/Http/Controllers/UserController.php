@@ -86,8 +86,6 @@ class UserController extends Controller
         $user = auth()->user();
         $cart = $user->cart;
         if ($cart) {
-            // Here you would integrate with a payment gateway and process payment
-            // For now, just clear the cart to simulate a successful payment
             $cart->items()->delete();
         }
         return redirect()->route('userpage')->with('success', 'Payment successful! Your order has been placed.');

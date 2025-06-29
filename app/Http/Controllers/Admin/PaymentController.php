@@ -20,7 +20,6 @@ class PaymentController extends Controller
 
         $query = \App\Models\Payment::with(['user', 'order']);
 
-        // Filter using payment_status instead of order.status
         if ($status !== 'all') {
             $query->where('payment_status', $status);
         }
