@@ -622,9 +622,9 @@
                                             </div>
                                         </div>
                                         <div class="order-actions">
-                                            <form method="POST" action="{{ route('order.cancel', $order->id) }}" style="display: inline;">
+                                            <form method="POST" action="{{ route('order.cancel', $order->id) }}" style="display: inline;" class="cancel-order-form">
                                                 @csrf
-                                                <button type="submit" class="btn-cancel-order" onclick="return confirmCancelOrder('{{ $order->payment_method }}', '{{ $order->id }}')">
+                                                <button type="button" class="btn-cancel-order" onclick="openCancelOrderModal('{{ $order->payment_method }}', '{{ $order->id }}', this.form)">
                                                     Cancel Order
                                                 </button>
                                             </form>
@@ -674,9 +674,9 @@
                                             </div>
                                         </div>
                                         <div class="order-actions">
-                                            <form method="POST" action="{{ route('order.cancel', $order->id) }}" style="display: inline;">
+                                            <form method="POST" action="{{ route('order.cancel', $order->id) }}" style="display: inline;" class="cancel-order-form">
                                                 @csrf
-                                                <button type="submit" class="btn-cancel-order" onclick="return confirmCancelOrder('{{ $order->payment_method }}', '{{ $order->id }}')">
+                                                <button type="button" class="btn-cancel-order" onclick="openCancelOrderModal('{{ $order->payment_method }}', '{{ $order->id }}', this.form)">
                                                     Cancel Order
                                                 </button>
                                             </form>
@@ -721,9 +721,9 @@
                                             </div>
                                         </div>
                                         <div class="order-actions">
-                                            <form method="POST" action="{{ route('order.cancel', $order->id) }}" style="display: inline;">
+                                            <form method="POST" action="{{ route('order.cancel', $order->id) }}" style="display: inline;" class="cancel-order-form">
                                                 @csrf
-                                                <button type="submit" class="btn-cancel-order" onclick="return confirmCancelOrder('{{ $order->payment_method }}', '{{ $order->id }}')">
+                                                <button type="button" class="btn-cancel-order" onclick="openCancelOrderModal('{{ $order->payment_method }}', '{{ $order->id }}', this.form)">
                                                     Cancel Order
                                                 </button>
                                             </form>
@@ -869,6 +869,23 @@
                             <button type="button" class="btn-cancel" onclick="closePaymentModal()">Cancel</button>
                         </div>
                     </form>
+                </div>
+            </div>
+
+            <!-- Cancel Order Confirmation Modal -->
+            <div class="modal-overlay" id="cancelOrderModal" style="display:none;">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2 class="modal-title">Cancel Order</h2>
+                        <button class="close-modal" onclick="closeCancelOrderModal()">&times;</button>
+                    </div>
+                    <div id="cancelOrderModalBody">
+                        <!-- Dynamic content will be inserted here -->
+                    </div>
+                    <div class="modal-buttons">
+                        <button type="button" class="btn-save" id="confirmCancelOrderBtn">Cancel Order</button>
+                        <button type="button" class="btn-cancel" onclick="closeCancelOrderModal()">Back</button>
+                    </div>
                 </div>
             </div>
 
@@ -1121,20 +1138,33 @@
         });
     });
 
-    function confirmCancelOrder(paymentMethod, orderId) {
-        let message = `Are you sure you want to cancel Order #${orderId}?\n\n`;
-        message += `Payment Method: ${paymentMethod}\n\n`;
-        
+    // Cancel Order Modal Logic
+    let cancelOrderForm = null;
+    function openCancelOrderModal(paymentMethod, orderId, form) {
+        cancelOrderForm = form;
+        const modal = document.getElementById('cancelOrderModal');
+        const body = document.getElementById('cancelOrderModalBody');
+        let message = `<p style='font-size:16px; color:#8B4513; margin-bottom:10px;'>Are you sure you want to cancel <b>Order #${orderId}</b>?</p>`;
+        message += `<p style='margin-bottom:10px;'>Payment Method: <b>${paymentMethod}</b></p>`;
         if (paymentMethod === 'Cash on Delivery') {
-            message += 'Payment status will be set to failed.';
+            message += `<p style='color:#b94a48;'>Payment status will be set to <b>failed</b>.</p>`;
         } else if (paymentMethod === 'GCash') {
-            message += 'Payment will be refunded to your GCash account.';
+            message += `<p style='color:#b94a48;'>Payment will be <b>refunded</b> to your GCash account.</p>`;
         }
-        
-        message += '\n\nThis action cannot be undone.';
-        
-        return confirm(message);
+        message += `<p style='margin-top:15px; color:#b94a48;'><b>This action cannot be undone.</b></p>`;
+        body.innerHTML = message;
+        modal.style.display = 'flex';
     }
+    function closeCancelOrderModal() {
+        document.getElementById('cancelOrderModal').style.display = 'none';
+        cancelOrderForm = null;
+    }
+    document.getElementById('confirmCancelOrderBtn').onclick = function() {
+        if (cancelOrderForm) {
+            cancelOrderForm.submit();
+            closeCancelOrderModal();
+        }
+    };
 </script>
   @include('components.footer')
 @endsection
