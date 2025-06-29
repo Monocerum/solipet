@@ -67,7 +67,7 @@
         font-family: "Manrope", sans-serif;
         padding: 2% 5%;
 
-        input {
+        input[type="text"], input[type="email"], input[type="password"] {
             background: #E8C7AA;
             margin-bottom: 2%;
             box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
@@ -76,14 +76,53 @@
         
         .confirmation-container {
             display: flex;
-            align-items: center;
+            align-items: flex-start;
             padding: 0 0 5% 0;
+            gap: 10px;
         }
 
-        #agreement {
+        #terms_agreement {
             box-shadow: none;
-            margin: 0 2% 0 0;
-            height: 1em;
+            margin: 0;
+            height: 1.2em;
+            width: 1.2em;
+            background: #E8C7AA;
+            border: 2px solid #522222;
+            border-radius: 3px;
+            cursor: pointer;
+            flex-shrink: 0;
+            margin-top: 2px;
+            position: relative;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+        }
+
+        #terms_agreement:checked {
+            background: #522222;
+            position: relative;
+        }
+
+        #terms_agreement:checked::after {
+            content: '✓';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #E8C7AA;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+
+        #terms_agreement:hover {
+            border-color: #77401E;
+            background: #F2D5BC;
+        }
+
+        .confirmation-container label {
+            cursor: pointer;
+            line-height: 1.4;
+            margin: 0;
         }
 
         .auth-btn-container {
@@ -102,6 +141,21 @@
             font-size: 2em;
             font-family: "Irish Grover", sans-serif;
             margin-top: 2%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .auth-btn:disabled {
+            background-color: #ccc;
+            color: #666;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        .auth-btn:hover:not(:disabled) {
+            background-color: #E8C7AA;
+            transform: translateY(-2px);
+            box-shadow: 0px 6px 6px rgba(0, 0, 0, 0.3);
         }
 
         #tos {
@@ -279,8 +333,13 @@
                             </div>
 
                             <div class="form-check confirmation-container">
-                                <input type="checkbox" class="form-check-input" id="agreement">
-                                <label for="agreement">By signing up, you agree to Solipet's <a href="/" id="tos">Terms of Service & Privacy Policy.</a></label>
+                                <input type="checkbox" class="form-check-input @error('terms_agreement') is-invalid @enderror" id="terms_agreement" name="terms_agreement" value="1" {{ old('terms_agreement') ? 'checked' : '' }} required>
+                                <label for="terms_agreement">By signing up, you agree to Solipet's <a href="{{ route('terms') }}" id="tos" target="_blank">Terms of Service</a> & <a href="{{ route('privacy') }}" id="tos" target="_blank">Privacy Policy</a>.</label>
+                                @error('terms_agreement')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
                             </div>
 
                             <div class="auth-btn-container">
@@ -299,3 +358,50 @@
     </div>
 </div>
 @endsection
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const checkbox = document.getElementById('terms_agreement');
+    const label = document.querySelector('.confirmation-container label');
+    const submitBtn = document.querySelector('.auth-btn');
+    
+    // Make the entire label clickable
+    label.addEventListener('click', function(e) {
+        // Don't trigger if clicking on a link
+        if (e.target.tagName === 'A') {
+            return;
+        }
+        checkbox.checked = !checkbox.checked;
+        updateSubmitButton();
+    });
+    
+    // Update submit button state when checkbox changes
+    checkbox.addEventListener('change', function() {
+        updateSubmitButton();
+    });
+    
+    function updateSubmitButton() {
+        if (checkbox.checked) {
+            submitBtn.disabled = false;
+            submitBtn.style.opacity = '1';
+            submitBtn.style.cursor = 'pointer';
+        } else {
+            submitBtn.disabled = true;
+            submitBtn.style.opacity = '0.6';
+            submitBtn.style.cursor = 'not-allowed';
+        }
+    }
+    
+    // Initial state
+    updateSubmitButton();
+    
+    // Prevent form submission if checkbox is not checked
+    document.querySelector('form').addEventListener('submit', function(e) {
+        if (!checkbox.checked) {
+            e.preventDefault();
+            alert('Please agree to the Terms of Service and Privacy Policy to continue.');
+            checkbox.focus();
+        }
+    });
+});
+</script>

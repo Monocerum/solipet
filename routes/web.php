@@ -7,11 +7,16 @@ use App\Http\Controllers\SearchController;
 use App\Http\Controllers\PetController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\LegalController;
 use App\Http\Controllers\Admin\ProductController as AdminProductController;
 
 Route::get('/', function () {
     return view('welcome');
 });
+
+// Legal pages
+Route::get('/terms', [LegalController::class, 'terms'])->name('terms');
+Route::get('/privacy', [LegalController::class, 'privacy'])->name('privacy');
 
 Auth::routes();
 
