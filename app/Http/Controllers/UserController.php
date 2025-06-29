@@ -103,6 +103,13 @@ class UserController extends Controller
             return redirect()->route('viewCart')->with('error', 'Your cart is empty.');
         }
 
+        // Require address fields if shipping is selected
+        if ($request->delivery_option === 'shipping') {
+            if (empty($user->shipping_name) || empty($user->shipping_address) || empty($user->shipping_phone)) {
+                return redirect()->route('viewCart')->with('error', 'Please provide your shipping name, address, and phone number before checking out.')->withInput();
+            }
+        }
+
         try {
             // Use database transaction to ensure data consistency
             return \DB::transaction(function () use ($request, $user, $cart) {

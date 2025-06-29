@@ -331,7 +331,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 0.5);
             z-index: 1000;
             justify-content: center;
             align-items: center;
@@ -342,47 +342,68 @@
         }
 
         .modal-content {
-            background: #F5DEB3;
-            border-radius: 12px;
-            padding: 30px;
+            background: linear-gradient(135deg, #F5DEB3 80%, #E8C4A0 100%);
+            border: 3px solid #8B4513;
+            border-radius: 18px;
+            padding: 36px 32px 32px 32px;
             max-width: 500px;
             width: 90%;
             max-height: 80vh;
             overflow-y: auto;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+            box-shadow: 0 10px 32px rgba(139, 69, 19, 0.25), 0 2px 8px rgba(0,0,0,0.10);
+            position: relative;
+            animation: modalFadeIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: translateY(40px) scale(0.96); }
+            to   { opacity: 1; transform: translateY(0) scale(1); }
         }
 
         .modal-header {
             display: flex;
-            justify-content: space-between;
+            justify-content: flex-start;
             align-items: center;
             margin-bottom: 20px;
             padding-bottom: 15px;
             border-bottom: 2px solid #8B4513;
+            gap: 12px;
+        }
+
+        .modal-header .modal-icon {
+            font-size: 2.2rem;
+            color: #A0522D;
+            margin-right: 8px;
+            display: flex;
+            align-items: center;
         }
 
         .modal-title {
             color: #8B4513;
-            font-size: 20px;
+            font-size: 22px;
             font-weight: bold;
+            font-family: 'Manrope', sans-serif;
+            letter-spacing: 1px;
         }
 
         .close-modal {
             background: none;
             border: none;
-            font-size: 24px;
+            font-size: 28px;
             color: #8B4513;
             cursor: pointer;
             padding: 0;
-            width: 30px;
-            height: 30px;
+            width: 34px;
+            height: 34px;
             display: flex;
             align-items: center;
             justify-content: center;
+            margin-left: auto;
+            transition: color 0.2s;
         }
 
         .close-modal:hover {
-            color: #654321;
+            color: #A0522D;
         }
 
         .form-group {
@@ -754,7 +775,7 @@
                 Please click the checkout button to continue.
             </div>
 
-            <form method="POST" action="{{ route('checkout') }}" style="margin:0;">
+            <form method="POST" action="{{ route('checkout') }}" style="margin:0;" id="checkoutForm">
                 @csrf
                 <input type="hidden" name="delivery_option" id="delivery_option" value="shipping">
                 <div style="margin-bottom: 15px;">
@@ -800,7 +821,8 @@
     <div class="modal-overlay" id="addressModal" style="display:none;">
         <div class="modal-content">
             <div class="modal-header">
-                <h2 class="modal-title">Edit Address</h2>
+                <span class="modal-icon"><img src="{{ asset('assets/delivery-icon.png') }}" alt="Delivery Icon" style="width:32px;height:32px;vertical-align:middle;"></span>
+                <h2 class="modal-title">Edit Shipping Address</h2>
                 <button class="close-modal" onclick="closeAddressModal()">&times;</button>
             </div>
             <form method="POST" action="{{ route('cart.address.update') }}">
@@ -836,6 +858,23 @@
                 Requested quantity exceeds available stock. Only <span id="availableStock">0</span> items available.
             </div>
             <button class="stock-error-close" onclick="closeStockErrorModal()">Got it!</button>
+        </div>
+    </div>
+
+    <!-- Custom Address Alert Modal -->
+    <div class="modal-overlay" id="addressAlertModal" style="display:none;">
+        <div class="modal-content" style="max-width:400px;">
+            <div class="modal-header">
+                <span class="modal-icon"><img src="{{ asset('assets/delivery-icon.png') }}" alt="Delivery Icon" style="width:28px;height:28px;vertical-align:middle;"></span>
+                <h2 class="modal-title" style="font-size:18px;">Shipping Address Required</h2>
+                <button class="close-modal" onclick="closeAddressAlertModal()">&times;</button>
+            </div>
+            <div style="color:#8B4513; font-size:15px; margin-bottom:18px; text-align:center; font-family:'Manrope',sans-serif;">
+                Please provide your shipping name, address, and phone number before checking out.
+            </div>
+            <div style="display:flex; justify-content:center;">
+                <button class="btn-save" style="min-width:120px;" onclick="closeAddressAlertModal();editAddress();">Edit Address</button>
+            </div>
         </div>
     </div>
 
@@ -1078,6 +1117,27 @@
                 }
             @endif
         });
+
+        document.getElementById('checkoutForm').addEventListener('submit', function(e) {
+            var deliveryOption = document.getElementById('delivery_option').value;
+            if (deliveryOption === 'shipping') {
+                var userName = @json(auth()->user()->shipping_name ?? '');
+                var userAddress = @json(auth()->user()->shipping_address ?? '');
+                var userPhone = @json(auth()->user()->shipping_phone ?? '');
+                if (!userName.trim() || !userAddress.trim() || !userPhone.trim()) {
+                    e.preventDefault();
+                    showAddressAlertModal();
+                    return false;
+                }
+            }
+        });
+
+        function showAddressAlertModal() {
+            document.getElementById('addressAlertModal').style.display = 'flex';
+        }
+        function closeAddressAlertModal() {
+            document.getElementById('addressAlertModal').style.display = 'none';
+        }
     </script>
 
   
