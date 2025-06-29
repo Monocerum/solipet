@@ -353,7 +353,7 @@
         $items = $query->get()->map(function($product) {
             return [
                 'id' => $product->id,
-                'title' => $product->title,
+                'title' => $product->name,
                 'price' => $product->price,
                 'savings' => $product->savings ?? null,
                 'ratings' => $product->ratings ?? 0,
@@ -383,7 +383,7 @@
         $items = $query->get()->map(function($product) {
             return [
                 'id' => $product->id,
-                'title' => $product->title,
+                'title' => $product->name,
                 'price' => $product->price,
                 'savings' => $product->savings ?? null,
                 'ratings' => $product->ratings ?? 0,
