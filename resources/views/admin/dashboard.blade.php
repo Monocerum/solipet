@@ -129,6 +129,7 @@
     .stat-card.orders { --accent-color: #A0522D; --accent-light: #F3E5D0; --accent-gradient: linear-gradient(135deg, #C19A6B, #A0522D); }
     .stat-card.products { --accent-color: #8B5E3C; --accent-light: #E8C7AA; --accent-gradient: linear-gradient(135deg, #D2B48C, #8B5E3C); }
     .stat-card.customers { --accent-color: #B8860B; --accent-light: #F5DEB3; --accent-gradient: linear-gradient(135deg, #FFD39B, #B8860B); }
+    .stat-card.revenue { --accent-color:rgb(97, 89, 78); --accent-light: #FFF8E1; --accent-gradient: linear-gradient(135deg, #E8C7AA, #D2B48C); }
 
     .stat-content {
         display: flex;
@@ -268,6 +269,16 @@
                     <div class="stat-info">
                         <h3>Total Customers</h3>
                         <p class="stat-value">{{ $totalCustomers ?? 0 }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="stat-card revenue">
+                <div class="stat-content">
+                    <div class="stat-icon"><i class="fas fa-peso-sign"></i></div>
+                    <div class="stat-info">
+                        <h3>Total Revenue</h3>
+                        <p class="stat-value">₱{{ number_format($totalRevenue ?? 0, 2) }}</p>
                     </div>
                 </div>
             </div>
