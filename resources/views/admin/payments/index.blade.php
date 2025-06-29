@@ -404,7 +404,7 @@
 @section('content')
     <div class="flex justify-between items-center mb-6 responsive">
 
-    <div class="bg-orange-100 rounded-lg overflow-x-auto">
+    <div class="bg-orange-100 rounded-lg overflow-x-auto" style="width: 100%;">
         <div class="table-container rounded-lg p-6 scrollable-table-wrapper">
             <div class="filter-tabs">
                 @foreach(['all', 'pending', 'paid', 'failed', 'refunded'] as $filter)
