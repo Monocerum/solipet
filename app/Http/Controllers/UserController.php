@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use App\Models\Payment;
 
 class UserController extends Controller
 {
@@ -117,7 +118,7 @@ class UserController extends Controller
             $status = 'pending';
         } elseif ($request->payment_method === 'GCash') {
             $request->validate(['gcash_number' => 'nullable|string|max:20']);
-            $status = 'shipping';
+            $status = 'pending';
         }
 
         $total = $cart->items->sum(function($item) {
@@ -132,6 +133,18 @@ class UserController extends Controller
             'gcash_number' => $request->payment_method === 'GCash' ? $request->gcash_number : null,
             'shipping_address' => $shipping_address,
             'delivery_option' => $request->delivery_option,
+        ]);
+
+        \App\Models\Payment::create([
+            'payment_number'   => uniqid('PMT-'),
+            'order_id'         => $order->id,
+            'user_id'          => $user->id,
+            'total_amount'     => $total,
+            'discount_amount'  => 0, // or compute if applicable
+            'final_amount'     => $total,
+            'payment_status'   => 'pending',
+            'payment_method'   => $request->payment_method,
+            'transaction_id'   => null, // fill in if GCash or other gateway returns it
         ]);
 
         foreach ($cart->items as $item) {

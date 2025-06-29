@@ -93,6 +93,41 @@
     .scrollable-table-wrapper::-webkit-scrollbar-thumb:hover {
         background-color: #B45309;
     }
+
+    .btn-primary {
+        background-color: #D97706;
+        color: white;
+        border: none;
+        transition: all 0.3s ease;
+    }
+
+    .btn-primary:hover {
+        background-color: #B45309;
+        transform: translateY(-1px);
+    }
+
+    .btn-edit,
+    .btn-delete {
+        width: 100px;
+        height: 36px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        padding: 0 12px;
+        font-size: 0.875rem;
+        font-weight: 600;
+        border: none;
+        transition: all 0.3s ease;
+        border-radius: 6px;
+        color: white;
+        background-color: #F59E0B; /* Same amber as Edit */
+    }
+
+    .btn-edit:hover,
+    .btn-delete:hover {
+        background-color: #B45309; /* Same hover effect */
+    }
 </style>
 
 @section('content')

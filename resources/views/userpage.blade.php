@@ -572,6 +572,7 @@
             <div class="content-section" id="purchase-section">
                 <div class="purchase-tabs nav nav-tabs" id="purchase-tabs-nav" role="tablist">
                     <button class="purchase-tab nav-link active" id="to-pay-tab" data-bs-toggle="tab" data-bs-target="#to-pay" type="button" role="tab" aria-controls="to-pay" aria-selected="true">To Pay</button>
+                    <button class="purchase-tab nav-link" id="to-prepare-tab" data-bs-toggle="tab" data-bs-target="#to-prepare" type="button" role="tab" aria-controls="to-prepapre" aria-selected="false">Preparing</button>
                     <button class="purchase-tab nav-link" id="to-ship-tab" data-bs-toggle="tab" data-bs-target="#to-ship" type="button" role="tab" aria-controls="to-ship" aria-selected="false">To Ship</button>
                     <button class="purchase-tab nav-link" id="completed-tab" data-bs-toggle="tab" data-bs-target="#completed" type="button" role="tab" aria-controls="completed" aria-selected="false">Completed</button>
                     <button class="purchase-tab nav-link" id="cancelled-tab" data-bs-toggle="tab" data-bs-target="#cancelled" type="button" role="tab" aria-controls="cancelled" aria-selected="false">Cancelled</button>
@@ -615,6 +616,48 @@
                             </div>
                         @endif
                     </div>
+                    <div class="tab-pane fade" id="to-prepare" role="tabpanel">
+                        @php
+                            $toShipOrders = $orders->filter(function($order) {
+                                return in_array($order->status, ['preparing', 'placed']);
+                            });
+                        @endphp
+                        @if($toShipOrders->count())
+                            @foreach($toShipOrders as $order)
+                                <div class="order-card">
+                                    <div class="order-header">
+                                        <div>
+                                            <span class="order-id">Order #{{ $order->id }}</span>
+                                            <span class="order-status to-ship">{{ ucfirst($order->status) }}</span>
+                                        </div>
+                                        <div class="order-date">{{ $order->created_at->format('M d, Y') }}</div>
+                                    </div>
+                                    @foreach($order->items as $item)
+                                        <div class="order-item">
+                                            <img src="{{ asset($item->product->image ?? 'assets/dog-img.png') }}" alt="{{ $item->product->name ?? '' }}">
+                                            <div class="item-details">
+                                                <div>{{ $item->product->name ?? 'Product not found' }}</div>
+                                                <small>x{{ $item->quantity }}</small>
+                                            </div>
+                                            <div class="item-price">₱{{ number_format($item->price, 2) }}</div>
+                                        </div>
+                                    @endforeach
+                                    <div class="order-footer">
+                                        <div class="total-price">
+                                            Order Total: <span>₱{{ number_format($order->total_amount, 2) }}</span>
+                                        </div>
+                                        <div>
+                                            <span class="paid-indicator">Paid via {{ $order->payment_method }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        @else
+                            <div class="empty-state">
+                                <p>No orders to ship.</p>
+                            </div>
+                        @endif
+                    </div>
                     <div class="tab-pane fade" id="to-ship" role="tabpanel">
                         @if($orders->where('status', 'shipping')->count())
                             @foreach($orders->where('status', 'shipping') as $order)
@@ -639,6 +682,9 @@
                                     <div class="order-footer">
                                         <div class="total-price">
                                             Order Total: <span>₱{{ number_format($order->total_amount, 2) }}</span>
+                                        </div>
+                                        <div>
+                                            <span class="paid-indicator">Paid via {{ $order->payment_method }}</span>
                                         </div>
                                         
                                     </div>
