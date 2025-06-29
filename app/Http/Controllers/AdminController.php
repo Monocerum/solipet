@@ -51,6 +51,7 @@ class AdminController extends Controller
     public function customers()
     {
         $customers = User::where('is_admin', false)->get();
+        
         return view('admin.customers', compact('customers'));
     }
 
@@ -64,7 +65,7 @@ class AdminController extends Controller
         return view('admin.promotions');
     }
     
-    // CRUD Function
+    // Product CRUD Functions
     public function createProduct()
     {
         return view('admin.products.create');
@@ -114,11 +115,51 @@ class AdminController extends Controller
         return redirect()->route('admin.products')->with('success', 'Product deleted successfully.');
     }
 
+    // Customer Management Functions
+    public function showCustomer($id)
+    {
+        $customer = User::where('is_admin', false)->findOrFail($id);
+        return view('admin.customers.show', compact('customer'));
+    }
+
+    public function editCustomer($id)
+    {
+        $customer = User::where('is_admin', false)->findOrFail($id);
+        return view('admin.customers.edit', compact('customer'));
+    }
+
+    public function updateCustomer(Request $request, $id)
+    {
+        $customer = User::where('is_admin', false)->findOrFail($id);
+        
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'username' => 'required|string|max:255|unique:users,username,' . $customer->id,
+            'email' => 'required|email|max:255|unique:users,email,' . $customer->id,
+            'phonenumber' => 'nullable|string|max:20',
+            'gender' => 'nullable|in:male,female,other',
+            'dob' => 'nullable|date',
+        ]);
+
+        $customer->update($validated);
+
+        return redirect()->route('admin.customers')
+            ->with('success', 'Customer details updated successfully!');
+    }
+
     public function deleteCustomer($id)
     {
         $customer = User::where('is_admin', false)->findOrFail($id);
+        
+        // Check if customer has orders - prevent deletion if they do
+        if ($customer->orders()->count() > 0) {
+            return redirect()->route('admin.customers')
+                ->with('error', 'Cannot delete customer with existing orders.');
+        }
+
         $customer->delete();
 
-        return redirect()->route('admin.customers')->with('success', 'Customer deleted successfully.');
+        return redirect()->route('admin.customers')
+            ->with('success', 'Customer deleted successfully!');
     }
 }
