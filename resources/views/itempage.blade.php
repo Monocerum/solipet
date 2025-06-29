@@ -380,6 +380,89 @@
             color: #ffffff;
         }
 
+        /* Review Form Styles */
+        .review-form {
+            background-color: #4A2C17;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            border: 2px solid #8B4513;
+        }
+
+        .review-form h4 {
+            color: #F5E6D3;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            color: #F5E6D3;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #8B4513;
+            border-radius: 6px;
+            background-color: #F5E6D3;
+            color: #2E160C;
+            font-family: 'Manrope', sans-serif;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #DCB47C;
+            box-shadow: 0 0 5px rgba(220, 180, 124, 0.5);
+        }
+
+        .submit-review-btn {
+            background-color: #DCB47C;
+            color: #2E160C;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .submit-review-btn:hover {
+            background-color: #8B4513;
+            color: #F5E6D3;
+        }
+
+        .success-message {
+            background-color: #4A2C17;
+            color: #90EE90;
+            padding: 10px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            border: 1px solid #90EE90;
+        }
+
+        .error-message {
+            background-color: #4A2C17;
+            color: #FFB6C1;
+            padding: 10px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            border: 1px solid #FFB6C1;
+        }
+
 @media (max-width: 1024px) {
     .main-content {
         padding: 20px 5px;
@@ -487,6 +570,21 @@
         padding: 15px;
         font-size: 14px;
     }
+    .review-form {
+        padding: 15px;
+    }
+    .review-form h4 {
+        font-size: 16px;
+    }
+    .form-group input,
+    .form-group textarea {
+        padding: 8px;
+        font-size: 14px;
+    }
+    .submit-review-btn {
+        padding: 10px 20px;
+        font-size: 14px;
+    }
 }
 @media (max-width: 480px) {
     .main-content {
@@ -523,6 +621,21 @@
     .product-details {
         font-size: 12px;
         padding: 8px;
+    }
+    .review-form {
+        padding: 10px;
+    }
+    .review-form h4 {
+        font-size: 14px;
+    }
+    .form-group input,
+    .form-group textarea {
+        padding: 6px;
+        font-size: 12px;
+    }
+    .submit-review-btn {
+        padding: 8px 16px;
+        font-size: 12px;
     }
 }
 
@@ -625,6 +738,45 @@
         </div>
         <div id="reviews-section" class="product-details" style="display:none;">
             <h3>Reviews</h3>
+            
+            @if(session('success'))
+                <div class="success-message">
+                    {{ session('success') }}
+                </div>
+            @endif
+
+            @if($errors->any())
+                <div class="error-message">
+                    <ul>
+                        @foreach($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
+            <!-- Review Submission Form -->
+            <div class="review-form">
+                <h4>Write a Review</h4>
+                <form method="POST" action="{{ route('submit.review') }}">
+                    @csrf
+                    <input type="hidden" name="product_id" value="{{ $product->id }}">
+                    
+                    <div class="form-group">
+                        <label for="reviewer_name">Your Name:</label>
+                        <input type="text" id="reviewer_name" name="reviewer_name" value="{{ old('reviewer_name') }}" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="review_text">Your Review:</label>
+                        <textarea id="review_text" name="review_text" placeholder="Share your experience with this product..." required>{{ old('review_text') }}</textarea>
+                    </div>
+                    
+                    <button type="submit" class="submit-review-btn">Submit Review</button>
+                </form>
+            </div>
+
+            <!-- Existing Reviews -->
             @if(isset($reviews) && $reviews && count($reviews))
                 @foreach($reviews as $review)
                     <div class="detail-section">

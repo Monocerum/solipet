@@ -113,6 +113,8 @@ Route::get('/viewCart', [CartController::class, 'viewCart'])->name('viewCart');
 Route::post('/add-to-cart', [CartController::class, 'addToCart'])->name('add.to.cart')->middleware('auth');
 Route::post('/buy-now', [CartController::class, 'buyNow'])->name('buy.now')->middleware('auth');
 
+Route::post('/submit-review', [App\Http\Controllers\HomeController::class, 'submitReview'])->name('submit.review')->middleware('auth');
+
 Route::post('/cart/item/{itemId}/quantity', [CartController::class, 'updateQuantity'])->name('cart.item.updateQuantity')->middleware('auth');
 
 Route::post('/cart/item/{itemId}/remove', [CartController::class, 'removeItem'])->name('cart.item.remove')->middleware('auth');
