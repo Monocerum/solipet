@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->string('image'); // product image path
-            $table->string('title'); // product title
+            $table->string('name'); // product title
             $table->decimal('price', 10, 2); // product price
             $table->string('brand')->nullable(); // e.g., '1,234 SOLD'
             $table->float('ratings', 2, 1)->default(0); // product rating (e.g., 4.5)
