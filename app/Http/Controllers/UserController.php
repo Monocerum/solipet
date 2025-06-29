@@ -104,65 +104,99 @@ class UserController extends Controller
             return redirect()->route('viewCart')->with('error', 'Your cart is empty.');
         }
 
-        $status = 'pending'; // default for Cash on Delivery
-        $shipping_address = '';
+        try {
+            // Use database transaction to ensure data consistency
+            return \DB::transaction(function () use ($request, $user, $cart) {
+                // Validate stock availability before processing checkout
+                foreach ($cart->items as $item) {
+                    $product = $item->product;
+                    if (!$product) {
+                        throw new \Exception('One or more products in your cart are no longer available.');
+                    }
+                    
+                    if ($product->stock < $item->quantity) {
+                        throw new \Exception("Insufficient stock for {$product->name}. Only {$product->stock} items available.");
+                    }
+                }
 
-        if ($request->delivery_option === 'shipping') {
-            $shipping_address = "{$user->shipping_name}\n{$user->shipping_address}\nPhone: {$user->shipping_phone}";
-        } else {
-            $shipping_address = "Store Pick Up\nSoliPet Main Branch\n456 Pet Street, Barangay San Pedro\nLucena City, Calabarzon 4301\nPhone: +63 917 987 6543";
+                $status = 'pending'; // default for Cash on Delivery
+                $shipping_address = '';
+
+                if ($request->delivery_option === 'shipping') {
+                    $shipping_address = "{$user->shipping_name}\n{$user->shipping_address}\nPhone: {$user->shipping_phone}";
+                } else {
+                    $shipping_address = "Store Pick Up\nSoliPet Main Branch\n456 Pet Street, Barangay San Pedro\nLucena City, Calabarzon 4301\nPhone: +63 917 987 6543";
+                }
+
+                if ($request->payment_method === 'Cash on Delivery') {
+                    $status = 'pending';
+                } elseif ($request->payment_method === 'GCash') {
+                    $request->validate(['gcash_number' => 'nullable|string|max:20']);
+                    $status = 'pending';
+                }
+
+                $total = $cart->items->sum(function($item) {
+                    return ($item->product->price ?? 0) * $item->quantity;
+                });
+
+                $order = \App\Models\Order::create([
+                    'user_id' => $user->id,
+                    'payment_method' => $request->payment_method,
+                    'status' => $status,
+                    'total_amount' => $total,
+                    'gcash_number' => $request->payment_method === 'GCash' ? $request->gcash_number : null,
+                    'shipping_address' => $shipping_address,
+                    'delivery_option' => $request->delivery_option,
+                ]);
+
+                \App\Models\Payment::create([
+                    'payment_number'   => uniqid('PMT-'),
+                    'order_id'         => $order->id,
+                    'user_id'          => $user->id,
+                    'total_amount'     => $total,
+                    'discount_amount'  => 0, // or compute if applicable
+                    'final_amount'     => $total,
+                    'payment_status'   => 'pending',
+                    'payment_method'   => $request->payment_method,
+                    'transaction_id'   => null, // fill in if GCash or other gateway returns it
+                ]);
+
+                // Create order items and reduce stock
+                foreach ($cart->items as $item) {
+                    $order->items()->create([
+                        'product_id' => $item->product_id,
+                        'quantity' => $item->quantity,
+                        'price' => $item->product->price ?? 0,
+                    ]);
+                    
+                    // Reduce product stock
+                    $product = $item->product;
+                    $newStock = $product->stock - $item->quantity;
+                    
+                    // Additional safety check to prevent negative stock
+                    if ($newStock < 0) {
+                        throw new \Exception("Stock error: Cannot reduce stock below 0 for {$product->name}.");
+                    }
+                    
+                    $product->stock = $newStock;
+                    $product->save();
+                }
+                
+                // Clear the cart after successful order creation
+                $cart->items()->delete();
+
+                $redirect = redirect()->route('userpage')->with('success', 'Order placed successfully!');
+
+                if ($status === 'shipping' || $status === 'pending') {
+                     $redirect->with('active_section', 'purchase')
+                              ->with('active_purchase_tab', str_replace(' ', '-', $status));
+                }
+
+                return $redirect;
+            });
+        } catch (\Exception $e) {
+            return redirect()->route('viewCart')->with('error', $e->getMessage());
         }
-
-        if ($request->payment_method === 'Cash on Delivery') {
-            $status = 'pending';
-        } elseif ($request->payment_method === 'GCash') {
-            $request->validate(['gcash_number' => 'nullable|string|max:20']);
-            $status = 'pending';
-        }
-
-        $total = $cart->items->sum(function($item) {
-            return ($item->product->price ?? 0) * $item->quantity;
-        });
-
-        $order = \App\Models\Order::create([
-            'user_id' => $user->id,
-            'payment_method' => $request->payment_method,
-            'status' => $status,
-            'total_amount' => $total,
-            'gcash_number' => $request->payment_method === 'GCash' ? $request->gcash_number : null,
-            'shipping_address' => $shipping_address,
-            'delivery_option' => $request->delivery_option,
-        ]);
-
-        \App\Models\Payment::create([
-            'payment_number'   => uniqid('PMT-'),
-            'order_id'         => $order->id,
-            'user_id'          => $user->id,
-            'total_amount'     => $total,
-            'discount_amount'  => 0, // or compute if applicable
-            'final_amount'     => $total,
-            'payment_status'   => 'pending',
-            'payment_method'   => $request->payment_method,
-            'transaction_id'   => null, // fill in if GCash or other gateway returns it
-        ]);
-
-        foreach ($cart->items as $item) {
-            $order->items()->create([
-                'product_id' => $item->product_id,
-                'quantity' => $item->quantity,
-                'price' => $item->product->price ?? 0,
-            ]);
-        }
-        $cart->items()->delete();
-
-        $redirect = redirect()->route('userpage')->with('success', 'Order placed successfully!');
-
-        if ($status === 'shipping' || $status === 'pending') {
-             $redirect->with('active_section', 'purchase')
-                      ->with('active_purchase_tab', str_replace(' ', '-', $status));
-        }
-
-        return $redirect;
     }
 
     public function payOrder(Request $request, \App\Models\Order $order)
