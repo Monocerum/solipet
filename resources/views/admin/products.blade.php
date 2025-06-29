@@ -161,7 +161,7 @@
                     <td>{{ $product->brand ?? 'N/A' }}</td>
                     <td class="text-center">
                         <div class="flex justify-center gap-2">
-                             <a href="{{ route('admin.products.show', $product->id) }}" 
+                            <a href="{{ route('admin.products.show', $product->id) }}" 
                                 class="btn-edit btn-view">
                                     <i class="fas fa-eye"></i> View
                             </a>
