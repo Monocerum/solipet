@@ -52,12 +52,18 @@ class RegisterController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'username' => ['required', 'string', 'max:255', 'unique:users'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'password' => ['required', 'string', 'min:8', 'regex:/[a-z]/', // at least one lowercase
+                'regex:/[A-Z]/', // at least one uppercase
+                'regex:/[0-9]/', // at least one digit
+                'regex:/[@$!%*#?&]/',
+                'confirmed',],
             'terms_agreement' => ['required', 'accepted'],
         ], [
             'terms_agreement.required' => 'You must agree to the Terms of Service and Privacy Policy to register.',
             'terms_agreement.accepted' => 'You must agree to the Terms of Service and Privacy Policy to register.',
         ]);
+
+        
     }
 
     /**
