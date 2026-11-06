@@ -726,7 +726,13 @@
                     <div class="product-item" id="product-item-{{$item->id}}" data-price="{{ $item->product->price ?? 0 }}" data-quantity="{{ $item->quantity }}">
                         <div class="product-image">
                             @if($item->product && $item->product->image)
-                                <img src="{{ asset($item->product->image) }}" alt="{{ $item->product->name }}" style="width:60px;height:60px;object-fit:cover;border-radius:8px;">
+                                <img
+                                    src="{{ asset(str_starts_with($item->product->image, 'products/')
+                                        ? 'storage/' . $item->product->image
+                                        : $item->product->image) }}"
+                                    alt="{{ $item->product->name }}"
+                                    style="width:60px;height:60px;object-fit:cover;border-radius:8px;"
+                                >
                             @else
                                 🐾
                             @endif
