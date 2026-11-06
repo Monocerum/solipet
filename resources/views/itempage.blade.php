@@ -1077,13 +1077,18 @@ body {
    
     <main class="main-content">
         <div class="product-container">
-            <div class="product-image"> 
+            <div class="product-image">
                 @if($product->image)
-                    <img src="{{ asset($product->image) }}" alt="{{ $product->name }}" />
+                    <img
+                        src="{{ asset(str_starts_with($product->image, 'products/')
+                            ? 'storage/' . $product->image
+                            : $product->image) }}"
+                        alt="{{ $product->name }}"
+                    />
                 @else
                     <img src="{{ asset('assets/cat-img.png') }}" alt="No Image" />
                 @endif
-            </div>   
+            </div>
             <div class="product-info">
                 <h1 class="product-title">{{ $product->name }}</h1>
                  <div class="price-rating-row">

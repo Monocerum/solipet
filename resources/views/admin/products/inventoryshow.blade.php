@@ -274,8 +274,14 @@
         <!-- Profile Section -->
         <div class="profile-section">
             <div>
-                @if($product->image && file_exists(public_path($product->image)))
-                    <img src="{{ asset($product->image) }}" alt="Product Image" class="profile-image">
+                @if($product->image)
+                    <img
+                        src="{{ asset(str_starts_with($product->image, 'products/')
+                            ? 'storage/' . $product->image
+                            : $product->image) }}"
+                        alt="{{ $product->name ?? 'Product Image' }}"
+                        class="profile-image"
+                    >
                 @else
                     <div class="profile-placeholder">
                         {{ strtoupper(substr($product->name ?? 'P', 0, 1)) }}

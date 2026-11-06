@@ -198,7 +198,13 @@
                 @if($product->image)
                 <div>
                     <label class="font-semibold mb-2 block">Current Image</label>
-                    <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->title }}" class="w-full h-48 object-cover rounded-lg">
+                    <img
+                        src="{{ asset(str_starts_with($product->image, 'products/')
+                            ? 'storage/' . $product->image
+                            : $product->image) }}"
+                        alt="{{ $product->name }}"
+                        class="w-full h-48 object-cover rounded-lg"
+                    >
                 </div>
                 @endif
             </div>
