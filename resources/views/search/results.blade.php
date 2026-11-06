@@ -239,8 +239,12 @@
                         <div>
                             <div class="item-image">
                                 <div class="pixel-cat">
-                                    <img src="{{ asset($item['image']) }}" alt="Product Image">
-                                </div>
+                                    <img
+                                            src="{{ asset(str_starts_with($item['image'], 'products/')
+                                                ? 'storage/' . $item['image']
+                                                : $item['image']) }}"
+                                            alt="Product Image"
+                                        >
                             </div>
                             <div class="item-info">
                                 <div class="item-name">{{ $item['name'] }}</div>

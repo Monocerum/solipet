@@ -661,7 +661,12 @@ h6 {
                             <div>
                                 <div class="item-image">
                                     <div class="pixel-cat">
-                                        <img src="{{ asset($item['image']) }}" alt="Product Image">
+                                        <img
+                                            src="{{ asset(str_starts_with($item['image'], 'products/')
+                                                ? 'storage/' . $item['image']
+                                                : $item['image']) }}"
+                                            alt="Product Image"
+                                        >
                                     </div>
                                 </div>
                                 <div class="item-info">
