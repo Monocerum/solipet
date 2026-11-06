@@ -604,7 +604,13 @@
                                     </div>
                                     @foreach($order->items as $item)
                                         <div class="order-item">
-                                            <img src="{{ asset($item->product->image ?? 'assets/dog-img.png') }}" alt="{{ $item->product->name ?? '' }}">
+                                            <img
+                                                src="{{ $item->product && $item->product->image
+                                                    ? asset(str_starts_with($item->product->image, 'products/')
+                                                        ? 'storage/' . $item->product->image
+                                                        : $item->product->image)
+                                                    : asset('assets/dog-img.png') }}"
+                                                alt="{{ $item->product->name ?? '' }}">
                                             <div class="item-details">
                                                 <div>{{ $item->product->name ?? 'Product not found' }}</div>
                                                 <small>x{{ $item->quantity }}</small>
@@ -656,7 +662,13 @@
                                     </div>
                                     @foreach($order->items as $item)
                                         <div class="order-item">
-                                            <img src="{{ asset($item->product->image ?? 'assets/dog-img.png') }}" alt="{{ $item->product->name ?? '' }}">
+                                            <img
+                                                src="{{ $item->product && $item->product->image
+                                                    ? asset(str_starts_with($item->product->image, 'products/')
+                                                        ? 'storage/' . $item->product->image
+                                                        : $item->product->image)
+                                                    : asset('assets/dog-img.png') }}"
+                                                alt="{{ $item->product->name ?? '' }}">
                                             <div class="item-details">
                                                 <div>{{ $item->product->name ?? 'Product not found' }}</div>
                                                 <small>x{{ $item->quantity }}</small>
@@ -703,7 +715,13 @@
                                     </div>
                                     @foreach($order->items as $item)
                                         <div class="order-item">
-                                            <img src="{{ asset($item->product->image ?? 'assets/dog-img.png') }}" alt="{{ $item->product->name ?? '' }}">
+                                            <img
+                                                src="{{ $item->product && $item->product->image
+                                                    ? asset(str_starts_with($item->product->image, 'products/')
+                                                        ? 'storage/' . $item->product->image
+                                                        : $item->product->image)
+                                                    : asset('assets/dog-img.png') }}"
+                                                alt="{{ $item->product->name ?? '' }}">
                                             <div class="item-details">
                                                 <div>{{ $item->product->name ?? 'Product not found' }}</div>
                                                 <small>x{{ $item->quantity }}</small>
@@ -750,7 +768,13 @@
                                     </div>
                                     @foreach($order->items as $item)
                                         <div class="order-item">
-                                            <img src="{{ asset($item->product->image ?? 'assets/dog-img.png') }}" alt="{{ $item->product->name ?? '' }}">
+                                            <img
+                                                src="{{ $item->product && $item->product->image
+                                                    ? asset(str_starts_with($item->product->image, 'products/')
+                                                        ? 'storage/' . $item->product->image
+                                                        : $item->product->image)
+                                                    : asset('assets/dog-img.png') }}"
+                                                alt="{{ $item->product->name ?? '' }}">
                                             <div class="item-details">
                                                 <div>{{ $item->product->name ?? 'Product not found' }}</div>
                                                 <small>x{{ $item->quantity }}</small>
@@ -787,7 +811,13 @@
                                     </div>
                                     @foreach($order->items as $item)
                                         <div class="order-item">
-                                            <img src="{{ asset($item->product->image ?? 'assets/dog-img.png') }}" alt="{{ $item->product->name ?? '' }}">
+                                            <img
+                                                src="{{ $item->product && $item->product->image
+                                                    ? asset(str_starts_with($item->product->image, 'products/')
+                                                        ? 'storage/' . $item->product->image
+                                                        : $item->product->image)
+                                                    : asset('assets/dog-img.png') }}"
+                                                alt="{{ $item->product->name ?? '' }}">
                                             <div class="item-details">
                                                 <div>{{ $item->product->name ?? 'Product not found' }}</div>
                                                 <small>x{{ $item->quantity }}</small>
@@ -824,7 +854,13 @@
                                     </div>
                                     @foreach($order->items as $item)
                                         <div class="order-item">
-                                            <img src="{{ asset($item->product->image ?? 'assets/dog-img.png') }}" alt="{{ $item->product->name ?? '' }}">
+                                            <img
+                                                src="{{ $item->product && $item->product->image
+                                                    ? asset(str_starts_with($item->product->image, 'products/')
+                                                        ? 'storage/' . $item->product->image
+                                                        : $item->product->image)
+                                                    : asset('assets/dog-img.png') }}"
+                                                alt="{{ $item->product->name ?? '' }}">
                                             <div class="item-details">
                                                 <div>{{ $item->product->name ?? 'Product not found' }}</div>
                                                 <small>x{{ $item->quantity }}</small>
