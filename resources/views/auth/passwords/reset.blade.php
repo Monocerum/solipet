@@ -220,9 +220,22 @@
                         <label for="password">{{ __('New Password') }}</label>
 
                         <div>
-                            <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
+                            <input id="password" type="password"
+                                class="form-control @error('password') is-invalid @enderror"
+                                name="password" required autocomplete="new-password">
 
-                            @error('password')
+                               <div class="password-requirements">
+                                <p>Your password must contain:</p>
+                                <ul>
+                                    <li>At least 8 characters</li>
+                                    <li>At least one uppercase letter (A-Z)</li>
+                                    <li>At least one lowercase letter (a-z)</li>
+                                    <li>At least one number (0-9)</li>
+                                    <li>At least one special character (!@#$%^&amp;*)</li>
+                                </ul>
+                            </div>
+
+                             @error('password')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>

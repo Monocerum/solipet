@@ -56,14 +56,19 @@ class RegisterController extends Controller
                 'required',
                 'string',
                 'min:8',
-                'regex:/[a-z]/',       // At least one lowercase letter
-                'regex:/[A-Z]/',       // At least one uppercase letter
-                'regex:/[0-9]/',       // At least one number
-                'regex:/[^A-Za-z0-9]/', // At least one special character
+                'regex:/[a-z]/',
+                'regex:/[A-Z]/',
+                'regex:/[0-9]/',
+                'regex:/[^A-Za-z0-9]/',
                 'confirmed',
             ],
             'terms_agreement' => ['required', 'accepted'],
         ], [
+            'password.required' => 'Please enter a password.',
+            'password.min' => 'Your password must be at least 8 characters long.',
+            'password.regex' => 'Your password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.',
+            'password.confirmed' => 'Your password confirmation does not match.',
+
             'terms_agreement.required' => 'You must agree to the Terms of Service and Privacy Policy to register.',
             'terms_agreement.accepted' => 'You must agree to the Terms of Service and Privacy Policy to register.',
         ]);
