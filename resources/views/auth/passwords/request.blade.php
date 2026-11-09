@@ -23,19 +23,6 @@
         box-shadow: 0 10px 30px rgba(46, 22, 12, 0.12);
     }
 
-    .forgot-icon {
-        width: 68px;
-        height: 68px;
-        margin: 0 auto 18px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: #DAB08A;
-        border-radius: 50%;
-        color: #572215;
-        font-size: 30px;
-    }
-
     .forgot-title {
         color: #2E160C;
         font-family: 'Manrope', sans-serif;
@@ -154,10 +141,6 @@
 
 <div class="forgot-page">
     <div class="forgot-card">
-
-        <div class="forgot-icon">
-            <i class="fas fa-paw"></i>
-        </div>
 
         <h1 class="forgot-title">
             Forgot Password?
