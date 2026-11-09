@@ -1,3 +1,4 @@
+```php
 @extends('layouts.header-nologin')
 
 @section('content')
@@ -10,7 +11,7 @@
         background-attachment: fixed;
         background-position: left top;
     }
-    
+
     .login-container {
         min-height: 80vh;
         margin: 0;
@@ -33,7 +34,7 @@
         font-family: "Irish Grover", sans-serif;
         align-items: flex-end;
         color: #FFE3CA;
-        
+
         h3 {
             font-size: 2.1em;
             margin: 0;
@@ -71,11 +72,16 @@
         font-family: "Manrope", sans-serif;
         padding: 2% 5%;
 
+        form {
+            width: 100%;
+        }
+
         input {
             background: #E8C7AA;
             margin-bottom: 2%;
             box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
             height: 3em;
+            width: 100%;
         }
 
         .auth-btn-container {
@@ -95,6 +101,71 @@
             font-family: "Irish Grover", sans-serif;
             margin-top: 2%;
         }
+    }
+
+    /* Password visibility toggle */
+
+    .password-wrapper {
+        position: relative;
+        width: 100%;
+        margin-bottom: 2%;
+    }
+
+    .password-wrapper input {
+        width: 100%;
+        padding-right: 3rem;
+        margin-bottom: 0;
+    }
+
+    .toggle-password {
+        position: absolute;
+        top: 50%;
+        right: 12px;
+        transform: translateY(-50%);
+        background: none;
+        border: none;
+        color: #522222;
+        cursor: pointer;
+        padding: 5px;
+        font-size: 1.2em;
+        z-index: 2;
+        height: auto;
+        width: auto;
+        box-shadow: none;
+    }
+
+    .toggle-password:hover {
+        color: #A36A43;
+    }
+
+    .toggle-password:focus-visible {
+        outline: 2px solid #FFE1C8;
+        border-radius: 4px;
+    }
+
+    /* Password requirements */
+
+    .password-requirements {
+        background: #E8C7AA;
+        color: #522222;
+        padding: 10px 15px;
+        border-radius: 0.5em;
+        margin: 8px 0 15px;
+        font-size: 0.85em;
+    }
+
+    .password-requirements p {
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+
+    .password-requirements ul {
+        margin: 0;
+        padding-left: 20px;
+    }
+
+    .password-requirements li {
+        margin-bottom: 3px;
     }
 
     .redirect-container {
@@ -163,17 +234,15 @@
 
     @media screen and (max-width: 550px) {
         .auth-card {
-            width: 25em;
+            width: 20em;
         }
 
         .auth-card-body {
             padding: 10%;
         }
-    }
 
-    @media screen and (max-width: 550px) {
-        .auth-card {
-            width: 20em;
+        .auth-card-header {
+            font-size: 2em;
         }
 
         .redirect-container {
@@ -181,6 +250,10 @@
                 text-align: center;
                 font-size: 1em;
             }
+        }
+
+        .password-requirements {
+            font-size: 0.75em;
         }
     }
 </style>
@@ -192,65 +265,115 @@
             <h3>RIGHT INTO YOUR MAILBOX!</h3>
         </div>
     </div>
+
     <div class="login-card-container">
         <div class="card auth-card">
             <div class="card-body auth-card-body">
-                <h2 class="auth-card-header">{{ __('RESET PASSWORD') }}</h2>
+                <h2 class="auth-card-header">
+                    {{ __('RESET PASSWORD') }}
+                </h2>
 
                 <form method="POST" action="{{ route('password.update') }}">
                     @csrf
 
                     <input type="hidden" name="token" value="{{ $token }}">
 
+                    <!-- Email Address -->
                     <div>
                         <label for="email">{{ __('Email Address') }}</label>
 
-                        <div>
-                            <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ $email ?? old('email') }}" required autocomplete="email" autofocus>
+                        <input
+                            id="email"
+                            type="email"
+                            class="form-control @error('email') is-invalid @enderror"
+                            name="email"
+                            value="{{ $email ?? old('email') }}"
+                            required
+                            autocomplete="email"
+                            autofocus
+                        >
 
-                            @error('email')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
-                        </div>
+                        @error('email')
+                            <span class="invalid-feedback d-block" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
                     </div>
 
+                    <!-- New Password -->
                     <div>
                         <label for="password">{{ __('New Password') }}</label>
 
-                        <div>
-                            <input id="password" type="password"
+                        <div class="password-wrapper">
+                            <input
+                                id="password"
+                                type="password"
                                 class="form-control @error('password') is-invalid @enderror"
-                                name="password" required autocomplete="new-password">
+                                name="password"
+                                required
+                                autocomplete="new-password"
+                            >
 
-                               <div class="password-requirements">
-                                <p>Your password must contain:</p>
-                                <ul>
-                                    <li>At least 8 characters</li>
-                                    <li>At least one uppercase letter (A-Z)</li>
-                                    <li>At least one lowercase letter (a-z)</li>
-                                    <li>At least one number (0-9)</li>
-                                    <li>At least one special character (!@#$%^&amp;*)</li>
-                                </ul>
-                            </div>
-
-                             @error('password')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
+                            <button
+                                type="button"
+                                class="toggle-password"
+                                onclick="togglePassword('password', this)"
+                                aria-label="Show password"
+                                title="Show password"
+                                aria-pressed="false"
+                            >
+                                <i class="bi bi-eye"></i>
+                            </button>
                         </div>
+
+                        <div class="password-requirements">
+                            <p>Your password must contain:</p>
+                            <ul>
+                                <li>At least 8 characters</li>
+                                <li>At least one uppercase letter (A-Z)</li>
+                                <li>At least one lowercase letter (a-z)</li>
+                                <li>At least one number (0-9)</li>
+                                <li>At least one special character (!@#$%^&amp;*)</li>
+                            </ul>
+                        </div>
+
+                        @error('password')
+                            <span class="invalid-feedback d-block" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
                     </div>
 
+                    <!-- Confirm New Password -->
                     <div>
-                        <label for="password-confirm">{{ __('Confirm New Password') }}</label>
+                        <label for="password-confirm">
+                            {{ __('Confirm New Password') }}
+                        </label>
 
-                        <div>
-                            <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
+                        <div class="password-wrapper">
+                            <input
+                                id="password-confirm"
+                                type="password"
+                                class="form-control"
+                                name="password_confirmation"
+                                required
+                                autocomplete="new-password"
+                            >
+
+                            <button
+                                type="button"
+                                class="toggle-password"
+                                onclick="togglePassword('password-confirm', this)"
+                                aria-label="Show password"
+                                title="Show password"
+                                aria-pressed="false"
+                            >
+                                <i class="bi bi-eye"></i>
+                            </button>
                         </div>
                     </div>
 
+                    <!-- Reset Password Button -->
                     <div class="auth-btn-container">
                         <button type="submit" class="auth-btn">
                             {{ __('RESET PASSWORD') }}
@@ -259,10 +382,35 @@
                 </form>
 
                 <div class="redirect-container">
-                    <p>Remember your password? <a href="{{ route('login') }}">Login here</a>!</p>
+                    <p>
+                        Remember your password?
+                        <a href="{{ route('login') }}">Login here</a>!
+                    </p>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+    function togglePassword(inputId, button) {
+        const input = document.getElementById(inputId);
+        const icon = button.querySelector('i');
+
+        if (input.type === 'password') {
+            input.type = 'text';
+            icon.classList.replace('bi-eye', 'bi-eye-slash');
+            button.setAttribute('aria-label', 'Hide password');
+            button.setAttribute('title', 'Hide password');
+            button.setAttribute('aria-pressed', 'true');
+        } else {
+            input.type = 'password';
+            icon.classList.replace('bi-eye-slash', 'bi-eye');
+            button.setAttribute('aria-label', 'Show password');
+            button.setAttribute('title', 'Show password');
+            button.setAttribute('aria-pressed', 'false');
+        }
+    }
+</script>
 @endsection
+```

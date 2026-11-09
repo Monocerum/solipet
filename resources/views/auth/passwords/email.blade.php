@@ -112,16 +112,6 @@
         }
     }
 
-    .success-message {
-        background: #4CAF50;
-        color: white;
-        padding: 2%;
-        border-radius: 0.5em;
-        margin-bottom: 5%;
-        text-align: center;
-        font-weight: bold;
-    }
-
     @media screen and (max-width: 1450px) {
         .auth-card {
             background: #77401E;
@@ -205,22 +195,18 @@
     <div class="login-card-container">
         <div class="card auth-card">
             <div class="card-body auth-card-body">
-                <h2 class="auth-card-header">{{ __('FORGOT PASSWORD') }}</h2>
-                
-                @if (session('status'))
-                    <div class="success-message" role="alert">
-                        {{ session('status') }}
-                    </div>
-                @endif
+                <h2 class="auth-card-header">{{ __('RESET PASSWORD') }}</h2>
 
-                <form method="POST" action="{{ route('password.email') }}">
+                <form method="POST" action="{{ route('password.update') }}">
                     @csrf
+
+                    <input type="hidden" name="token" value="{{ $token }}">
 
                     <div>
                         <label for="email">{{ __('Email Address') }}</label>
 
                         <div>
-                            <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
+                            <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ $email ?? old('email') }}" required autocomplete="email" autofocus>
 
                             @error('email')
                                 <span class="invalid-feedback" role="alert">
@@ -230,9 +216,44 @@
                         </div>
                     </div>
 
+                    <div>
+                        <label for="password">{{ __('New Password') }}</label>
+
+                        <div>
+                            <input id="password" type="password"
+                                class="form-control @error('password') is-invalid @enderror"
+                                name="password" required autocomplete="new-password">
+
+                               <div class="password-requirements">
+                                <p>Your password must contain:</p>
+                                <ul>
+                                    <li>At least 8 characters</li>
+                                    <li>At least one uppercase letter (A-Z)</li>
+                                    <li>At least one lowercase letter (a-z)</li>
+                                    <li>At least one number (0-9)</li>
+                                    <li>At least one special character (!@#$%^&amp;*)</li>
+                                </ul>
+                            </div>
+
+                             @error('password')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
+                    </div>
+
+                    <div>
+                        <label for="password-confirm">{{ __('Confirm New Password') }}</label>
+
+                        <div>
+                            <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
+                        </div>
+                    </div>
+
                     <div class="auth-btn-container">
                         <button type="submit" class="auth-btn">
-                            {{ __('SEND RESET LINK') }}
+                            {{ __('RESET PASSWORD') }}
                         </button>
                     </div>
                 </form>

@@ -1,4 +1,5 @@
-@extends('layouts.header-nologin') 
+```php
+@extends('layouts.header-nologin')
 
 @section('content')
 <style>
@@ -10,7 +11,7 @@
         background-attachment: fixed;
         background-position: left top;
     }
-    
+
     .register-container {
         min-height: 100vh;
         margin: 0;
@@ -33,7 +34,7 @@
         font-family: "Irish Grover", sans-serif;
         align-items: flex-end;
         color: #FFE3CA;
-        
+
         h3 {
             font-size: 2.1em;
             margin: 0;
@@ -67,13 +68,20 @@
         font-family: "Manrope", sans-serif;
         padding: 2% 5%;
 
-        input[type="text"], input[type="email"], input[type="password"] {
+        form {
+            width: 100%;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"] {
             background: #E8C7AA;
             margin-bottom: 2%;
             box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
             height: 3em;
+            width: 100%;
         }
-        
+
         .confirmation-container {
             display: flex;
             align-items: flex-start;
@@ -164,6 +172,71 @@
         }
     }
 
+    /* Password visibility toggle */
+
+    .password-wrapper {
+        position: relative;
+        width: 100%;
+        margin-bottom: 2%;
+    }
+
+    .password-wrapper input {
+        width: 100%;
+        padding-right: 3rem;
+        margin-bottom: 0;
+    }
+
+    .toggle-password {
+        position: absolute;
+        top: 50%;
+        right: 12px;
+        transform: translateY(-50%);
+        background: none;
+        border: none;
+        color: #522222;
+        cursor: pointer;
+        padding: 5px;
+        font-size: 1.2em;
+        z-index: 2;
+        height: auto;
+        width: auto;
+        box-shadow: none;
+    }
+
+    .toggle-password:hover {
+        color: #A36A43;
+    }
+
+    .toggle-password:focus-visible {
+        outline: 2px solid #FFE1C8;
+        border-radius: 4px;
+    }
+
+    /* Password requirements */
+
+    .password-requirements {
+        background: #E8C7AA;
+        color: #522222;
+        padding: 10px 15px;
+        border-radius: 0.5em;
+        margin: 8px 0 15px;
+        font-size: 0.85em;
+    }
+
+    .password-requirements p {
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+
+    .password-requirements ul {
+        margin: 0;
+        padding-left: 20px;
+    }
+
+    .password-requirements li {
+        margin-bottom: 3px;
+    }
+
     .redirect-container {
         display: flex;
         justify-content: center;
@@ -181,11 +254,8 @@
 
     @media screen and (max-width: 1450px) {
         .auth-card {
-            background: #77401E;
-            color: white;
             width: 40em;
             min-height: 50vh;
-            border-radius: 1.5em;
         }
     }
 
@@ -230,17 +300,11 @@
 
     @media screen and (max-width: 550px) {
         .auth-card {
-            width: 25em;
+            width: 20em;
         }
 
         .auth-card-body {
             padding: 10%;
-        }
-    }
-
-    @media screen and (max-width: 550px) {
-        .auth-card {
-            width: 20em;
         }
 
         .auth-card-header {
@@ -253,6 +317,10 @@
                 font-size: 1em;
             }
         }
+
+        .password-requirements {
+            font-size: 0.75em;
+        }
     }
 </style>
 
@@ -263,158 +331,250 @@
             <h3>RIGHT INTO YOUR MAILBOX!</h3>
         </div>
     </div>
+
     <div class="register-card-container">
-        <div class="auth-card solipet-register">
-                <div class="card auth-card">
-                    <div class="card-body auth-card-body">
-                        <h2 class="auth-card-header">{{ __('REGISTER') }}</h2>
-                        <form method="POST" action="{{ route('register') }}">
-                            @csrf
+        <div class="card auth-card solipet-register">
+            <div class="card-body auth-card-body">
+                <h2 class="auth-card-header">{{ __('REGISTER') }}</h2>
 
-                            <div>
-                                <label for="name">{{ __('Name') }}</label>
-                            </div>
-                            <div>
-                                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" placeholder="Full Name | Example: Juan Dela Cruz" required autocomplete="name" autofocus>
+                <form method="POST" action="{{ route('register') }}">
+                    @csrf
 
-                                @error('name')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
+                    <!-- Name -->
+                    <div>
+                        <label for="name">{{ __('Name') }}</label>
 
-                            <div>
-                                <label for="username">{{ __('Username') }}</label>
-                            </div>
-                            <div>
-                                <input id="username" type="text" class="form-control @error('username') is-invalid @enderror" name="username" value="{{ old('username') }}" placeholder="Username | Example: juandc" required autocomplete="username">
+                        <input
+                            id="name"
+                            type="text"
+                            class="form-control @error('name') is-invalid @enderror"
+                            name="name"
+                            value="{{ old('name') }}"
+                            placeholder="Full Name | Example: Juan Dela Cruz"
+                            required
+                            autocomplete="name"
+                            autofocus
+                        >
 
-                                @error('username')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-
-                            <div>
-                                <label for="email">{{ __('Email Address') }}</label>
-                            </div>
-                            <div>
-                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" placeholder="Email | Example: sui@gmail.com" required autocomplete="email">
-
-                                @error('email')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-
-                            <div>
-                                <label for="password">{{ __('Password') }}</label>
-                            </div>
-
-                            <div>
-                                <input id="password" type="password"
-                                    class="form-control @error('password') is-invalid @enderror"
-                                    name="password" required autocomplete="new-password">
-
-                                <div class="password-requirements">
-                                    <p>Your password must contain:</p>
-                                    <ul>
-                                        <li>At least 8 characters</li>
-                                        <li>At least one uppercase letter (A-Z)</li>
-                                        <li>At least one lowercase letter (a-z)</li>
-                                        <li>At least one number (0-9)</li>
-                                        <li>At least one special character (!@#$%^&amp;*)</li>
-                                    </ul>
-                                </div>
-
-                                @error('password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-
-                            <div>
-                                <label for="password-confirm">{{ __('Confirm Password') }}</label>
-                            </div>
-
-                            <div>
-                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
-                            </div>
-
-                            <div class="form-check confirmation-container">
-                                <input type="checkbox" class="form-check-input @error('terms_agreement') is-invalid @enderror" id="terms_agreement" name="terms_agreement" value="1" {{ old('terms_agreement') ? 'checked' : '' }} required>
-                                <label for="terms_agreement">By signing up, you agree to Solipet's <a href="{{ route('terms') }}" id="tos" target="_blank">Terms of Service</a> & <a href="{{ route('privacy') }}" id="tos" target="_blank">Privacy Policy</a>.</label>
-                                @error('terms_agreement')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-
-                            <div class="auth-btn-container">
-                                <button type="submit" class="auth-btn">
-                                    {{ __('REGISTER') }}
-                                </button>
-                            </div>
-
-                            <div class="redirect-container">
-                                <p>Have an account? <a href="{{ route('login') }}">Log In</a>!</p>
-                            </div>
-                        </form>
+                        @error('name')
+                            <span class="invalid-feedback d-block" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
                     </div>
-                </div>
+
+                    <!-- Username -->
+                    <div>
+                        <label for="username">{{ __('Username') }}</label>
+
+                        <input
+                            id="username"
+                            type="text"
+                            class="form-control @error('username') is-invalid @enderror"
+                            name="username"
+                            value="{{ old('username') }}"
+                            placeholder="Username | Example: juandc"
+                            required
+                            autocomplete="username"
+                        >
+
+                        @error('username')
+                            <span class="invalid-feedback d-block" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                    </div>
+
+                    <!-- Email Address -->
+                    <div>
+                        <label for="email">{{ __('Email Address') }}</label>
+
+                        <input
+                            id="email"
+                            type="email"
+                            class="form-control @error('email') is-invalid @enderror"
+                            name="email"
+                            value="{{ old('email') }}"
+                            placeholder="Email | Example: sui@gmail.com"
+                            required
+                            autocomplete="email"
+                        >
+
+                        @error('email')
+                            <span class="invalid-feedback d-block" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                    </div>
+
+                    <!-- Password -->
+                    <div>
+                        <label for="password">{{ __('Password') }}</label>
+
+                        <div class="password-wrapper">
+                            <input
+                                id="password"
+                                type="password"
+                                class="form-control @error('password') is-invalid @enderror"
+                                name="password"
+                                required
+                                autocomplete="new-password"
+                            >
+
+                            <button
+                                type="button"
+                                class="toggle-password"
+                                onclick="togglePassword('password', this)"
+                                aria-label="Show password"
+                                title="Show password"
+                                aria-pressed="false"
+                            >
+                                <i class="bi bi-eye"></i>
+                            </button>
+                        </div>
+
+                        <div class="password-requirements">
+                            <p>Your password must contain:</p>
+                            <ul>
+                                <li>At least 8 characters</li>
+                                <li>At least one uppercase letter (A-Z)</li>
+                                <li>At least one lowercase letter (a-z)</li>
+                                <li>At least one number (0-9)</li>
+                                <li>At least one special character (!@#$%^&amp;*)</li>
+                            </ul>
+                        </div>
+
+                        @error('password')
+                            <span class="invalid-feedback d-block" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                    </div>
+
+                    <!-- Confirm Password -->
+                    <div>
+                        <label for="password-confirm">
+                            {{ __('Confirm Password') }}
+                        </label>
+
+                        <div class="password-wrapper">
+                            <input
+                                id="password-confirm"
+                                type="password"
+                                class="form-control"
+                                name="password_confirmation"
+                                required
+                                autocomplete="new-password"
+                            >
+
+                            <button
+                                type="button"
+                                class="toggle-password"
+                                onclick="togglePassword('password-confirm', this)"
+                                aria-label="Show password"
+                                title="Show password"
+                                aria-pressed="false"
+                            >
+                                <i class="bi bi-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Terms and Privacy Agreement -->
+                    <div class="form-check confirmation-container">
+                        <input
+                            type="checkbox"
+                            class="form-check-input @error('terms_agreement') is-invalid @enderror"
+                            id="terms_agreement"
+                            name="terms_agreement"
+                            value="1"
+                            {{ old('terms_agreement') ? 'checked' : '' }}
+                            required
+                        >
+
+                        <label for="terms_agreement">
+                            By signing up, you agree to Solipet's
+                            <a href="{{ route('terms') }}" id="tos" target="_blank">
+                                Terms of Service
+                            </a>
+                            &
+                            <a href="{{ route('privacy') }}" id="tos" target="_blank">
+                                Privacy Policy
+                            </a>.
+                        </label>
+                    </div>
+
+                    @error('terms_agreement')
+                        <span class="invalid-feedback d-block mb-3" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
+
+                    <!-- Register Button -->
+                    <div class="auth-btn-container">
+                        <button type="submit" class="auth-btn" id="register-button">
+                            {{ __('REGISTER') }}
+                        </button>
+                    </div>
+
+                    <!-- Login Redirect -->
+                    <div class="redirect-container">
+                        <p>
+                            Have an account?
+                            <a href="{{ route('login') }}">Log In</a>!
+                        </p>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 </div>
-@endsection
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const checkbox = document.getElementById('terms_agreement');
-    const label = document.querySelector('.confirmation-container label');
-    const submitBtn = document.querySelector('.auth-btn');
-    
-    // Make the entire label clickable
-    label.addEventListener('click', function(e) {
-        // Don't trigger if clicking on a link
-        if (e.target.tagName === 'A') {
-            return;
-        }
-        checkbox.checked = !checkbox.checked;
-        updateSubmitButton();
-    });
-    
-    // Update submit button state when checkbox changes
-    checkbox.addEventListener('change', function() {
-        updateSubmitButton();
-    });
-    
-    function updateSubmitButton() {
-        if (checkbox.checked) {
-            submitBtn.disabled = false;
-            submitBtn.style.opacity = '1';
-            submitBtn.style.cursor = 'pointer';
+    // Show or hide password fields
+    function togglePassword(inputId, button) {
+        const input = document.getElementById(inputId);
+        const icon = button.querySelector('i');
+
+        if (input.type === 'password') {
+            input.type = 'text';
+            icon.classList.replace('bi-eye', 'bi-eye-slash');
+            button.setAttribute('aria-label', 'Hide password');
+            button.setAttribute('title', 'Hide password');
+            button.setAttribute('aria-pressed', 'true');
         } else {
-            submitBtn.disabled = true;
-            submitBtn.style.opacity = '0.6';
-            submitBtn.style.cursor = 'not-allowed';
+            input.type = 'password';
+            icon.classList.replace('bi-eye-slash', 'bi-eye');
+            button.setAttribute('aria-label', 'Show password');
+            button.setAttribute('title', 'Show password');
+            button.setAttribute('aria-pressed', 'false');
         }
     }
-    
-    // Initial state
-    updateSubmitButton();
-    
-    // Prevent form submission if checkbox is not checked
-    document.querySelector('form').addEventListener('submit', function(e) {
-        if (!checkbox.checked) {
-            e.preventDefault();
-            alert('Please agree to the Terms of Service and Privacy Policy to continue.');
-            checkbox.focus();
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const checkbox = document.getElementById('terms_agreement');
+        const submitBtn = document.getElementById('register-button');
+        const form = document.querySelector('.auth-card-body form');
+
+        function updateSubmitButton() {
+            submitBtn.disabled = !checkbox.checked;
         }
+
+        // Set the initial button state
+        updateSubmitButton();
+
+        // Update the button whenever the checkbox changes
+        checkbox.addEventListener('change', updateSubmitButton);
+
+        // Final check before submitting
+        form.addEventListener('submit', function (e) {
+            if (!checkbox.checked) {
+                e.preventDefault();
+                alert('Please agree to the Terms of Service and Privacy Policy to continue.');
+                checkbox.focus();
+            }
+        });
     });
-});
 </script>
+@endsection
+```
