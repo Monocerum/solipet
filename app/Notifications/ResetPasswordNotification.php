@@ -36,7 +36,7 @@ class ResetPasswordNotification extends Notification
 
         return (new MailMessage)
             ->subject('Reset Password - Solipet')
-            ->view('auth.passwords.email', [
+            ->view('auth.passwords.reset-email', [
                 'url' => $url,
                 'token' => $this->token,
                 'email' => $notifiable->getEmailForPasswordReset(),
